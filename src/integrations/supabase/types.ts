@@ -3754,6 +3754,15 @@ export type Database = {
           window_label: string
         }[]
       }
+      admin_assign_rider: {
+        Args: {
+          _delivery_id: string
+          _override?: boolean
+          _reason: string
+          _rider_id: string
+        }
+        Returns: undefined
+      }
       admin_review_application: {
         Args: {
           _application_id: string
@@ -3847,11 +3856,21 @@ export type Database = {
         }
         Returns: string
       }
+      dispatch_delivery: { Args: { _delivery_id: string }; Returns: Json }
       effective_commission_percent: {
         Args: { _category_id: string; _seller_id: string }
         Returns: number
       }
+      eligible_riders_for_delivery: {
+        Args: { _delivery_id: string }
+        Returns: {
+          pickup_distance_km: number
+          rider_id: string
+          score: number
+        }[]
+      }
       emergency_eligibility: { Args: { _product_id: string }; Returns: Json }
+      expire_delivery_offers: { Args: never; Returns: number }
       fail_order_payment: {
         Args: { _order_id: string; _reason: string }
         Returns: undefined
@@ -3974,6 +3993,16 @@ export type Database = {
         }
         Returns: Json
       }
+      place_order_from_quotes: {
+        Args: {
+          _address_id: string
+          _customer_note?: string
+          _is_emergency?: boolean
+          _points_to_redeem?: number
+          _quote_ids: string[]
+        }
+        Returns: Json
+      }
       purge_rider_locations: { Args: never; Returns: number }
       quote_delivery_fee: { Args: { _city: string }; Returns: Json }
       raise_sos: {
@@ -3994,10 +4023,24 @@ export type Database = {
         Args: { _delivery_id: string; _stage: string }
         Returns: undefined
       }
-      rider_respond_to_offer: {
-        Args: { _accept: boolean; _delivery_id: string }
+      rider_report_delivery_problem: {
+        Args: {
+          _delivery_id: string
+          _note?: string
+          _reason: string
+          _stage: string
+        }
         Returns: undefined
       }
+      rider_respond_to_offer:
+        | {
+            Args: { _accept: boolean; _delivery_id: string }
+            Returns: undefined
+          }
+        | {
+            Args: { _accept: boolean; _delivery_id: string; _reason?: string }
+            Returns: undefined
+          }
       rider_share_location: {
         Args: {
           _accuracy?: number
