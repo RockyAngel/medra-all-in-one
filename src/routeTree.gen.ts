@@ -15,6 +15,7 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as RiderRouteImport } from './routes/rider'
 import { Route as SellerRouteImport } from './routes/seller'
 import { Route as SignupRouteImport } from './routes/signup'
+import { Route as SuperAdminRouteImport } from './routes/super-admin'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -46,6 +47,11 @@ const SignupRoute = SignupRouteImport.update({
   path: '/signup',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SuperAdminRoute = SuperAdminRouteImport.update({
+  id: '/super-admin',
+  path: '/super-admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -54,6 +60,7 @@ export interface FileRoutesByFullPath {
   '/rider': typeof RiderRoute
   '/seller': typeof SellerRoute
   '/signup': typeof SignupRoute
+  '/super-admin': typeof SuperAdminRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -62,6 +69,7 @@ export interface FileRoutesByTo {
   '/rider': typeof RiderRoute
   '/seller': typeof SellerRoute
   '/signup': typeof SignupRoute
+  '/super-admin': typeof SuperAdminRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -71,13 +79,36 @@ export interface FileRoutesById {
   '/rider': typeof RiderRoute
   '/seller': typeof SellerRoute
   '/signup': typeof SignupRoute
+  '/super-admin': typeof SuperAdminRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/admin' | '/login' | '/rider' | '/seller' | '/signup'
+  fullPaths:
+    | '/'
+    | '/admin'
+    | '/login'
+    | '/rider'
+    | '/seller'
+    | '/signup'
+    | '/super-admin'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/admin' | '/login' | '/rider' | '/seller' | '/signup'
-  id: '__root__' | '/' | '/admin' | '/login' | '/rider' | '/seller' | '/signup'
+  to:
+    | '/'
+    | '/admin'
+    | '/login'
+    | '/rider'
+    | '/seller'
+    | '/signup'
+    | '/super-admin'
+  id:
+    | '__root__'
+    | '/'
+    | '/admin'
+    | '/login'
+    | '/rider'
+    | '/seller'
+    | '/signup'
+    | '/super-admin'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -87,6 +118,7 @@ export interface RootRouteChildren {
   RiderRoute: typeof RiderRoute
   SellerRoute: typeof SellerRoute
   SignupRoute: typeof SignupRoute
+  SuperAdminRoute: typeof SuperAdminRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -133,6 +165,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SignupRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/super-admin': {
+      id: '/super-admin'
+      path: '/super-admin'
+      fullPath: '/super-admin'
+      preLoaderRoute: typeof SuperAdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -143,6 +182,7 @@ const rootRouteChildren: RootRouteChildren = {
   RiderRoute: RiderRoute,
   SellerRoute: SellerRoute,
   SignupRoute: SignupRoute,
+  SuperAdminRoute: SuperAdminRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
