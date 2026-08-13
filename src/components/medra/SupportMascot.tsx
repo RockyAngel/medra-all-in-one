@@ -212,7 +212,7 @@ export function SupportMascot() {
           {session && (
             <div className="border-t border-border p-3">
               <Button asChild variant="outline" className="w-full rounded-full font-bold">
-                <Link to="/support" onClick={() => setOpen(false)}>
+                <Link to="/support" search={{ ticket: undefined }} onClick={() => setOpen(false)}>
                   <MessageCircle className="mr-2 size-4" /> Open support inbox
                 </Link>
               </Button>

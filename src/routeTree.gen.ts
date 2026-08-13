@@ -26,6 +26,7 @@ import { Route as SellerRouteImport } from './routes/seller'
 import { Route as SignupRouteImport } from './routes/signup'
 import { Route as StoresRouteImport } from './routes/stores'
 import { Route as SuperAdminRouteImport } from './routes/super-admin'
+import { Route as SupportRouteImport } from './routes/support'
 import { Route as TeamRouteImport } from './routes/team'
 import { Route as WalletRouteImport } from './routes/wallet'
 import { Route as ApplyRiderRouteImport } from './routes/apply.rider'
@@ -120,6 +121,11 @@ const SuperAdminRoute = SuperAdminRouteImport.update({
   path: '/super-admin',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SupportRoute = SupportRouteImport.update({
+  id: '/support',
+  path: '/support',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TeamRoute = TeamRouteImport.update({
   id: '/team',
   path: '/team',
@@ -179,6 +185,7 @@ export interface FileRoutesByFullPath {
   '/signup': typeof SignupRoute
   '/stores': typeof StoresRoute
   '/super-admin': typeof SuperAdminRoute
+  '/support': typeof SupportRoute
   '/team': typeof TeamRoute
   '/wallet': typeof WalletRoute
   '/apply/rider': typeof ApplyRiderRoute
@@ -206,6 +213,7 @@ export interface FileRoutesByTo {
   '/signup': typeof SignupRoute
   '/stores': typeof StoresRoute
   '/super-admin': typeof SuperAdminRoute
+  '/support': typeof SupportRoute
   '/team': typeof TeamRoute
   '/wallet': typeof WalletRoute
   '/apply/rider': typeof ApplyRiderRoute
@@ -234,6 +242,7 @@ export interface FileRoutesById {
   '/signup': typeof SignupRoute
   '/stores': typeof StoresRoute
   '/super-admin': typeof SuperAdminRoute
+  '/support': typeof SupportRoute
   '/team': typeof TeamRoute
   '/wallet': typeof WalletRoute
   '/apply/rider': typeof ApplyRiderRoute
@@ -263,6 +272,7 @@ export interface FileRouteTypes {
     | '/signup'
     | '/stores'
     | '/super-admin'
+    | '/support'
     | '/team'
     | '/wallet'
     | '/apply/rider'
@@ -290,6 +300,7 @@ export interface FileRouteTypes {
     | '/signup'
     | '/stores'
     | '/super-admin'
+    | '/support'
     | '/team'
     | '/wallet'
     | '/apply/rider'
@@ -317,6 +328,7 @@ export interface FileRouteTypes {
     | '/signup'
     | '/stores'
     | '/super-admin'
+    | '/support'
     | '/team'
     | '/wallet'
     | '/apply/rider'
@@ -345,6 +357,7 @@ export interface RootRouteChildren {
   SignupRoute: typeof SignupRoute
   StoresRoute: typeof StoresRoute
   SuperAdminRoute: typeof SuperAdminRoute
+  SupportRoute: typeof SupportRoute
   TeamRoute: typeof TeamRoute
   WalletRoute: typeof WalletRoute
   ApplyRiderRoute: typeof ApplyRiderRoute
@@ -476,6 +489,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SuperAdminRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/support': {
+      id: '/support'
+      path: '/support'
+      fullPath: '/support'
+      preLoaderRoute: typeof SupportRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/team': {
       id: '/team'
       path: '/team'
@@ -553,6 +573,7 @@ const rootRouteChildren: RootRouteChildren = {
   SignupRoute: SignupRoute,
   StoresRoute: StoresRoute,
   SuperAdminRoute: SuperAdminRoute,
+  SupportRoute: SupportRoute,
   TeamRoute: TeamRoute,
   WalletRoute: WalletRoute,
   ApplyRiderRoute: ApplyRiderRoute,

@@ -23,7 +23,7 @@ import {
 
 export const Route = createFileRoute("/support")({
   validateSearch: (search: Record<string, unknown>) => ({
-    ticket: typeof search.ticket === "string" ? search.ticket : undefined,
+    ticket: typeof search["ticket"] === "string" ? (search["ticket"] as string) : undefined,
   }),
   head: () => ({
     meta: [
