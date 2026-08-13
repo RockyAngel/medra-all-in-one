@@ -161,6 +161,51 @@ export type Database = {
         }
         Relationships: []
       }
+      campaigns: {
+        Row: {
+          audience: string
+          budget: number | null
+          budget_used: number
+          created_at: string
+          created_by: string | null
+          description: string | null
+          ends_at: string | null
+          id: string
+          name: string
+          starts_at: string | null
+          status: Database["public"]["Enums"]["promotion_status"]
+          updated_at: string
+        }
+        Insert: {
+          audience?: string
+          budget?: number | null
+          budget_used?: number
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          ends_at?: string | null
+          id?: string
+          name: string
+          starts_at?: string | null
+          status?: Database["public"]["Enums"]["promotion_status"]
+          updated_at?: string
+        }
+        Update: {
+          audience?: string
+          budget?: number | null
+          budget_used?: number
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          ends_at?: string | null
+          id?: string
+          name?: string
+          starts_at?: string | null
+          status?: Database["public"]["Enums"]["promotion_status"]
+          updated_at?: string
+        }
+        Relationships: []
+      }
       cart_items: {
         Row: {
           cart_id: string
@@ -488,6 +533,165 @@ export type Database = {
             columns: ["service_id"]
             isOneToOne: false
             referencedRelation: "telehealth_services"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      coupon_redemptions: {
+        Row: {
+          coupon_id: string
+          created_at: string
+          discount_amount: number
+          id: string
+          order_id: string | null
+          platform_funded: number
+          seller_funded: number
+          user_id: string
+        }
+        Insert: {
+          coupon_id: string
+          created_at?: string
+          discount_amount?: number
+          id?: string
+          order_id?: string | null
+          platform_funded?: number
+          seller_funded?: number
+          user_id: string
+        }
+        Update: {
+          coupon_id?: string
+          created_at?: string
+          discount_amount?: number
+          id?: string
+          order_id?: string | null
+          platform_funded?: number
+          seller_funded?: number
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "coupon_redemptions_coupon_id_fkey"
+            columns: ["coupon_id"]
+            isOneToOne: false
+            referencedRelation: "coupons"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "coupon_redemptions_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      coupons: {
+        Row: {
+          budget: number | null
+          budget_used: number
+          campaign_id: string | null
+          code: string
+          created_at: string
+          created_by: string | null
+          description: string | null
+          discount_type: string
+          discount_value: number
+          eligible_category_ids: string[]
+          eligible_product_ids: string[]
+          eligible_user_ids: string[]
+          ends_at: string | null
+          first_order_only: boolean
+          funding_source: Database["public"]["Enums"]["funding_source"]
+          id: string
+          is_active: boolean
+          max_discount: number | null
+          min_order: number
+          per_user_limit: number
+          platform_funded_percent: number
+          requires_membership: boolean
+          seller_id: string | null
+          stackable: boolean
+          starts_at: string | null
+          store_id: string | null
+          updated_at: string
+          usage_count: number
+          usage_limit: number | null
+        }
+        Insert: {
+          budget?: number | null
+          budget_used?: number
+          campaign_id?: string | null
+          code: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          discount_type?: string
+          discount_value: number
+          eligible_category_ids?: string[]
+          eligible_product_ids?: string[]
+          eligible_user_ids?: string[]
+          ends_at?: string | null
+          first_order_only?: boolean
+          funding_source?: Database["public"]["Enums"]["funding_source"]
+          id?: string
+          is_active?: boolean
+          max_discount?: number | null
+          min_order?: number
+          per_user_limit?: number
+          platform_funded_percent?: number
+          requires_membership?: boolean
+          seller_id?: string | null
+          stackable?: boolean
+          starts_at?: string | null
+          store_id?: string | null
+          updated_at?: string
+          usage_count?: number
+          usage_limit?: number | null
+        }
+        Update: {
+          budget?: number | null
+          budget_used?: number
+          campaign_id?: string | null
+          code?: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          discount_type?: string
+          discount_value?: number
+          eligible_category_ids?: string[]
+          eligible_product_ids?: string[]
+          eligible_user_ids?: string[]
+          ends_at?: string | null
+          first_order_only?: boolean
+          funding_source?: Database["public"]["Enums"]["funding_source"]
+          id?: string
+          is_active?: boolean
+          max_discount?: number | null
+          min_order?: number
+          per_user_limit?: number
+          platform_funded_percent?: number
+          requires_membership?: boolean
+          seller_id?: string | null
+          stackable?: boolean
+          starts_at?: string | null
+          store_id?: string | null
+          updated_at?: string
+          usage_count?: number
+          usage_limit?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "coupons_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "campaigns"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "coupons_store_id_fkey"
+            columns: ["store_id"]
+            isOneToOne: false
+            referencedRelation: "stores"
             referencedColumns: ["id"]
           },
         ]
@@ -1354,6 +1558,48 @@ export type Database = {
         }
         Relationships: []
       }
+      featured_placements: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          display_order: number
+          ends_at: string | null
+          entity_id: string
+          entity_type: string
+          id: string
+          is_sponsored: boolean
+          placement: string
+          starts_at: string
+          status: Database["public"]["Enums"]["promotion_status"]
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          display_order?: number
+          ends_at?: string | null
+          entity_id: string
+          entity_type: string
+          id?: string
+          is_sponsored?: boolean
+          placement?: string
+          starts_at?: string
+          status?: Database["public"]["Enums"]["promotion_status"]
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          display_order?: number
+          ends_at?: string | null
+          entity_id?: string
+          entity_type?: string
+          id?: string
+          is_sponsored?: boolean
+          placement?: string
+          starts_at?: string
+          status?: Database["public"]["Enums"]["promotion_status"]
+        }
+        Relationships: []
+      }
       health_professionals: {
         Row: {
           bio: string | null
@@ -1872,6 +2118,75 @@ export type Database = {
           },
         ]
       }
+      membership_plans: {
+        Row: {
+          archived_at: string | null
+          audience: Database["public"]["Enums"]["membership_audience"]
+          benefits: string[]
+          billing_period: string
+          created_at: string
+          created_by: string | null
+          currency: string
+          description: string | null
+          display_order: number
+          eligibility: Json
+          ends_at: string | null
+          entitlements: Json
+          id: string
+          is_active: boolean
+          max_members: number | null
+          name: string
+          price: number
+          starts_at: string | null
+          trial_days: number
+          updated_at: string
+        }
+        Insert: {
+          archived_at?: string | null
+          audience: Database["public"]["Enums"]["membership_audience"]
+          benefits?: string[]
+          billing_period?: string
+          created_at?: string
+          created_by?: string | null
+          currency?: string
+          description?: string | null
+          display_order?: number
+          eligibility?: Json
+          ends_at?: string | null
+          entitlements?: Json
+          id?: string
+          is_active?: boolean
+          max_members?: number | null
+          name: string
+          price: number
+          starts_at?: string | null
+          trial_days?: number
+          updated_at?: string
+        }
+        Update: {
+          archived_at?: string | null
+          audience?: Database["public"]["Enums"]["membership_audience"]
+          benefits?: string[]
+          billing_period?: string
+          created_at?: string
+          created_by?: string | null
+          currency?: string
+          description?: string | null
+          display_order?: number
+          eligibility?: Json
+          ends_at?: string | null
+          entitlements?: Json
+          id?: string
+          is_active?: boolean
+          max_members?: number | null
+          name?: string
+          price?: number
+          starts_at?: string | null
+          trial_days?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
       notifications: {
         Row: {
           body: string | null
@@ -2114,22 +2429,31 @@ export type Database = {
           address_snapshot: Json | null
           cancelled_reason: string | null
           completed_at: string | null
+          coupon_code: string | null
+          coupon_discount: number
+          coupon_id: string | null
           created_at: string
+          currency: string
           customer_id: string
           delivery_fee: number
           delivery_is_peak: boolean
           delivery_platform_amount: number
           delivery_rider_amount: number
           delivery_rule: string | null
+          discount_snapshot: Json
           emergency_surcharge: number
           id: string
           is_emergency: boolean
+          membership_discount: number
           order_number: string
           payment_status: string
+          platform_funded_discount: number
           platform_product_amount: number
           points_discount: number
           points_redeemed: number
           priority: number
+          promotion_discount: number
+          seller_funded_discount: number
           status: Database["public"]["Enums"]["order_status"]
           subtotal: number
           total: number
@@ -2140,22 +2464,31 @@ export type Database = {
           address_snapshot?: Json | null
           cancelled_reason?: string | null
           completed_at?: string | null
+          coupon_code?: string | null
+          coupon_discount?: number
+          coupon_id?: string | null
           created_at?: string
+          currency?: string
           customer_id: string
           delivery_fee?: number
           delivery_is_peak?: boolean
           delivery_platform_amount?: number
           delivery_rider_amount?: number
           delivery_rule?: string | null
+          discount_snapshot?: Json
           emergency_surcharge?: number
           id?: string
           is_emergency?: boolean
+          membership_discount?: number
           order_number?: string
           payment_status?: string
+          platform_funded_discount?: number
           platform_product_amount?: number
           points_discount?: number
           points_redeemed?: number
           priority?: number
+          promotion_discount?: number
+          seller_funded_discount?: number
           status?: Database["public"]["Enums"]["order_status"]
           subtotal?: number
           total?: number
@@ -2166,22 +2499,31 @@ export type Database = {
           address_snapshot?: Json | null
           cancelled_reason?: string | null
           completed_at?: string | null
+          coupon_code?: string | null
+          coupon_discount?: number
+          coupon_id?: string | null
           created_at?: string
+          currency?: string
           customer_id?: string
           delivery_fee?: number
           delivery_is_peak?: boolean
           delivery_platform_amount?: number
           delivery_rider_amount?: number
           delivery_rule?: string | null
+          discount_snapshot?: Json
           emergency_surcharge?: number
           id?: string
           is_emergency?: boolean
+          membership_discount?: number
           order_number?: string
           payment_status?: string
+          platform_funded_discount?: number
           platform_product_amount?: number
           points_discount?: number
           points_redeemed?: number
           priority?: number
+          promotion_discount?: number
+          seller_funded_discount?: number
           status?: Database["public"]["Enums"]["order_status"]
           subtotal?: number
           total?: number
@@ -2193,6 +2535,13 @@ export type Database = {
             columns: ["address_id"]
             isOneToOne: false
             referencedRelation: "addresses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "orders_coupon_id_fkey"
+            columns: ["coupon_id"]
+            isOneToOne: false
+            referencedRelation: "coupons"
             referencedColumns: ["id"]
           },
         ]
@@ -2739,6 +3088,224 @@ export type Database = {
           whatsapp?: string | null
         }
         Relationships: []
+      }
+      promo_credits: {
+        Row: {
+          amount: number
+          campaign_id: string | null
+          created_at: string
+          currency: string
+          expires_at: string | null
+          id: string
+          remaining: number
+          source: string
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          campaign_id?: string | null
+          created_at?: string
+          currency?: string
+          expires_at?: string | null
+          id?: string
+          remaining: number
+          source?: string
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          campaign_id?: string | null
+          created_at?: string
+          currency?: string
+          expires_at?: string | null
+          id?: string
+          remaining?: number
+          source?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "promo_credits_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "campaigns"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      promotion_redemptions: {
+        Row: {
+          created_at: string
+          discount_amount: number
+          id: string
+          order_id: string | null
+          platform_funded: number
+          promotion_id: string
+          seller_funded: number
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          discount_amount?: number
+          id?: string
+          order_id?: string | null
+          platform_funded?: number
+          promotion_id: string
+          seller_funded?: number
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          discount_amount?: number
+          id?: string
+          order_id?: string | null
+          platform_funded?: number
+          promotion_id?: string
+          seller_funded?: number
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "promotion_redemptions_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "promotion_redemptions_promotion_id_fkey"
+            columns: ["promotion_id"]
+            isOneToOne: false
+            referencedRelation: "promotions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      promotions: {
+        Row: {
+          approval_note: string | null
+          budget: number | null
+          budget_used: number
+          campaign_id: string | null
+          category_ids: string[]
+          created_at: string
+          created_by: string | null
+          description: string | null
+          discount_value: number
+          ends_at: string | null
+          exclusive: boolean
+          first_order_only: boolean
+          funding_source: Database["public"]["Enums"]["funding_source"]
+          id: string
+          kind: Database["public"]["Enums"]["promotion_kind"]
+          max_discount: number | null
+          min_order: number
+          name: string
+          per_user_limit: number | null
+          platform_funded_percent: number
+          priority: number
+          product_ids: string[]
+          quantity_limit: number | null
+          quantity_used: number
+          requires_membership: boolean
+          reviewed_at: string | null
+          reviewed_by: string | null
+          reward_multiplier: number | null
+          seller_id: string | null
+          stackable: boolean
+          starts_at: string | null
+          status: Database["public"]["Enums"]["promotion_status"]
+          store_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          approval_note?: string | null
+          budget?: number | null
+          budget_used?: number
+          campaign_id?: string | null
+          category_ids?: string[]
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          discount_value: number
+          ends_at?: string | null
+          exclusive?: boolean
+          first_order_only?: boolean
+          funding_source: Database["public"]["Enums"]["funding_source"]
+          id?: string
+          kind: Database["public"]["Enums"]["promotion_kind"]
+          max_discount?: number | null
+          min_order?: number
+          name: string
+          per_user_limit?: number | null
+          platform_funded_percent?: number
+          priority?: number
+          product_ids?: string[]
+          quantity_limit?: number | null
+          quantity_used?: number
+          requires_membership?: boolean
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          reward_multiplier?: number | null
+          seller_id?: string | null
+          stackable?: boolean
+          starts_at?: string | null
+          status?: Database["public"]["Enums"]["promotion_status"]
+          store_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          approval_note?: string | null
+          budget?: number | null
+          budget_used?: number
+          campaign_id?: string | null
+          category_ids?: string[]
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          discount_value?: number
+          ends_at?: string | null
+          exclusive?: boolean
+          first_order_only?: boolean
+          funding_source?: Database["public"]["Enums"]["funding_source"]
+          id?: string
+          kind?: Database["public"]["Enums"]["promotion_kind"]
+          max_discount?: number | null
+          min_order?: number
+          name?: string
+          per_user_limit?: number | null
+          platform_funded_percent?: number
+          priority?: number
+          product_ids?: string[]
+          quantity_limit?: number | null
+          quantity_used?: number
+          requires_membership?: boolean
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          reward_multiplier?: number | null
+          seller_id?: string | null
+          stackable?: boolean
+          starts_at?: string | null
+          status?: Database["public"]["Enums"]["promotion_status"]
+          store_id?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "promotions_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "campaigns"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "promotions_store_id_fkey"
+            columns: ["store_id"]
+            isOneToOne: false
+            referencedRelation: "stores"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       refund_events: {
         Row: {
@@ -3453,6 +4020,211 @@ export type Database = {
           },
         ]
       }
+      subscription_events: {
+        Row: {
+          actor_id: string | null
+          created_at: string
+          event: string
+          from_status: Database["public"]["Enums"]["subscription_status"] | null
+          id: string
+          note: string | null
+          subscription_id: string
+          to_status: Database["public"]["Enums"]["subscription_status"] | null
+        }
+        Insert: {
+          actor_id?: string | null
+          created_at?: string
+          event: string
+          from_status?:
+            | Database["public"]["Enums"]["subscription_status"]
+            | null
+          id?: string
+          note?: string | null
+          subscription_id: string
+          to_status?: Database["public"]["Enums"]["subscription_status"] | null
+        }
+        Update: {
+          actor_id?: string | null
+          created_at?: string
+          event?: string
+          from_status?:
+            | Database["public"]["Enums"]["subscription_status"]
+            | null
+          id?: string
+          note?: string | null
+          subscription_id?: string
+          to_status?: Database["public"]["Enums"]["subscription_status"] | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "subscription_events_subscription_id_fkey"
+            columns: ["subscription_id"]
+            isOneToOne: false
+            referencedRelation: "subscriptions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      subscription_invoices: {
+        Row: {
+          amount: number
+          created_at: string
+          currency: string
+          failure_reason: string | null
+          id: string
+          period_end: string | null
+          period_start: string | null
+          processed_at: string | null
+          provider: string | null
+          provider_reference: string | null
+          provider_status: string | null
+          reference: string
+          requested_at: string
+          status: Database["public"]["Enums"]["invoice_status"]
+          subscription_id: string
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          currency?: string
+          failure_reason?: string | null
+          id?: string
+          period_end?: string | null
+          period_start?: string | null
+          processed_at?: string | null
+          provider?: string | null
+          provider_reference?: string | null
+          provider_status?: string | null
+          reference?: string
+          requested_at?: string
+          status?: Database["public"]["Enums"]["invoice_status"]
+          subscription_id: string
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          currency?: string
+          failure_reason?: string | null
+          id?: string
+          period_end?: string | null
+          period_start?: string | null
+          processed_at?: string | null
+          provider?: string | null
+          provider_reference?: string | null
+          provider_status?: string | null
+          reference?: string
+          requested_at?: string
+          status?: Database["public"]["Enums"]["invoice_status"]
+          subscription_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "subscription_invoices_subscription_id_fkey"
+            columns: ["subscription_id"]
+            isOneToOne: false
+            referencedRelation: "subscriptions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      subscriptions: {
+        Row: {
+          audience: Database["public"]["Enums"]["membership_audience"]
+          benefits_snapshot: string[]
+          billing_period: string
+          cancel_at_period_end: boolean
+          cancelled_at: string | null
+          created_at: string
+          currency: string
+          current_period_end: string | null
+          current_period_start: string | null
+          entitlements_snapshot: Json
+          expires_at: string | null
+          grace_until: string | null
+          id: string
+          next_billing_at: string | null
+          payer_id: string | null
+          plan_id: string
+          price_paid: number
+          provider: string | null
+          provider_reference: string | null
+          reference: string
+          started_at: string | null
+          status: Database["public"]["Enums"]["subscription_status"]
+          trial_end: string | null
+          trial_start: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          audience: Database["public"]["Enums"]["membership_audience"]
+          benefits_snapshot?: string[]
+          billing_period?: string
+          cancel_at_period_end?: boolean
+          cancelled_at?: string | null
+          created_at?: string
+          currency?: string
+          current_period_end?: string | null
+          current_period_start?: string | null
+          entitlements_snapshot?: Json
+          expires_at?: string | null
+          grace_until?: string | null
+          id?: string
+          next_billing_at?: string | null
+          payer_id?: string | null
+          plan_id: string
+          price_paid?: number
+          provider?: string | null
+          provider_reference?: string | null
+          reference?: string
+          started_at?: string | null
+          status?: Database["public"]["Enums"]["subscription_status"]
+          trial_end?: string | null
+          trial_start?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          audience?: Database["public"]["Enums"]["membership_audience"]
+          benefits_snapshot?: string[]
+          billing_period?: string
+          cancel_at_period_end?: boolean
+          cancelled_at?: string | null
+          created_at?: string
+          currency?: string
+          current_period_end?: string | null
+          current_period_start?: string | null
+          entitlements_snapshot?: Json
+          expires_at?: string | null
+          grace_until?: string | null
+          id?: string
+          next_billing_at?: string | null
+          payer_id?: string | null
+          plan_id?: string
+          price_paid?: number
+          provider?: string | null
+          provider_reference?: string | null
+          reference?: string
+          started_at?: string | null
+          status?: Database["public"]["Enums"]["subscription_status"]
+          trial_end?: string | null
+          trial_start?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "subscriptions_plan_id_fkey"
+            columns: ["plan_id"]
+            isOneToOne: false
+            referencedRelation: "membership_plans"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       support_messages: {
         Row: {
           body: string
@@ -3799,6 +4571,14 @@ export type Database = {
         Args: { _note?: string; _status: string; _store_id: string }
         Returns: undefined
       }
+      apply_coupon_to_order: {
+        Args: { _code: string; _order_id: string }
+        Returns: Json
+      }
+      archive_membership_plan: {
+        Args: { _plan_id: string }
+        Returns: undefined
+      }
       book_consultation: {
         Args: {
           _availability_id?: string
@@ -3807,6 +4587,10 @@ export type Database = {
           _scheduled_at?: string
           _service_id: string
         }
+        Returns: Json
+      }
+      cancel_membership: {
+        Args: { _immediate?: boolean; _subscription_id: string }
         Returns: Json
       }
       cart_prescription_status: {
@@ -3828,9 +4612,26 @@ export type Database = {
         }
         Returns: undefined
       }
+      confirm_membership_payment: {
+        Args: {
+          _invoice_id: string
+          _provider: string
+          _provider_reference: string
+          _provider_status: string
+        }
+        Returns: Json
+      }
       confirm_order_payment: {
         Args: { _order_id: string; _provider: string; _reference: string }
         Returns: undefined
+      }
+      coupon_discount_amount: {
+        Args: {
+          _coupon: Database["public"]["Tables"]["coupons"]["Row"]
+          _delivery: number
+          _merchandise: number
+        }
+        Returns: number
       }
       create_delivery_quote: {
         Args: {
@@ -3871,10 +4672,16 @@ export type Database = {
       }
       emergency_eligibility: { Args: { _product_id: string }; Returns: Json }
       expire_delivery_offers: { Args: never; Returns: number }
+      expire_memberships: { Args: never; Returns: number }
+      fail_membership_payment: {
+        Args: { _invoice_id: string; _reason: string }
+        Returns: undefined
+      }
       fail_order_payment: {
         Args: { _order_id: string; _reason: string }
         Returns: undefined
       }
+      feature_enabled: { Args: { _key: string }; Returns: boolean }
       find_delivery_zone: {
         Args: { _city?: string; _lat: number; _lng: number; _state?: string }
         Returns: {
@@ -3910,6 +4717,11 @@ export type Database = {
       }
       get_delivery_code: { Args: { _order_id: string }; Returns: string }
       get_pickup_code: { Args: { _order_id: string }; Returns: string }
+      growth_metrics: { Args: never; Returns: Json }
+      has_entitlement: {
+        Args: { _key: string; _user_id: string }
+        Returns: boolean
+      }
       has_health_access: {
         Args: { _owner_id: string; _permission: string }
         Returns: boolean
@@ -3960,6 +4772,10 @@ export type Database = {
         }
         Returns: undefined
       }
+      membership_setting: {
+        Args: { _default: Json; _key: string }
+        Returns: Json
+      }
       my_balance: {
         Args: never
         Returns: {
@@ -3970,6 +4786,8 @@ export type Database = {
           requested: number
         }[]
       }
+      my_entitlements: { Args: never; Returns: Json }
+      my_savings: { Args: never; Returns: Json }
       notify_staff: {
         Args: { _body: string; _link: string; _title: string }
         Returns: undefined
@@ -4083,6 +4901,26 @@ export type Database = {
         }
         Returns: undefined
       }
+      seller_upsert_promotion: {
+        Args: {
+          _budget?: number
+          _category_ids?: string[]
+          _description?: string
+          _discount_value: number
+          _ends_at?: string
+          _kind: Database["public"]["Enums"]["promotion_kind"]
+          _max_discount?: number
+          _min_order?: number
+          _name: string
+          _per_user_limit?: number
+          _product_ids?: string[]
+          _promotion_id: string
+          _quantity_limit?: number
+          _starts_at?: string
+          _store_id: string
+        }
+        Returns: string
+      }
       set_admin_permission: {
         Args: { _enabled: boolean; _permission: string; _user_id: string }
         Returns: undefined
@@ -4108,6 +4946,18 @@ export type Database = {
         Args: { _enabled: boolean; _key: string }
         Returns: undefined
       }
+      set_platform_setting: {
+        Args: { _key: string; _value: Json }
+        Returns: undefined
+      }
+      set_promotion_status: {
+        Args: {
+          _note?: string
+          _promotion_id: string
+          _status: Database["public"]["Enums"]["promotion_status"]
+        }
+        Returns: undefined
+      }
       set_rider_status: {
         Args: { _available: boolean; _online: boolean }
         Returns: undefined
@@ -4121,6 +4971,11 @@ export type Database = {
         }
         Returns: undefined
       }
+      start_membership: { Args: { _plan_id: string }; Returns: Json }
+      subscription_is_live: {
+        Args: { _status: Database["public"]["Enums"]["subscription_status"] }
+        Returns: boolean
+      }
       sync_expired_stock: { Args: never; Returns: number }
       upload_prescription: {
         Args: {
@@ -4132,6 +4987,55 @@ export type Database = {
           _store_id: string
         }
         Returns: string
+      }
+      upsert_coupon: {
+        Args: {
+          _budget?: number
+          _code: string
+          _coupon_id: string
+          _description?: string
+          _discount_type: string
+          _discount_value: number
+          _ends_at?: string
+          _first_order_only?: boolean
+          _funding_source?: Database["public"]["Enums"]["funding_source"]
+          _is_active?: boolean
+          _max_discount?: number
+          _min_order?: number
+          _per_user_limit?: number
+          _platform_funded_percent?: number
+          _requires_membership?: boolean
+          _starts_at?: string
+          _store_id?: string
+          _usage_limit?: number
+        }
+        Returns: string
+      }
+      upsert_membership_plan: {
+        Args: {
+          _audience: Database["public"]["Enums"]["membership_audience"]
+          _benefits?: string[]
+          _billing_period?: string
+          _description?: string
+          _display_order?: number
+          _entitlements?: Json
+          _is_active?: boolean
+          _max_members?: number
+          _name: string
+          _plan_id: string
+          _price: number
+          _trial_days?: number
+        }
+        Returns: string
+      }
+      validate_coupon: {
+        Args: {
+          _code: string
+          _delivery?: number
+          _merchandise: number
+          _store_ids?: string[]
+        }
+        Returns: Json
       }
       verify_delivery: {
         Args: { _code: string; _delivery_id: string }
@@ -4167,12 +5071,21 @@ export type Database = {
         | "delivered"
         | "completed"
         | "cancelled"
+      funding_source: "platform" | "seller" | "shared"
+      invoice_status:
+        | "pending"
+        | "processing"
+        | "paid"
+        | "failed"
+        | "refunded"
+        | "cancelled"
       ledger_kind:
         | "seller_product_earning"
         | "platform_product_commission"
         | "rider_delivery_earning"
         | "platform_delivery_share"
         | "refund"
+      membership_audience: "customer" | "seller" | "rider"
       order_status:
         | "pending_payment"
         | "paid"
@@ -4201,7 +5114,35 @@ export type Database = {
         | "disputed"
       payout_status: "pending" | "available" | "paid" | "withheld"
       product_status: "draft" | "active" | "out_of_stock" | "archived"
+      promotion_kind:
+        | "percent_off"
+        | "amount_off"
+        | "buy_x_get_y"
+        | "category_discount"
+        | "product_discount"
+        | "store_discount"
+        | "cart_discount"
+        | "delivery_discount"
+        | "member_discount"
+        | "flash_deal"
+      promotion_status:
+        | "draft"
+        | "pending_approval"
+        | "active"
+        | "paused"
+        | "ended"
+        | "rejected"
       store_status: "pending" | "approved" | "suspended"
+      subscription_status:
+        | "trialing"
+        | "active"
+        | "past_due"
+        | "payment_failed"
+        | "grace_period"
+        | "paused"
+        | "cancelled"
+        | "expired"
+        | "suspended"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -4356,6 +5297,15 @@ export const Constants = {
         "completed",
         "cancelled",
       ],
+      funding_source: ["platform", "seller", "shared"],
+      invoice_status: [
+        "pending",
+        "processing",
+        "paid",
+        "failed",
+        "refunded",
+        "cancelled",
+      ],
       ledger_kind: [
         "seller_product_earning",
         "platform_product_commission",
@@ -4363,6 +5313,7 @@ export const Constants = {
         "platform_delivery_share",
         "refund",
       ],
+      membership_audience: ["customer", "seller", "rider"],
       order_status: [
         "pending_payment",
         "paid",
@@ -4392,7 +5343,38 @@ export const Constants = {
       ],
       payout_status: ["pending", "available", "paid", "withheld"],
       product_status: ["draft", "active", "out_of_stock", "archived"],
+      promotion_kind: [
+        "percent_off",
+        "amount_off",
+        "buy_x_get_y",
+        "category_discount",
+        "product_discount",
+        "store_discount",
+        "cart_discount",
+        "delivery_discount",
+        "member_discount",
+        "flash_deal",
+      ],
+      promotion_status: [
+        "draft",
+        "pending_approval",
+        "active",
+        "paused",
+        "ended",
+        "rejected",
+      ],
       store_status: ["pending", "approved", "suspended"],
+      subscription_status: [
+        "trialing",
+        "active",
+        "past_due",
+        "payment_failed",
+        "grace_period",
+        "paused",
+        "cancelled",
+        "expired",
+        "suspended",
+      ],
     },
   },
 } as const
