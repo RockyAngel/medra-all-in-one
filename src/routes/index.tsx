@@ -276,12 +276,13 @@ function CustomerHome() {
         <section className="my-12 grid gap-4 md:grid-cols-4">
           {[
             { label: "Customer app", to: "/login", body: "Shop, pay, track and earn rewards." },
-            { label: "Rider dashboard", to: "/rider", body: "Accept jobs, navigate, get paid." },
-            { label: "Seller dashboard", to: "/seller", body: "Products, orders, payouts, promos." },
-            { label: "Admin consoles", to: "/admin", body: "Operations, safety and compliance." },
+            { label: "Become a Rider", to: "/become-a-rider", body: "Flexible hours, weekly payouts." },
+            { label: "Become a Seller", to: "/become-a-seller", body: "Reach more customers, grow sales." },
+            { label: "Medra Team", to: "/team", body: "Admin & support portal sign-in." },
           ].map((l) => (
             <Link key={l.to} to={l.to} className="lift-hover surface-card block p-5">
               <p className="text-sm font-bold">{l.label}</p>
+
               <p className="mt-1 text-sm text-muted-foreground">{l.body}</p>
               <span className="mt-3 inline-flex items-center gap-1 text-sm font-semibold text-primary">
                 Open <ArrowRight className="size-4" />
