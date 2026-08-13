@@ -116,9 +116,13 @@ function CustomerHome() {
             <span className="cursor-pointer hover:text-ink-foreground">Stores</span>
             <span className="cursor-pointer hover:text-ink-foreground">Pharmacies</span>
             <span className="cursor-pointer hover:text-ink-foreground">Gift Cards</span>
-            <Link to="/signup" className="text-leaf hover:underline">
-              Become a Seller / Rider
+            <Link to="/become-a-rider" className="text-leaf hover:underline">
+              Become a Rider
             </Link>
+            <Link to="/become-a-seller" className="text-sky hover:underline">
+              Become a Seller
+            </Link>
+
           </nav>
           <div className="ml-auto flex items-center gap-4 text-ink-foreground">
             <span className="hidden items-center gap-2 text-sm md:flex">
