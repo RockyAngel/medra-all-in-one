@@ -92,9 +92,7 @@ export function DashboardShell({
     <div className={cn("min-h-screen", dark ? "dark bg-background" : "bg-background")}>
       <div className="flex min-h-screen">
         <aside className="hidden w-64 shrink-0 flex-col gap-6 bg-sidebar px-4 py-6 lg:flex">
-          <Link to="/">
-            <Logo tone="dark" size={40} />
-          </Link>
+          <Logo tone="dark" size={40} />
           <nav className="flex flex-1 flex-col gap-6 overflow-y-auto">
             <NavLinks groups={groups} />
           </nav>
