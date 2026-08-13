@@ -92,14 +92,14 @@ function SignUpPage() {
     if (userId && data.session) {
       await supabase
         .from("profiles")
-        .update({
+        .upsert({
+          id: userId,
           first_name: form.first_name,
           last_name: form.last_name,
           phone: form.phone,
           whatsapp: form.whatsapp,
           date_of_birth: form.date_of_birth || null,
-        })
-        .eq("id", userId);
+        });
       await supabase.from("user_roles").insert({ user_id: userId, role });
       await supabase.from("wallets").insert({ user_id: userId });
     }
