@@ -20,7 +20,7 @@ export default defineTool({
 
     const { data: transactions, error: txError } = await supabase
       .from("wallet_transactions")
-      .select("id, points, reason, created_at")
+      .select("id, points, kind, description, order_id, created_at")
       .order("created_at", { ascending: false })
       .limit(10);
     if (txError) return toolError(txError.message);
