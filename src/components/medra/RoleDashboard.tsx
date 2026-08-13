@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 
 type PageProps = {
   title: string;
-  subtitle?: string | undefined;
+  subtitle?: string;
   topRight?: ReactNode;
   children: ReactNode;
 };
@@ -14,7 +14,12 @@ type PageProps = {
 export function SellerPage({ title, subtitle, topRight, children }: PageProps) {
   return (
     <RequireRole roles={["seller"]}>
-      <DashboardShell groups={SELLER_NAV} title={title} subtitle={subtitle} topRight={topRight}>
+      <DashboardShell
+        groups={SELLER_NAV}
+        title={title}
+        {...(subtitle === undefined ? {} : { subtitle })}
+        {...(topRight === undefined ? {} : { topRight })}
+      >
         {children}
       </DashboardShell>
     </RequireRole>
@@ -24,7 +29,13 @@ export function SellerPage({ title, subtitle, topRight, children }: PageProps) {
 export function RiderPage({ title, subtitle, topRight, children }: PageProps) {
   return (
     <RequireRole roles={["rider"]}>
-      <DashboardShell dark groups={RIDER_NAV} title={title} subtitle={subtitle} topRight={topRight}>
+      <DashboardShell
+        dark
+        groups={RIDER_NAV}
+        title={title}
+        {...(subtitle === undefined ? {} : { subtitle })}
+        {...(topRight === undefined ? {} : { topRight })}
+      >
         {children}
       </DashboardShell>
     </RequireRole>
@@ -34,7 +45,12 @@ export function RiderPage({ title, subtitle, topRight, children }: PageProps) {
 export function AdminPage({ title, subtitle, topRight, children }: PageProps) {
   return (
     <RequireRole roles={["admin", "super_admin"]}>
-      <DashboardShell groups={ADMIN_NAV} title={title} subtitle={subtitle} topRight={topRight}>
+      <DashboardShell
+        groups={ADMIN_NAV}
+        title={title}
+        {...(subtitle === undefined ? {} : { subtitle })}
+        {...(topRight === undefined ? {} : { topRight })}
+      >
         {children}
       </DashboardShell>
     </RequireRole>
@@ -48,8 +64,8 @@ export function SuperAdminPage({ title, subtitle, topRight, children }: PageProp
         dark
         groups={SUPER_ADMIN_NAV}
         title={title}
-        subtitle={subtitle}
-        topRight={topRight}
+        {...(subtitle === undefined ? {} : { subtitle })}
+        {...(topRight === undefined ? {} : { topRight })}
       >
         {children}
       </DashboardShell>
@@ -85,7 +101,7 @@ export function DataTable({
   );
 }
 
-export function Pill({ tone, children }: { tone?: string | undefined; children: ReactNode }) {
+export function Pill({ tone, children }: { tone?: string; children: ReactNode }) {
   return (
     <span
       className={cn(
