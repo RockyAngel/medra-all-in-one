@@ -7,13 +7,15 @@ import { supabase } from "@/integrations/supabase/client";
 import { useCategories } from "@/lib/hooks";
 import { cn } from "@/lib/utils";
 
-type CatalogSearch = { q?: string; category?: string };
+type CatalogSearch = { q?: string | undefined; category?: string | undefined };
 
 export const Route = createFileRoute("/catalog")({
   validateSearch: (search: Record<string, unknown>): CatalogSearch => ({
-    q: typeof search.q === "string" && search.q ? search.q : undefined,
+    q: typeof search['q'] === "string" && search['q'] ? search['q'] : undefined,
     category:
-      typeof search.category === "string" && search.category ? search.category : undefined,
+      typeof search['category'] === "string" && search['category']
+        ? (search['category'] as string)
+        : undefined,
   }),
   head: () => ({
     meta: [

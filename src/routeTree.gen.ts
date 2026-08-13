@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as BecomeARiderRouteImport } from './routes/become-a-rider'
 import { Route as BecomeASellerRouteImport } from './routes/become-a-seller'
+import { Route as CatalogRouteImport } from './routes/catalog'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as RiderRouteImport } from './routes/rider'
 import { Route as SellerRouteImport } from './routes/seller'
@@ -38,6 +39,11 @@ const BecomeARiderRoute = BecomeARiderRouteImport.update({
 const BecomeASellerRoute = BecomeASellerRouteImport.update({
   id: '/become-a-seller',
   path: '/become-a-seller',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CatalogRoute = CatalogRouteImport.update({
+  id: '/catalog',
+  path: '/catalog',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LoginRoute = LoginRouteImport.update({
@@ -76,6 +82,7 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminRoute
   '/become-a-rider': typeof BecomeARiderRoute
   '/become-a-seller': typeof BecomeASellerRoute
+  '/catalog': typeof CatalogRoute
   '/login': typeof LoginRoute
   '/rider': typeof RiderRoute
   '/seller': typeof SellerRoute
@@ -88,6 +95,7 @@ export interface FileRoutesByTo {
   '/admin': typeof AdminRoute
   '/become-a-rider': typeof BecomeARiderRoute
   '/become-a-seller': typeof BecomeASellerRoute
+  '/catalog': typeof CatalogRoute
   '/login': typeof LoginRoute
   '/rider': typeof RiderRoute
   '/seller': typeof SellerRoute
@@ -101,6 +109,7 @@ export interface FileRoutesById {
   '/admin': typeof AdminRoute
   '/become-a-rider': typeof BecomeARiderRoute
   '/become-a-seller': typeof BecomeASellerRoute
+  '/catalog': typeof CatalogRoute
   '/login': typeof LoginRoute
   '/rider': typeof RiderRoute
   '/seller': typeof SellerRoute
@@ -115,6 +124,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/become-a-rider'
     | '/become-a-seller'
+    | '/catalog'
     | '/login'
     | '/rider'
     | '/seller'
@@ -127,6 +137,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/become-a-rider'
     | '/become-a-seller'
+    | '/catalog'
     | '/login'
     | '/rider'
     | '/seller'
@@ -139,6 +150,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/become-a-rider'
     | '/become-a-seller'
+    | '/catalog'
     | '/login'
     | '/rider'
     | '/seller'
@@ -152,6 +164,7 @@ export interface RootRouteChildren {
   AdminRoute: typeof AdminRoute
   BecomeARiderRoute: typeof BecomeARiderRoute
   BecomeASellerRoute: typeof BecomeASellerRoute
+  CatalogRoute: typeof CatalogRoute
   LoginRoute: typeof LoginRoute
   RiderRoute: typeof RiderRoute
   SellerRoute: typeof SellerRoute
@@ -188,6 +201,13 @@ declare module '@tanstack/react-router' {
       path: '/become-a-seller'
       fullPath: '/become-a-seller'
       preLoaderRoute: typeof BecomeASellerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/catalog': {
+      id: '/catalog'
+      path: '/catalog'
+      fullPath: '/catalog'
+      preLoaderRoute: typeof CatalogRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/login': {
@@ -240,6 +260,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminRoute: AdminRoute,
   BecomeARiderRoute: BecomeARiderRoute,
   BecomeASellerRoute: BecomeASellerRoute,
+  CatalogRoute: CatalogRoute,
   LoginRoute: LoginRoute,
   RiderRoute: RiderRoute,
   SellerRoute: SellerRoute,
