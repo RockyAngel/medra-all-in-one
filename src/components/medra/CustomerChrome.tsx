@@ -40,6 +40,9 @@ export function CustomerHeader({
           <Link to="/wallet" className="hover:text-ink-foreground">
             Rewards
           </Link>
+          <Link to="/membership" className="hover:text-ink-foreground">
+            Membership
+          </Link>
           <Link to="/become-a-rider" className="text-leaf hover:underline">
             Become a Rider
           </Link>

@@ -19,6 +19,7 @@ import { Route as CatalogRouteImport } from './routes/catalog'
 import { Route as CheckoutRouteImport } from './routes/checkout'
 import { Route as FavoritesRouteImport } from './routes/favorites'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as MembershipRouteImport } from './routes/membership'
 import { Route as NotificationsRouteImport } from './routes/notifications'
 import { Route as RiderRouteImport } from './routes/rider'
 import { Route as SellerRouteImport } from './routes/seller'
@@ -82,6 +83,11 @@ const FavoritesRoute = FavoritesRouteImport.update({
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MembershipRoute = MembershipRouteImport.update({
+  id: '/membership',
+  path: '/membership',
   getParentRoute: () => rootRouteImport,
 } as any)
 const NotificationsRoute = NotificationsRouteImport.update({
@@ -166,6 +172,7 @@ export interface FileRoutesByFullPath {
   '/checkout': typeof CheckoutRoute
   '/favorites': typeof FavoritesRoute
   '/login': typeof LoginRoute
+  '/membership': typeof MembershipRoute
   '/notifications': typeof NotificationsRoute
   '/rider': typeof RiderRoute
   '/seller': typeof SellerRoute
@@ -192,6 +199,7 @@ export interface FileRoutesByTo {
   '/checkout': typeof CheckoutRoute
   '/favorites': typeof FavoritesRoute
   '/login': typeof LoginRoute
+  '/membership': typeof MembershipRoute
   '/notifications': typeof NotificationsRoute
   '/rider': typeof RiderRoute
   '/seller': typeof SellerRoute
@@ -219,6 +227,7 @@ export interface FileRoutesById {
   '/checkout': typeof CheckoutRoute
   '/favorites': typeof FavoritesRoute
   '/login': typeof LoginRoute
+  '/membership': typeof MembershipRoute
   '/notifications': typeof NotificationsRoute
   '/rider': typeof RiderRoute
   '/seller': typeof SellerRoute
@@ -247,6 +256,7 @@ export interface FileRouteTypes {
     | '/checkout'
     | '/favorites'
     | '/login'
+    | '/membership'
     | '/notifications'
     | '/rider'
     | '/seller'
@@ -273,6 +283,7 @@ export interface FileRouteTypes {
     | '/checkout'
     | '/favorites'
     | '/login'
+    | '/membership'
     | '/notifications'
     | '/rider'
     | '/seller'
@@ -299,6 +310,7 @@ export interface FileRouteTypes {
     | '/checkout'
     | '/favorites'
     | '/login'
+    | '/membership'
     | '/notifications'
     | '/rider'
     | '/seller'
@@ -326,6 +338,7 @@ export interface RootRouteChildren {
   CheckoutRoute: typeof CheckoutRoute
   FavoritesRoute: typeof FavoritesRoute
   LoginRoute: typeof LoginRoute
+  MembershipRoute: typeof MembershipRoute
   NotificationsRoute: typeof NotificationsRoute
   RiderRoute: typeof RiderRoute
   SellerRoute: typeof SellerRoute
@@ -412,6 +425,13 @@ declare module '@tanstack/react-router' {
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/membership': {
+      id: '/membership'
+      path: '/membership'
+      fullPath: '/membership'
+      preLoaderRoute: typeof MembershipRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/notifications': {
@@ -526,6 +546,7 @@ const rootRouteChildren: RootRouteChildren = {
   CheckoutRoute: CheckoutRoute,
   FavoritesRoute: FavoritesRoute,
   LoginRoute: LoginRoute,
+  MembershipRoute: MembershipRoute,
   NotificationsRoute: NotificationsRoute,
   RiderRoute: RiderRoute,
   SellerRoute: SellerRoute,
