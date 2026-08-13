@@ -8,9 +8,7 @@ const navLinks = ["Home", "Categories", "Stores", "Pharmacies", "Deals", "Gift C
 export function SiteHeader({ accent = "leaf" }: { accent?: "leaf" | "sky" }) {
   return (
     <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-4 px-5 py-4">
-      <Link to="/">
-        <Logo tone="dark" size={44} />
-      </Link>
+      <Logo tone="dark" size={44} />
       <nav className="hidden items-center gap-5 text-sm font-semibold text-ink-foreground/85 xl:flex">
         {navLinks.map((l) => (
           <span key={l} className="cursor-pointer hover:text-ink-foreground">
