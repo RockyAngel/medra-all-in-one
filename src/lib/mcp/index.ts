@@ -1,4 +1,4 @@
-import { auth, defineMcp, type AnyToolDefinition } from "@lovable.dev/mcp-js";
+import { auth, defineMcp } from "@lovable.dev/mcp-js";
 import searchProducts from "./tools/search-products";
 import getProduct from "./tools/get-product";
 import listMyOrders from "./tools/list-my-orders";
@@ -19,5 +19,7 @@ export default defineMcp({
     issuer: `https://${projectRef}.supabase.co/auth/v1`,
     acceptedAudiences: "authenticated",
   }),
-  tools: [searchProducts, getProduct, listMyOrders, getOrderStatus, myRewardsWallet],
+  // Cast: the SDK's tool array type is stricter than an inferred ToolDefinition
+  // under exactOptionalPropertyTypes (optional outputSchema).
+  tools: [searchProducts, getProduct, listMyOrders, getOrderStatus, myRewardsWallet] as never,
 });
