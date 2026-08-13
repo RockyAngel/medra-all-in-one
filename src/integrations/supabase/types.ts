@@ -161,6 +161,45 @@ export type Database = {
         }
         Relationships: []
       }
+      broadcasts: {
+        Row: {
+          audience: string
+          body: string
+          category: string
+          created_at: string
+          created_by: string | null
+          id: string
+          link: string | null
+          recipient_count: number
+          sent_at: string | null
+          title: string
+        }
+        Insert: {
+          audience: string
+          body: string
+          category?: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          link?: string | null
+          recipient_count?: number
+          sent_at?: string | null
+          title: string
+        }
+        Update: {
+          audience?: string
+          body?: string
+          category?: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          link?: string | null
+          recipient_count?: number
+          sent_at?: string | null
+          title?: string
+        }
+        Relationships: []
+      }
       campaigns: {
         Row: {
           audience: string
@@ -533,6 +572,151 @@ export type Database = {
             columns: ["service_id"]
             isOneToOne: false
             referencedRelation: "telehealth_services"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      conversation_messages: {
+        Row: {
+          attachment_name: string | null
+          attachment_path: string | null
+          attachment_size: number | null
+          attachment_type: string | null
+          body: string
+          conversation_id: string
+          created_at: string
+          deleted_at: string | null
+          edit_history: Json
+          edited_at: string | null
+          id: string
+          read_at: string | null
+          sender_id: string
+          sender_role: string
+        }
+        Insert: {
+          attachment_name?: string | null
+          attachment_path?: string | null
+          attachment_size?: number | null
+          attachment_type?: string | null
+          body: string
+          conversation_id: string
+          created_at?: string
+          deleted_at?: string | null
+          edit_history?: Json
+          edited_at?: string | null
+          id?: string
+          read_at?: string | null
+          sender_id: string
+          sender_role: string
+        }
+        Update: {
+          attachment_name?: string | null
+          attachment_path?: string | null
+          attachment_size?: number | null
+          attachment_type?: string | null
+          body?: string
+          conversation_id?: string
+          created_at?: string
+          deleted_at?: string | null
+          edit_history?: Json
+          edited_at?: string | null
+          id?: string
+          read_at?: string | null
+          sender_id?: string
+          sender_role?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "conversation_messages_conversation_id_fkey"
+            columns: ["conversation_id"]
+            isOneToOne: false
+            referencedRelation: "conversations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      conversations: {
+        Row: {
+          counterpart_last_read_at: string | null
+          created_at: string
+          customer_id: string
+          customer_last_read_at: string | null
+          delivery_id: string | null
+          fulfillment_id: string | null
+          id: string
+          is_locked: boolean
+          kind: Database["public"]["Enums"]["conversation_kind"]
+          last_message_at: string | null
+          order_id: string | null
+          read_only_at: string | null
+          rider_id: string | null
+          seller_id: string | null
+          store_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          counterpart_last_read_at?: string | null
+          created_at?: string
+          customer_id: string
+          customer_last_read_at?: string | null
+          delivery_id?: string | null
+          fulfillment_id?: string | null
+          id?: string
+          is_locked?: boolean
+          kind: Database["public"]["Enums"]["conversation_kind"]
+          last_message_at?: string | null
+          order_id?: string | null
+          read_only_at?: string | null
+          rider_id?: string | null
+          seller_id?: string | null
+          store_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          counterpart_last_read_at?: string | null
+          created_at?: string
+          customer_id?: string
+          customer_last_read_at?: string | null
+          delivery_id?: string | null
+          fulfillment_id?: string | null
+          id?: string
+          is_locked?: boolean
+          kind?: Database["public"]["Enums"]["conversation_kind"]
+          last_message_at?: string | null
+          order_id?: string | null
+          read_only_at?: string | null
+          rider_id?: string | null
+          seller_id?: string | null
+          store_id?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "conversations_delivery_id_fkey"
+            columns: ["delivery_id"]
+            isOneToOne: false
+            referencedRelation: "deliveries"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "conversations_fulfillment_id_fkey"
+            columns: ["fulfillment_id"]
+            isOneToOne: false
+            referencedRelation: "order_fulfillments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "conversations_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "conversations_store_id_fkey"
+            columns: ["store_id"]
+            isOneToOne: false
+            referencedRelation: "stores"
             referencedColumns: ["id"]
           },
         ]
@@ -2187,30 +2371,257 @@ export type Database = {
         }
         Relationships: []
       }
+      message_reports: {
+        Row: {
+          conversation_message_id: string | null
+          created_at: string
+          details: string | null
+          id: string
+          reason: string
+          reported_user_id: string | null
+          reporter_id: string
+          resolution_note: string | null
+          reviewed_at: string | null
+          reviewed_by: string | null
+          status: string
+          support_message_id: string | null
+        }
+        Insert: {
+          conversation_message_id?: string | null
+          created_at?: string
+          details?: string | null
+          id?: string
+          reason: string
+          reported_user_id?: string | null
+          reporter_id: string
+          resolution_note?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: string
+          support_message_id?: string | null
+        }
+        Update: {
+          conversation_message_id?: string | null
+          created_at?: string
+          details?: string | null
+          id?: string
+          reason?: string
+          reported_user_id?: string | null
+          reporter_id?: string
+          resolution_note?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: string
+          support_message_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "message_reports_conversation_message_id_fkey"
+            columns: ["conversation_message_id"]
+            isOneToOne: false
+            referencedRelation: "conversation_messages"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "message_reports_support_message_id_fkey"
+            columns: ["support_message_id"]
+            isOneToOne: false
+            referencedRelation: "support_messages"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      notification_deliveries: {
+        Row: {
+          attempts: number
+          channel: Database["public"]["Enums"]["notification_channel"]
+          created_at: string
+          delivered_at: string | null
+          failed_at: string | null
+          failure_reason: string | null
+          id: string
+          notification_id: string | null
+          provider: string | null
+          provider_reference: string | null
+          provider_status: string | null
+          queued_at: string | null
+          sent_at: string | null
+          status: string
+          user_id: string
+        }
+        Insert: {
+          attempts?: number
+          channel: Database["public"]["Enums"]["notification_channel"]
+          created_at?: string
+          delivered_at?: string | null
+          failed_at?: string | null
+          failure_reason?: string | null
+          id?: string
+          notification_id?: string | null
+          provider?: string | null
+          provider_reference?: string | null
+          provider_status?: string | null
+          queued_at?: string | null
+          sent_at?: string | null
+          status?: string
+          user_id: string
+        }
+        Update: {
+          attempts?: number
+          channel?: Database["public"]["Enums"]["notification_channel"]
+          created_at?: string
+          delivered_at?: string | null
+          failed_at?: string | null
+          failure_reason?: string | null
+          id?: string
+          notification_id?: string | null
+          provider?: string | null
+          provider_reference?: string | null
+          provider_status?: string | null
+          queued_at?: string | null
+          sent_at?: string | null
+          status?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "notification_deliveries_notification_id_fkey"
+            columns: ["notification_id"]
+            isOneToOne: false
+            referencedRelation: "notifications"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      notification_preferences: {
+        Row: {
+          category: string
+          email: boolean
+          id: string
+          in_app: boolean
+          push: boolean
+          sms: boolean
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          category: string
+          email?: boolean
+          id?: string
+          in_app?: boolean
+          push?: boolean
+          sms?: boolean
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          category?: string
+          email?: boolean
+          id?: string
+          in_app?: boolean
+          push?: boolean
+          sms?: boolean
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      notification_templates: {
+        Row: {
+          body: string
+          category: string
+          channel: Database["public"]["Enums"]["notification_channel"]
+          created_at: string
+          event_type: string
+          id: string
+          is_active: boolean
+          key: string
+          language: string
+          subject: string | null
+          updated_at: string
+          variables: string[]
+        }
+        Insert: {
+          body: string
+          category: string
+          channel: Database["public"]["Enums"]["notification_channel"]
+          created_at?: string
+          event_type: string
+          id?: string
+          is_active?: boolean
+          key: string
+          language?: string
+          subject?: string | null
+          updated_at?: string
+          variables?: string[]
+        }
+        Update: {
+          body?: string
+          category?: string
+          channel?: Database["public"]["Enums"]["notification_channel"]
+          created_at?: string
+          event_type?: string
+          id?: string
+          is_active?: boolean
+          key?: string
+          language?: string
+          subject?: string | null
+          updated_at?: string
+          variables?: string[]
+        }
+        Relationships: []
+      }
       notifications: {
         Row: {
+          archived_at: string | null
           body: string | null
+          category: string
           created_at: string
+          entity_id: string | null
+          entity_type: string | null
+          event_id: string | null
+          event_type: string | null
           id: string
+          is_mandatory: boolean
           link: string | null
+          metadata: Json
+          priority: Database["public"]["Enums"]["support_priority"]
           read_at: string | null
           title: string
           user_id: string
         }
         Insert: {
+          archived_at?: string | null
           body?: string | null
+          category?: string
           created_at?: string
+          entity_id?: string | null
+          entity_type?: string | null
+          event_id?: string | null
+          event_type?: string | null
           id?: string
+          is_mandatory?: boolean
           link?: string | null
+          metadata?: Json
+          priority?: Database["public"]["Enums"]["support_priority"]
           read_at?: string | null
           title: string
           user_id: string
         }
         Update: {
+          archived_at?: string | null
           body?: string | null
+          category?: string
           created_at?: string
+          entity_id?: string | null
+          entity_type?: string | null
+          event_id?: string | null
+          event_type?: string | null
           id?: string
+          is_mandatory?: boolean
           link?: string | null
+          metadata?: Json
+          priority?: Database["public"]["Enums"]["support_priority"]
           read_at?: string | null
           title?: string
           user_id?: string
@@ -4225,27 +4636,101 @@ export type Database = {
           },
         ]
       }
+      support_events: {
+        Row: {
+          action: string
+          actor_id: string | null
+          actor_role: string | null
+          created_at: string
+          from_value: string | null
+          id: string
+          metadata: Json
+          reason: string | null
+          ticket_id: string
+          to_value: string | null
+        }
+        Insert: {
+          action: string
+          actor_id?: string | null
+          actor_role?: string | null
+          created_at?: string
+          from_value?: string | null
+          id?: string
+          metadata?: Json
+          reason?: string | null
+          ticket_id: string
+          to_value?: string | null
+        }
+        Update: {
+          action?: string
+          actor_id?: string | null
+          actor_role?: string | null
+          created_at?: string
+          from_value?: string | null
+          id?: string
+          metadata?: Json
+          reason?: string | null
+          ticket_id?: string
+          to_value?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "support_events_ticket_id_fkey"
+            columns: ["ticket_id"]
+            isOneToOne: false
+            referencedRelation: "support_tickets"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       support_messages: {
         Row: {
+          attachment_name: string | null
+          attachment_path: string | null
+          attachment_size: number | null
+          attachment_type: string | null
           body: string
           created_at: string
+          deleted_at: string | null
+          edit_history: Json
+          edited_at: string | null
           id: string
+          is_internal: boolean
+          mentions: string[]
           sender_id: string | null
           sender_role: string | null
           ticket_id: string
         }
         Insert: {
+          attachment_name?: string | null
+          attachment_path?: string | null
+          attachment_size?: number | null
+          attachment_type?: string | null
           body: string
           created_at?: string
+          deleted_at?: string | null
+          edit_history?: Json
+          edited_at?: string | null
           id?: string
+          is_internal?: boolean
+          mentions?: string[]
           sender_id?: string | null
           sender_role?: string | null
           ticket_id: string
         }
         Update: {
+          attachment_name?: string | null
+          attachment_path?: string | null
+          attachment_size?: number | null
+          attachment_type?: string | null
           body?: string
           created_at?: string
+          deleted_at?: string | null
+          edit_history?: Json
+          edited_at?: string | null
           id?: string
+          is_internal?: boolean
+          mentions?: string[]
           sender_id?: string | null
           sender_role?: string | null
           ticket_id?: string
@@ -4262,53 +4747,169 @@ export type Database = {
       }
       support_tickets: {
         Row: {
+          archived_at: string | null
+          assigned_at: string | null
           assigned_to: string | null
           category: string
+          closed_at: string | null
+          consultation_id: string | null
           contact_email: string | null
           contact_name: string | null
           created_at: string
+          delivery_id: string | null
+          first_response_at: string | null
+          fulfillment_id: string | null
           id: string
+          is_sos: boolean
+          last_activity_at: string
           order_id: string | null
+          payment_id: string | null
+          payout_request_id: string | null
+          priority: Database["public"]["Enums"]["support_priority"]
+          reference: string | null
+          refund_request_id: string | null
+          reopen_count: number
           requester_role: string | null
-          status: string
+          resolved_at: string | null
+          sos_incident_id: string | null
+          staff_last_read_at: string | null
+          status: Database["public"]["Enums"]["support_status"]
+          store_id: string | null
           subject: string
           updated_at: string
           user_id: string | null
+          user_last_read_at: string | null
         }
         Insert: {
+          archived_at?: string | null
+          assigned_at?: string | null
           assigned_to?: string | null
           category: string
+          closed_at?: string | null
+          consultation_id?: string | null
           contact_email?: string | null
           contact_name?: string | null
           created_at?: string
+          delivery_id?: string | null
+          first_response_at?: string | null
+          fulfillment_id?: string | null
           id?: string
+          is_sos?: boolean
+          last_activity_at?: string
           order_id?: string | null
+          payment_id?: string | null
+          payout_request_id?: string | null
+          priority?: Database["public"]["Enums"]["support_priority"]
+          reference?: string | null
+          refund_request_id?: string | null
+          reopen_count?: number
           requester_role?: string | null
-          status?: string
+          resolved_at?: string | null
+          sos_incident_id?: string | null
+          staff_last_read_at?: string | null
+          status?: Database["public"]["Enums"]["support_status"]
+          store_id?: string | null
           subject: string
           updated_at?: string
           user_id?: string | null
+          user_last_read_at?: string | null
         }
         Update: {
+          archived_at?: string | null
+          assigned_at?: string | null
           assigned_to?: string | null
           category?: string
+          closed_at?: string | null
+          consultation_id?: string | null
           contact_email?: string | null
           contact_name?: string | null
           created_at?: string
+          delivery_id?: string | null
+          first_response_at?: string | null
+          fulfillment_id?: string | null
           id?: string
+          is_sos?: boolean
+          last_activity_at?: string
           order_id?: string | null
+          payment_id?: string | null
+          payout_request_id?: string | null
+          priority?: Database["public"]["Enums"]["support_priority"]
+          reference?: string | null
+          refund_request_id?: string | null
+          reopen_count?: number
           requester_role?: string | null
-          status?: string
+          resolved_at?: string | null
+          sos_incident_id?: string | null
+          staff_last_read_at?: string | null
+          status?: Database["public"]["Enums"]["support_status"]
+          store_id?: string | null
           subject?: string
           updated_at?: string
           user_id?: string | null
+          user_last_read_at?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "support_tickets_consultation_id_fkey"
+            columns: ["consultation_id"]
+            isOneToOne: false
+            referencedRelation: "consultations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "support_tickets_delivery_id_fkey"
+            columns: ["delivery_id"]
+            isOneToOne: false
+            referencedRelation: "deliveries"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "support_tickets_fulfillment_id_fkey"
+            columns: ["fulfillment_id"]
+            isOneToOne: false
+            referencedRelation: "order_fulfillments"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "support_tickets_order_id_fkey"
             columns: ["order_id"]
             isOneToOne: false
             referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "support_tickets_payment_id_fkey"
+            columns: ["payment_id"]
+            isOneToOne: false
+            referencedRelation: "payments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "support_tickets_payout_request_id_fkey"
+            columns: ["payout_request_id"]
+            isOneToOne: false
+            referencedRelation: "payout_requests"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "support_tickets_refund_request_id_fkey"
+            columns: ["refund_request_id"]
+            isOneToOne: false
+            referencedRelation: "refund_requests"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "support_tickets_sos_incident_id_fkey"
+            columns: ["sos_incident_id"]
+            isOneToOne: false
+            referencedRelation: "sos_incidents"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "support_tickets_store_id_fkey"
+            columns: ["store_id"]
+            isOneToOne: false
+            referencedRelation: "stores"
             referencedColumns: ["id"]
           },
         ]
@@ -5060,6 +5661,10 @@ export type Database = {
         | "under_review"
         | "approved"
         | "rejected"
+      conversation_kind:
+        | "order_customer_seller"
+        | "delivery_customer_rider"
+        | "sos_incident"
       fulfillment_status:
         | "pending"
         | "seller_reviewing"
@@ -5086,6 +5691,7 @@ export type Database = {
         | "platform_delivery_share"
         | "refund"
       membership_audience: "customer" | "seller" | "rider"
+      notification_channel: "in_app" | "email" | "sms" | "push"
       order_status:
         | "pending_payment"
         | "paid"
@@ -5143,6 +5749,16 @@ export type Database = {
         | "cancelled"
         | "expired"
         | "suspended"
+      support_priority: "low" | "normal" | "high" | "urgent" | "critical"
+      support_status:
+        | "open"
+        | "waiting_support"
+        | "waiting_user"
+        | "assigned"
+        | "escalated"
+        | "resolved"
+        | "closed"
+        | "reopened"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -5285,6 +5901,11 @@ export const Constants = {
         "approved",
         "rejected",
       ],
+      conversation_kind: [
+        "order_customer_seller",
+        "delivery_customer_rider",
+        "sos_incident",
+      ],
       fulfillment_status: [
         "pending",
         "seller_reviewing",
@@ -5314,6 +5935,7 @@ export const Constants = {
         "refund",
       ],
       membership_audience: ["customer", "seller", "rider"],
+      notification_channel: ["in_app", "email", "sms", "push"],
       order_status: [
         "pending_payment",
         "paid",
@@ -5374,6 +5996,17 @@ export const Constants = {
         "cancelled",
         "expired",
         "suspended",
+      ],
+      support_priority: ["low", "normal", "high", "urgent", "critical"],
+      support_status: [
+        "open",
+        "waiting_support",
+        "waiting_user",
+        "assigned",
+        "escalated",
+        "resolved",
+        "closed",
+        "reopened",
       ],
     },
   },
