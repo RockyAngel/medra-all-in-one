@@ -27,6 +27,7 @@ import { Route as StoresRouteImport } from './routes/stores'
 import { Route as SuperAdminRouteImport } from './routes/super-admin'
 import { Route as TeamRouteImport } from './routes/team'
 import { Route as WalletRouteImport } from './routes/wallet'
+import { Route as ApplyRiderRouteImport } from './routes/apply.rider'
 import { Route as ApplySellerRouteImport } from './routes/apply.seller'
 import { Route as OrdersIndexRouteImport } from './routes/orders.index'
 import { Route as OrdersOrderIdRouteImport } from './routes/orders.$orderId'
@@ -123,6 +124,11 @@ const WalletRoute = WalletRouteImport.update({
   path: '/wallet',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApplyRiderRoute = ApplyRiderRouteImport.update({
+  id: '/apply/rider',
+  path: '/apply/rider',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApplySellerRoute = ApplySellerRouteImport.update({
   id: '/apply/seller',
   path: '/apply/seller',
@@ -168,6 +174,7 @@ export interface FileRoutesByFullPath {
   '/super-admin': typeof SuperAdminRoute
   '/team': typeof TeamRoute
   '/wallet': typeof WalletRoute
+  '/apply/rider': typeof ApplyRiderRoute
   '/apply/seller': typeof ApplySellerRoute
   '/orders/$orderId': typeof OrdersOrderIdRoute
   '/product/$productId': typeof ProductProductIdRoute
@@ -193,6 +200,7 @@ export interface FileRoutesByTo {
   '/super-admin': typeof SuperAdminRoute
   '/team': typeof TeamRoute
   '/wallet': typeof WalletRoute
+  '/apply/rider': typeof ApplyRiderRoute
   '/apply/seller': typeof ApplySellerRoute
   '/orders/$orderId': typeof OrdersOrderIdRoute
   '/product/$productId': typeof ProductProductIdRoute
@@ -219,6 +227,7 @@ export interface FileRoutesById {
   '/super-admin': typeof SuperAdminRoute
   '/team': typeof TeamRoute
   '/wallet': typeof WalletRoute
+  '/apply/rider': typeof ApplyRiderRoute
   '/apply/seller': typeof ApplySellerRoute
   '/orders/$orderId': typeof OrdersOrderIdRoute
   '/product/$productId': typeof ProductProductIdRoute
@@ -246,6 +255,7 @@ export interface FileRouteTypes {
     | '/super-admin'
     | '/team'
     | '/wallet'
+    | '/apply/rider'
     | '/apply/seller'
     | '/orders/$orderId'
     | '/product/$productId'
@@ -271,6 +281,7 @@ export interface FileRouteTypes {
     | '/super-admin'
     | '/team'
     | '/wallet'
+    | '/apply/rider'
     | '/apply/seller'
     | '/orders/$orderId'
     | '/product/$productId'
@@ -296,6 +307,7 @@ export interface FileRouteTypes {
     | '/super-admin'
     | '/team'
     | '/wallet'
+    | '/apply/rider'
     | '/apply/seller'
     | '/orders/$orderId'
     | '/product/$productId'
@@ -322,6 +334,7 @@ export interface RootRouteChildren {
   SuperAdminRoute: typeof SuperAdminRoute
   TeamRoute: typeof TeamRoute
   WalletRoute: typeof WalletRoute
+  ApplyRiderRoute: typeof ApplyRiderRoute
   ApplySellerRoute: typeof ApplySellerRoute
   OrdersOrderIdRoute: typeof OrdersOrderIdRoute
   ProductProductIdRoute: typeof ProductProductIdRoute
@@ -457,6 +470,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WalletRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/apply/rider': {
+      id: '/apply/rider'
+      path: '/apply/rider'
+      fullPath: '/apply/rider'
+      preLoaderRoute: typeof ApplyRiderRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/apply/seller': {
       id: '/apply/seller'
       path: '/apply/seller'
@@ -514,6 +534,7 @@ const rootRouteChildren: RootRouteChildren = {
   SuperAdminRoute: SuperAdminRoute,
   TeamRoute: TeamRoute,
   WalletRoute: WalletRoute,
+  ApplyRiderRoute: ApplyRiderRoute,
   ApplySellerRoute: ApplySellerRoute,
   OrdersOrderIdRoute: OrdersOrderIdRoute,
   ProductProductIdRoute: ProductProductIdRoute,
