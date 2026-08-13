@@ -283,6 +283,179 @@ export type Database = {
           },
         ]
       }
+      consultation_messages: {
+        Row: {
+          body: string
+          consultation_id: string
+          created_at: string
+          id: string
+          sender_id: string
+          sender_role: string
+        }
+        Insert: {
+          body: string
+          consultation_id: string
+          created_at?: string
+          id?: string
+          sender_id: string
+          sender_role: string
+        }
+        Update: {
+          body?: string
+          consultation_id?: string
+          created_at?: string
+          id?: string
+          sender_id?: string
+          sender_role?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "consultation_messages_consultation_id_fkey"
+            columns: ["consultation_id"]
+            isOneToOne: false
+            referencedRelation: "consultations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      consultation_sessions: {
+        Row: {
+          consultation_id: string
+          created_at: string
+          ended_at: string | null
+          id: string
+          join_opens_at: string | null
+          provider: string | null
+          room_id: string | null
+          started_at: string | null
+          status: string
+        }
+        Insert: {
+          consultation_id: string
+          created_at?: string
+          ended_at?: string | null
+          id?: string
+          join_opens_at?: string | null
+          provider?: string | null
+          room_id?: string | null
+          started_at?: string | null
+          status?: string
+        }
+        Update: {
+          consultation_id?: string
+          created_at?: string
+          ended_at?: string | null
+          id?: string
+          join_opens_at?: string | null
+          provider?: string | null
+          room_id?: string | null
+          started_at?: string | null
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "consultation_sessions_consultation_id_fkey"
+            columns: ["consultation_id"]
+            isOneToOne: true
+            referencedRelation: "consultations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      consultations: {
+        Row: {
+          availability_id: string | null
+          cancel_reason: string | null
+          created_at: string
+          customer_id: string
+          customer_note: string | null
+          duration_minutes: number | null
+          ended_at: string | null
+          id: string
+          mode: string
+          payment_status: string
+          platform_amount: number
+          price_charged: number
+          professional_amount: number
+          professional_id: string
+          professional_note: string | null
+          reference: string
+          scheduled_at: string
+          service_id: string
+          started_at: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          availability_id?: string | null
+          cancel_reason?: string | null
+          created_at?: string
+          customer_id: string
+          customer_note?: string | null
+          duration_minutes?: number | null
+          ended_at?: string | null
+          id?: string
+          mode: string
+          payment_status?: string
+          platform_amount?: number
+          price_charged: number
+          professional_amount?: number
+          professional_id: string
+          professional_note?: string | null
+          reference: string
+          scheduled_at: string
+          service_id: string
+          started_at?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          availability_id?: string | null
+          cancel_reason?: string | null
+          created_at?: string
+          customer_id?: string
+          customer_note?: string | null
+          duration_minutes?: number | null
+          ended_at?: string | null
+          id?: string
+          mode?: string
+          payment_status?: string
+          platform_amount?: number
+          price_charged?: number
+          professional_amount?: number
+          professional_id?: string
+          professional_note?: string | null
+          reference?: string
+          scheduled_at?: string
+          service_id?: string
+          started_at?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "consultations_availability_id_fkey"
+            columns: ["availability_id"]
+            isOneToOne: false
+            referencedRelation: "professional_availability"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "consultations_professional_id_fkey"
+            columns: ["professional_id"]
+            isOneToOne: false
+            referencedRelation: "health_professionals"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "consultations_service_id_fkey"
+            columns: ["service_id"]
+            isOneToOne: false
+            referencedRelation: "telehealth_services"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       deliveries: {
         Row: {
           assigned_at: string | null
@@ -301,6 +474,7 @@ export type Database = {
           pickup_code: string | null
           pickup_verified_at: string | null
           platform_amount: number
+          priority: number
           rider_amount: number
           rider_id: string | null
           rider_latitude: number | null
@@ -325,6 +499,7 @@ export type Database = {
           pickup_code?: string | null
           pickup_verified_at?: string | null
           platform_amount?: number
+          priority?: number
           rider_amount?: number
           rider_id?: string | null
           rider_latitude?: number | null
@@ -349,6 +524,7 @@ export type Database = {
           pickup_code?: string | null
           pickup_verified_at?: string | null
           platform_amount?: number
+          priority?: number
           rider_amount?: number
           rider_id?: string | null
           rider_latitude?: number | null
@@ -440,6 +616,33 @@ export type Database = {
         }
         Relationships: []
       }
+      family_health_permissions: {
+        Row: {
+          created_at: string
+          granted: boolean
+          id: string
+          member_id: string
+          owner_id: string
+          permission: string
+        }
+        Insert: {
+          created_at?: string
+          granted?: boolean
+          id?: string
+          member_id: string
+          owner_id: string
+          permission: string
+        }
+        Update: {
+          created_at?: string
+          granted?: boolean
+          id?: string
+          member_id?: string
+          owner_id?: string
+          permission?: string
+        }
+        Relationships: []
+      }
       favorite_stores: {
         Row: {
           created_at: string
@@ -524,6 +727,182 @@ export type Database = {
           updated_by?: string | null
         }
         Relationships: []
+      }
+      health_professionals: {
+        Row: {
+          bio: string | null
+          consultation_modes: string[]
+          created_at: string
+          credentials: string | null
+          document_paths: string[]
+          full_name: string
+          id: string
+          is_active: boolean
+          is_available_now: boolean
+          license_number: string | null
+          photo_path: string | null
+          professional_type: string
+          review_note: string | null
+          reviewed_at: string | null
+          reviewed_by: string | null
+          specialties: string[]
+          updated_at: string
+          user_id: string
+          verification_status: string
+        }
+        Insert: {
+          bio?: string | null
+          consultation_modes?: string[]
+          created_at?: string
+          credentials?: string | null
+          document_paths?: string[]
+          full_name: string
+          id?: string
+          is_active?: boolean
+          is_available_now?: boolean
+          license_number?: string | null
+          photo_path?: string | null
+          professional_type: string
+          review_note?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          specialties?: string[]
+          updated_at?: string
+          user_id: string
+          verification_status?: string
+        }
+        Update: {
+          bio?: string | null
+          consultation_modes?: string[]
+          created_at?: string
+          credentials?: string | null
+          document_paths?: string[]
+          full_name?: string
+          id?: string
+          is_active?: boolean
+          is_available_now?: boolean
+          license_number?: string | null
+          photo_path?: string | null
+          professional_type?: string
+          review_note?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          specialties?: string[]
+          updated_at?: string
+          user_id?: string
+          verification_status?: string
+        }
+        Relationships: []
+      }
+      health_profiles: {
+        Row: {
+          allergies: string | null
+          blood_type: string | null
+          conditions: string | null
+          created_at: string
+          current_medications: string | null
+          emergency_contact_name: string | null
+          emergency_contact_phone: string | null
+          notes: string | null
+          preferred_store_id: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          allergies?: string | null
+          blood_type?: string | null
+          conditions?: string | null
+          created_at?: string
+          current_medications?: string | null
+          emergency_contact_name?: string | null
+          emergency_contact_phone?: string | null
+          notes?: string | null
+          preferred_store_id?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          allergies?: string | null
+          blood_type?: string | null
+          conditions?: string | null
+          created_at?: string
+          current_medications?: string | null
+          emergency_contact_name?: string | null
+          emergency_contact_phone?: string | null
+          notes?: string | null
+          preferred_store_id?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "health_profiles_preferred_store_id_fkey"
+            columns: ["preferred_store_id"]
+            isOneToOne: false
+            referencedRelation: "stores"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      inventory_batches: {
+        Row: {
+          alerted_at: string | null
+          batch_number: string | null
+          created_at: string
+          expiry_date: string | null
+          id: string
+          note: string | null
+          product_id: string
+          quantity: number
+          received_at: string
+          seller_id: string
+          store_id: string
+          updated_at: string
+        }
+        Insert: {
+          alerted_at?: string | null
+          batch_number?: string | null
+          created_at?: string
+          expiry_date?: string | null
+          id?: string
+          note?: string | null
+          product_id: string
+          quantity?: number
+          received_at?: string
+          seller_id: string
+          store_id: string
+          updated_at?: string
+        }
+        Update: {
+          alerted_at?: string | null
+          batch_number?: string | null
+          created_at?: string
+          expiry_date?: string | null
+          id?: string
+          note?: string | null
+          product_id?: string
+          quantity?: number
+          received_at?: string
+          seller_id?: string
+          store_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "inventory_batches_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "inventory_batches_store_id_fkey"
+            columns: ["store_id"]
+            isOneToOne: false
+            referencedRelation: "stores"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       inventory_movements: {
         Row: {
@@ -707,6 +1086,166 @@ export type Database = {
           },
         ]
       }
+      medication_doses: {
+        Row: {
+          acted_at: string | null
+          created_at: string
+          id: string
+          medication_id: string
+          note: string | null
+          reminder_id: string | null
+          scheduled_for: string
+          status: string
+          user_id: string
+        }
+        Insert: {
+          acted_at?: string | null
+          created_at?: string
+          id?: string
+          medication_id: string
+          note?: string | null
+          reminder_id?: string | null
+          scheduled_for: string
+          status?: string
+          user_id: string
+        }
+        Update: {
+          acted_at?: string | null
+          created_at?: string
+          id?: string
+          medication_id?: string
+          note?: string | null
+          reminder_id?: string | null
+          scheduled_for?: string
+          status?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "medication_doses_medication_id_fkey"
+            columns: ["medication_id"]
+            isOneToOne: false
+            referencedRelation: "medications"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "medication_doses_reminder_id_fkey"
+            columns: ["reminder_id"]
+            isOneToOne: false
+            referencedRelation: "medication_reminders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      medication_reminders: {
+        Row: {
+          created_at: string
+          days_of_week: number[]
+          enabled: boolean
+          ends_on: string | null
+          id: string
+          medication_id: string
+          starts_on: string
+          times: string[]
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          days_of_week?: number[]
+          enabled?: boolean
+          ends_on?: string | null
+          id?: string
+          medication_id: string
+          starts_on?: string
+          times?: string[]
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          days_of_week?: number[]
+          enabled?: boolean
+          ends_on?: string | null
+          id?: string
+          medication_id?: string
+          starts_on?: string
+          times?: string[]
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "medication_reminders_medication_id_fkey"
+            columns: ["medication_id"]
+            isOneToOne: false
+            referencedRelation: "medications"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      medications: {
+        Row: {
+          created_at: string
+          dosage: string | null
+          end_date: string | null
+          frequency: string | null
+          id: string
+          instructions: string | null
+          name: string
+          notes: string | null
+          prescriber: string | null
+          product_id: string | null
+          start_date: string | null
+          status: string
+          strength: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          dosage?: string | null
+          end_date?: string | null
+          frequency?: string | null
+          id?: string
+          instructions?: string | null
+          name: string
+          notes?: string | null
+          prescriber?: string | null
+          product_id?: string | null
+          start_date?: string | null
+          status?: string
+          strength?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          dosage?: string | null
+          end_date?: string | null
+          frequency?: string | null
+          id?: string
+          instructions?: string | null
+          name?: string
+          notes?: string | null
+          prescriber?: string | null
+          product_id?: string | null
+          start_date?: string | null
+          status?: string
+          strength?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "medications_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       notifications: {
         Row: {
           body: string | null
@@ -741,10 +1280,13 @@ export type Database = {
         Row: {
           accepted_at: string | null
           created_at: string
+          customer_note: string | null
           id: string
+          is_emergency: boolean
           items_subtotal: number
           order_id: string
           platform_amount: number
+          prescription_id: string | null
           ready_at: string | null
           rejection_note: string | null
           rejection_reason: string | null
@@ -757,10 +1299,13 @@ export type Database = {
         Insert: {
           accepted_at?: string | null
           created_at?: string
+          customer_note?: string | null
           id?: string
+          is_emergency?: boolean
           items_subtotal?: number
           order_id: string
           platform_amount?: number
+          prescription_id?: string | null
           ready_at?: string | null
           rejection_note?: string | null
           rejection_reason?: string | null
@@ -773,10 +1318,13 @@ export type Database = {
         Update: {
           accepted_at?: string | null
           created_at?: string
+          customer_note?: string | null
           id?: string
+          is_emergency?: boolean
           items_subtotal?: number
           order_id?: string
           platform_amount?: number
+          prescription_id?: string | null
           ready_at?: string | null
           rejection_note?: string | null
           rejection_reason?: string | null
@@ -795,6 +1343,13 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "order_fulfillments_prescription_id_fkey"
+            columns: ["prescription_id"]
+            isOneToOne: false
+            referencedRelation: "prescriptions"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "order_fulfillments_store_id_fkey"
             columns: ["store_id"]
             isOneToOne: false
@@ -810,6 +1365,7 @@ export type Database = {
           id: string
           order_id: string
           platform_unit_amount: number
+          prescription_required: boolean
           product_id: string | null
           product_image_path: string | null
           product_name: string
@@ -826,6 +1382,7 @@ export type Database = {
           id?: string
           order_id: string
           platform_unit_amount?: number
+          prescription_required?: boolean
           product_id?: string | null
           product_image_path?: string | null
           product_name: string
@@ -842,6 +1399,7 @@ export type Database = {
           id?: string
           order_id?: string
           platform_unit_amount?: number
+          prescription_required?: boolean
           product_id?: string | null
           product_image_path?: string | null
           product_name?: string
@@ -937,12 +1495,15 @@ export type Database = {
           delivery_platform_amount: number
           delivery_rider_amount: number
           delivery_rule: string | null
+          emergency_surcharge: number
           id: string
+          is_emergency: boolean
           order_number: string
           payment_status: string
           platform_product_amount: number
           points_discount: number
           points_redeemed: number
+          priority: number
           status: Database["public"]["Enums"]["order_status"]
           subtotal: number
           total: number
@@ -960,12 +1521,15 @@ export type Database = {
           delivery_platform_amount?: number
           delivery_rider_amount?: number
           delivery_rule?: string | null
+          emergency_surcharge?: number
           id?: string
+          is_emergency?: boolean
           order_number?: string
           payment_status?: string
           platform_product_amount?: number
           points_discount?: number
           points_redeemed?: number
+          priority?: number
           status?: Database["public"]["Enums"]["order_status"]
           subtotal?: number
           total?: number
@@ -983,12 +1547,15 @@ export type Database = {
           delivery_platform_amount?: number
           delivery_rider_amount?: number
           delivery_rule?: string | null
+          emergency_surcharge?: number
           id?: string
+          is_emergency?: boolean
           order_number?: string
           payment_status?: string
           platform_product_amount?: number
           points_discount?: number
           points_redeemed?: number
+          priority?: number
           status?: Database["public"]["Enums"]["order_status"]
           subtotal?: number
           total?: number
@@ -1190,6 +1757,119 @@ export type Database = {
         }
         Relationships: []
       }
+      prescription_events: {
+        Row: {
+          actor_id: string | null
+          actor_role: string | null
+          created_at: string
+          id: string
+          note: string | null
+          prescription_id: string
+          status: string
+        }
+        Insert: {
+          actor_id?: string | null
+          actor_role?: string | null
+          created_at?: string
+          id?: string
+          note?: string | null
+          prescription_id: string
+          status: string
+        }
+        Update: {
+          actor_id?: string | null
+          actor_role?: string | null
+          created_at?: string
+          id?: string
+          note?: string | null
+          prescription_id?: string
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "prescription_events_prescription_id_fkey"
+            columns: ["prescription_id"]
+            isOneToOne: false
+            referencedRelation: "prescriptions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      prescriptions: {
+        Row: {
+          created_at: string
+          customer_id: string
+          expires_at: string | null
+          file_path: string
+          file_type: string | null
+          fulfilled_at: string | null
+          id: string
+          order_id: string | null
+          patient_note: string | null
+          prescriber_contact: string | null
+          prescriber_name: string | null
+          review_note: string | null
+          reviewed_at: string | null
+          reviewed_by: string | null
+          status: string
+          store_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          customer_id: string
+          expires_at?: string | null
+          file_path: string
+          file_type?: string | null
+          fulfilled_at?: string | null
+          id?: string
+          order_id?: string | null
+          patient_note?: string | null
+          prescriber_contact?: string | null
+          prescriber_name?: string | null
+          review_note?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: string
+          store_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          customer_id?: string
+          expires_at?: string | null
+          file_path?: string
+          file_type?: string | null
+          fulfilled_at?: string | null
+          id?: string
+          order_id?: string | null
+          patient_note?: string | null
+          prescriber_contact?: string | null
+          prescriber_name?: string | null
+          review_note?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: string
+          store_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "prescriptions_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "prescriptions_store_id_fkey"
+            columns: ["store_id"]
+            isOneToOne: false
+            referencedRelation: "stores"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       product_images: {
         Row: {
           created_at: string
@@ -1224,16 +1904,28 @@ export type Database = {
       }
       products: {
         Row: {
+          active_ingredient: string | null
           brand: string | null
+          brand_name: string | null
           category_id: string | null
           created_at: string
           description: string | null
           dimensions: string | null
+          dosage_form: string | null
+          emergency_eligible: boolean
+          generic_name: string | null
           id: string
           image_path: string | null
+          instructions: string | null
+          is_medication: boolean
           low_stock_threshold: number
+          manufacturer: string | null
+          min_age: number | null
+          nafdac_number: string | null
           name: string
+          pack_size: string | null
           platform_markup_percent: number
+          prescription_required: boolean
           price: number
           reserved_quantity: number
           seller_id: string
@@ -1241,23 +1933,38 @@ export type Database = {
           sku: string | null
           status: Database["public"]["Enums"]["product_status"]
           stock_quantity: number
+          storage_requirements: string | null
           store_id: string
+          strength: string | null
           tags: string[]
           updated_at: string
           variant_label: string | null
+          warnings: string | null
           weight_grams: number | null
         }
         Insert: {
+          active_ingredient?: string | null
           brand?: string | null
+          brand_name?: string | null
           category_id?: string | null
           created_at?: string
           description?: string | null
           dimensions?: string | null
+          dosage_form?: string | null
+          emergency_eligible?: boolean
+          generic_name?: string | null
           id?: string
           image_path?: string | null
+          instructions?: string | null
+          is_medication?: boolean
           low_stock_threshold?: number
+          manufacturer?: string | null
+          min_age?: number | null
+          nafdac_number?: string | null
           name: string
+          pack_size?: string | null
           platform_markup_percent?: number
+          prescription_required?: boolean
           price: number
           reserved_quantity?: number
           seller_id: string
@@ -1265,23 +1972,38 @@ export type Database = {
           sku?: string | null
           status?: Database["public"]["Enums"]["product_status"]
           stock_quantity?: number
+          storage_requirements?: string | null
           store_id: string
+          strength?: string | null
           tags?: string[]
           updated_at?: string
           variant_label?: string | null
+          warnings?: string | null
           weight_grams?: number | null
         }
         Update: {
+          active_ingredient?: string | null
           brand?: string | null
+          brand_name?: string | null
           category_id?: string | null
           created_at?: string
           description?: string | null
           dimensions?: string | null
+          dosage_form?: string | null
+          emergency_eligible?: boolean
+          generic_name?: string | null
           id?: string
           image_path?: string | null
+          instructions?: string | null
+          is_medication?: boolean
           low_stock_threshold?: number
+          manufacturer?: string | null
+          min_age?: number | null
+          nafdac_number?: string | null
           name?: string
+          pack_size?: string | null
           platform_markup_percent?: number
+          prescription_required?: boolean
           price?: number
           reserved_quantity?: number
           seller_id?: string
@@ -1289,10 +2011,13 @@ export type Database = {
           sku?: string | null
           status?: Database["public"]["Enums"]["product_status"]
           stock_quantity?: number
+          storage_requirements?: string | null
           store_id?: string
+          strength?: string | null
           tags?: string[]
           updated_at?: string
           variant_label?: string | null
+          warnings?: string | null
           weight_grams?: number | null
         }
         Relationships: [
@@ -1308,6 +2033,44 @@ export type Database = {
             columns: ["store_id"]
             isOneToOne: false
             referencedRelation: "stores"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      professional_availability: {
+        Row: {
+          created_at: string
+          ends_at: string
+          id: string
+          is_booked: boolean
+          mode: string
+          professional_id: string
+          starts_at: string
+        }
+        Insert: {
+          created_at?: string
+          ends_at: string
+          id?: string
+          is_booked?: boolean
+          mode?: string
+          professional_id: string
+          starts_at: string
+        }
+        Update: {
+          created_at?: string
+          ends_at?: string
+          id?: string
+          is_booked?: boolean
+          mode?: string
+          professional_id?: string
+          starts_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "professional_availability_professional_id_fkey"
+            columns: ["professional_id"]
+            isOneToOne: false
+            referencedRelation: "health_professionals"
             referencedColumns: ["id"]
           },
         ]
@@ -1709,12 +2472,21 @@ export type Database = {
           description: string | null
           document_paths: string[]
           id: string
+          logo_path: string | null
+          operating_hours: Json | null
+          pharmacy_license_expiry: string | null
+          pharmacy_license_number: string | null
+          pharmacy_name: string | null
+          responsible_pharmacist_license: string | null
+          responsible_pharmacist_name: string | null
+          responsible_pharmacist_phone: string | null
           review_note: string | null
           reviewed_at: string | null
           reviewed_by: string | null
           status: Database["public"]["Enums"]["application_status"]
           store_id: string | null
           store_name: string
+          store_type: string
           updated_at: string
           user_id: string
         }
@@ -1728,12 +2500,21 @@ export type Database = {
           description?: string | null
           document_paths?: string[]
           id?: string
+          logo_path?: string | null
+          operating_hours?: Json | null
+          pharmacy_license_expiry?: string | null
+          pharmacy_license_number?: string | null
+          pharmacy_name?: string | null
+          responsible_pharmacist_license?: string | null
+          responsible_pharmacist_name?: string | null
+          responsible_pharmacist_phone?: string | null
           review_note?: string | null
           reviewed_at?: string | null
           reviewed_by?: string | null
           status?: Database["public"]["Enums"]["application_status"]
           store_id?: string | null
           store_name: string
+          store_type?: string
           updated_at?: string
           user_id: string
         }
@@ -1747,12 +2528,21 @@ export type Database = {
           description?: string | null
           document_paths?: string[]
           id?: string
+          logo_path?: string | null
+          operating_hours?: Json | null
+          pharmacy_license_expiry?: string | null
+          pharmacy_license_number?: string | null
+          pharmacy_name?: string | null
+          responsible_pharmacist_license?: string | null
+          responsible_pharmacist_name?: string | null
+          responsible_pharmacist_phone?: string | null
           review_note?: string | null
           reviewed_at?: string | null
           reviewed_by?: string | null
           status?: Database["public"]["Enums"]["application_status"]
           store_id?: string | null
           store_name?: string
+          store_type?: string
           updated_at?: string
           user_id?: string
         }
@@ -1825,6 +2615,7 @@ export type Database = {
       }
       stores: {
         Row: {
+          accepts_emergency_orders: boolean
           address: string | null
           category_id: string | null
           city: string | null
@@ -1833,19 +2624,31 @@ export type Database = {
           cover_url: string | null
           created_at: string
           description: string | null
+          expiry_alert_days: number
           id: string
           is_accepting_orders: boolean
+          is_open: boolean
           logo_url: string | null
           name: string
           opening_hours: Json | null
+          operating_hours: Json | null
           owner_id: string
           pending_changes: Json | null
+          pharmacy_license_expiry: string | null
+          pharmacy_license_number: string | null
           rating_average: number | null
+          responsible_pharmacist_license: string | null
+          responsible_pharmacist_name: string | null
           slug: string
           status: Database["public"]["Enums"]["store_status"]
+          store_type: string
           updated_at: string
+          verification_note: string | null
+          verification_status: string
+          verified_at: string | null
         }
         Insert: {
+          accepts_emergency_orders?: boolean
           address?: string | null
           category_id?: string | null
           city?: string | null
@@ -1854,19 +2657,31 @@ export type Database = {
           cover_url?: string | null
           created_at?: string
           description?: string | null
+          expiry_alert_days?: number
           id?: string
           is_accepting_orders?: boolean
+          is_open?: boolean
           logo_url?: string | null
           name: string
           opening_hours?: Json | null
+          operating_hours?: Json | null
           owner_id: string
           pending_changes?: Json | null
+          pharmacy_license_expiry?: string | null
+          pharmacy_license_number?: string | null
           rating_average?: number | null
+          responsible_pharmacist_license?: string | null
+          responsible_pharmacist_name?: string | null
           slug: string
           status?: Database["public"]["Enums"]["store_status"]
+          store_type?: string
           updated_at?: string
+          verification_note?: string | null
+          verification_status?: string
+          verified_at?: string | null
         }
         Update: {
+          accepts_emergency_orders?: boolean
           address?: string | null
           category_id?: string | null
           city?: string | null
@@ -1875,17 +2690,28 @@ export type Database = {
           cover_url?: string | null
           created_at?: string
           description?: string | null
+          expiry_alert_days?: number
           id?: string
           is_accepting_orders?: boolean
+          is_open?: boolean
           logo_url?: string | null
           name?: string
           opening_hours?: Json | null
+          operating_hours?: Json | null
           owner_id?: string
           pending_changes?: Json | null
+          pharmacy_license_expiry?: string | null
+          pharmacy_license_number?: string | null
           rating_average?: number | null
+          responsible_pharmacist_license?: string | null
+          responsible_pharmacist_name?: string | null
           slug?: string
           status?: Database["public"]["Enums"]["store_status"]
+          store_type?: string
           updated_at?: string
+          verification_note?: string | null
+          verification_status?: string
+          verified_at?: string | null
         }
         Relationships: [
           {
@@ -1985,6 +2811,48 @@ export type Database = {
           },
         ]
       }
+      telehealth_services: {
+        Row: {
+          duration_minutes: number
+          id: string
+          is_active: boolean
+          key: string
+          label: string
+          mode: string
+          platform_percent: number
+          price: number
+          professional_type: string
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          duration_minutes?: number
+          id?: string
+          is_active?: boolean
+          key: string
+          label: string
+          mode: string
+          platform_percent?: number
+          price: number
+          professional_type: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          duration_minutes?: number
+          id?: string
+          is_active?: boolean
+          key?: string
+          label?: string
+          mode?: string
+          platform_percent?: number
+          price?: number
+          professional_type?: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string
@@ -2003,6 +2871,42 @@ export type Database = {
           id?: string
           role?: Database["public"]["Enums"]["app_role"]
           user_id?: string
+        }
+        Relationships: []
+      }
+      vitals: {
+        Row: {
+          created_at: string
+          id: string
+          kind: string
+          measured_at: string
+          note: string | null
+          unit: string
+          user_id: string
+          value_primary: number
+          value_secondary: number | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          kind: string
+          measured_at?: string
+          note?: string | null
+          unit: string
+          user_id: string
+          value_primary: number
+          value_secondary?: number | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          kind?: string
+          measured_at?: string
+          note?: string | null
+          unit?: string
+          user_id?: string
+          value_primary?: number
+          value_secondary?: number | null
         }
         Relationships: []
       }
@@ -2073,6 +2977,16 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      adherence_summary: {
+        Args: { _owner_id?: string }
+        Returns: {
+          missed: number
+          pending: number
+          skipped: number
+          taken: number
+          window_label: string
+        }[]
+      }
       admin_review_application: {
         Args: {
           _application_id: string
@@ -2091,6 +3005,10 @@ export type Database = {
         }
         Returns: undefined
       }
+      admin_review_professional: {
+        Args: { _decision: string; _note?: string; _professional_id: string }
+        Returns: undefined
+      }
       admin_review_refund: {
         Args: {
           _amount: number
@@ -2098,6 +3016,39 @@ export type Database = {
           _note: string
           _refund_id: string
           _status: string
+        }
+        Returns: undefined
+      }
+      admin_set_store_verification: {
+        Args: { _note?: string; _status: string; _store_id: string }
+        Returns: undefined
+      }
+      book_consultation: {
+        Args: {
+          _availability_id?: string
+          _note?: string
+          _professional_id: string
+          _scheduled_at?: string
+          _service_id: string
+        }
+        Returns: Json
+      }
+      cart_prescription_status: {
+        Args: never
+        Returns: {
+          expires_at: string
+          prescription_id: string
+          prescription_status: string
+          requires_prescription: boolean
+          store_id: string
+          store_name: string
+        }[]
+      }
+      confirm_consultation_payment: {
+        Args: {
+          _consultation_id: string
+          _provider: string
+          _reference: string
         }
         Returns: undefined
       }
@@ -2121,13 +3072,19 @@ export type Database = {
         Args: { _category_id: string; _seller_id: string }
         Returns: number
       }
+      emergency_eligibility: { Args: { _product_id: string }; Returns: Json }
       fail_order_payment: {
         Args: { _order_id: string; _reason: string }
         Returns: undefined
       }
+      flag_expiring_batches: { Args: never; Returns: number }
       flag_late_deliveries: { Args: never; Returns: number }
       get_delivery_code: { Args: { _order_id: string }; Returns: string }
       get_pickup_code: { Args: { _order_id: string }; Returns: string }
+      has_health_access: {
+        Args: { _owner_id: string; _permission: string }
+        Returns: boolean
+      }
       has_permission: {
         Args: { _permission: string; _user_id: string }
         Returns: boolean
@@ -2140,6 +3097,10 @@ export type Database = {
         Returns: boolean
       }
       is_peak_now: { Args: never; Returns: boolean }
+      is_pharmacy_owner: {
+        Args: { _store_id: string; _user_id: string }
+        Returns: boolean
+      }
       is_staff: { Args: { _user_id: string }; Returns: boolean }
       log_audit: {
         Args: {
@@ -2151,6 +3112,16 @@ export type Database = {
           _reason?: string
         }
         Returns: undefined
+      }
+      log_dose: {
+        Args: {
+          _medication_id: string
+          _note?: string
+          _reminder_id?: string
+          _scheduled_for: string
+          _status: string
+        }
+        Returns: string
       }
       log_order_status: {
         Args: {
@@ -2174,8 +3145,22 @@ export type Database = {
         Args: { _body: string; _link: string; _title: string }
         Returns: undefined
       }
+      pharmacy_review_prescription: {
+        Args: {
+          _decision: string
+          _expires_at?: string
+          _note?: string
+          _prescription_id: string
+        }
+        Returns: undefined
+      }
       place_order: {
-        Args: { _address_id: string; _points_to_redeem?: number }
+        Args: {
+          _address_id: string
+          _customer_note?: string
+          _is_emergency?: boolean
+          _points_to_redeem?: number
+        }
         Returns: Json
       }
       quote_delivery_fee: { Args: { _city: string }; Returns: Json }
@@ -2251,6 +3236,10 @@ export type Database = {
         }
         Returns: string
       }
+      set_consultation_status: {
+        Args: { _consultation_id: string; _reason?: string; _status: string }
+        Returns: undefined
+      }
       set_feature_flag: {
         Args: { _enabled: boolean; _key: string }
         Returns: undefined
@@ -2258,6 +3247,27 @@ export type Database = {
       set_rider_status: {
         Args: { _available: boolean; _online: boolean }
         Returns: undefined
+      }
+      set_telehealth_price: {
+        Args: {
+          _is_active?: boolean
+          _platform_percent?: number
+          _price: number
+          _service_id: string
+        }
+        Returns: undefined
+      }
+      sync_expired_stock: { Args: never; Returns: number }
+      upload_prescription: {
+        Args: {
+          _file_path: string
+          _file_type: string
+          _note?: string
+          _prescriber_contact?: string
+          _prescriber_name?: string
+          _store_id: string
+        }
+        Returns: string
       }
       verify_delivery: {
         Args: { _code: string; _delivery_id: string }
@@ -2269,7 +3279,13 @@ export type Database = {
       }
     }
     Enums: {
-      app_role: "customer" | "seller" | "rider" | "admin" | "super_admin"
+      app_role:
+        | "customer"
+        | "seller"
+        | "rider"
+        | "admin"
+        | "super_admin"
+        | "health_professional"
       application_status:
         | "draft"
         | "submitted"
@@ -2449,7 +3465,14 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      app_role: ["customer", "seller", "rider", "admin", "super_admin"],
+      app_role: [
+        "customer",
+        "seller",
+        "rider",
+        "admin",
+        "super_admin",
+        "health_professional",
+      ],
       application_status: [
         "draft",
         "submitted",
