@@ -1,0 +1,16 @@
+CREATE INDEX IF NOT EXISTS idx_orders_customer_created ON public.orders (customer_id, created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_orders_status_created ON public.orders (status, created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_order_items_store ON public.order_items (store_id);
+CREATE INDEX IF NOT EXISTS idx_order_items_seller ON public.order_items (seller_id);
+CREATE INDEX IF NOT EXISTS idx_order_fulfillments_store_status ON public.order_fulfillments (store_id, status);
+CREATE INDEX IF NOT EXISTS idx_deliveries_rider_created ON public.deliveries (rider_id, created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_deliveries_status ON public.deliveries (status);
+CREATE INDEX IF NOT EXISTS idx_payments_reference ON public.payments (provider_reference);
+CREATE INDEX IF NOT EXISTS idx_notifications_user_unread ON public.notifications (user_id, created_at DESC) WHERE read_at IS NULL;
+CREATE INDEX IF NOT EXISTS idx_support_tickets_status_activity ON public.support_tickets (status, last_activity_at DESC);
+CREATE INDEX IF NOT EXISTS idx_support_tickets_user_activity ON public.support_tickets (user_id, last_activity_at DESC);
+CREATE INDEX IF NOT EXISTS idx_support_messages_ticket_created ON public.support_messages (ticket_id, created_at);
+CREATE INDEX IF NOT EXISTS idx_conversation_messages_conv_created ON public.conversation_messages (conversation_id, created_at);
+CREATE INDEX IF NOT EXISTS idx_audit_logs_created ON public.audit_logs (created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_ledger_entries_beneficiary_created ON public.ledger_entries (beneficiary_id, created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_products_store_status ON public.products (store_id, status);
