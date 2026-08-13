@@ -1,11 +1,14 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
-import { Bike, ShoppingBag, Store } from "lucide-react";
+import { Bike, Loader2, ShoppingBag, Store } from "lucide-react";
+import { toast } from "sonner";
 import { AuthLayout } from "@/components/medra/AuthLayout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
+import { supabase } from "@/integrations/supabase/client";
+import { ROLE_HOME, type AppRole } from "@/lib/auth";
 
 export const Route = createFileRoute("/signup")({
   head: () => ({
@@ -29,11 +32,89 @@ export const Route = createFileRoute("/signup")({
 const roles = [
   { id: "customer", label: "Customer", sub: "Shop & order", Icon: ShoppingBag },
   { id: "rider", label: "Rider", sub: "Deliver & earn", Icon: Bike },
-  { id: "vendor", label: "Vendor", sub: "Sell on Medra", Icon: Store },
-];
+  { id: "seller", label: "Vendor", sub: "Sell on Medra", Icon: Store },
+] as const;
 
 function SignUpPage() {
-  const [role, setRole] = useState("customer");
+  const navigate = useNavigate();
+  const [role, setRole] = useState<AppRole>("customer");
+  const [submitting, setSubmitting] = useState(false);
+  const [form, setForm] = useState({
+    first_name: "",
+    last_name: "",
+    date_of_birth: "",
+    email: "",
+    phone: "",
+    whatsapp: "",
+    password: "",
+    confirm: "",
+  });
+
+  function update(key: keyof typeof form) {
+    return (e: React.ChangeEvent<HTMLInputElement>) =>
+      setForm((prev) => ({ ...prev, [key]: e.target.value }));
+  }
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (form.password.length < 8) {
+      toast.error("Use a password with at least 8 characters.");
+      return;
+    }
+    if (form.password !== form.confirm) {
+      toast.error("Passwords do not match.");
+      return;
+    }
+    setSubmitting(true);
+    const { data, error } = await supabase.auth.signUp({
+      email: form.email.trim(),
+      password: form.password,
+      options: {
+        emailRedirectTo: window.location.origin,
+        data: {
+          first_name: form.first_name,
+          last_name: form.last_name,
+          phone: form.phone,
+          whatsapp: form.whatsapp,
+          date_of_birth: form.date_of_birth || null,
+          requested_role: role,
+        },
+      },
+    });
+
+    if (error) {
+      setSubmitting(false);
+      toast.error(error.message);
+      return;
+    }
+
+    const userId = data.user?.id;
+    if (userId && data.session) {
+      await supabase
+        .from("profiles")
+        .upsert({
+          id: userId,
+          first_name: form.first_name,
+          last_name: form.last_name,
+          phone: form.phone,
+          whatsapp: form.whatsapp,
+          date_of_birth: form.date_of_birth || null,
+        });
+      await supabase.from("user_roles").insert({ user_id: userId, role });
+      await supabase.from("wallets").insert({ user_id: userId });
+    }
+
+    setSubmitting(false);
+
+    if (!data.session) {
+      toast.success("Check your inbox to confirm your email, then log in.");
+      void navigate({ to: "/login" });
+      return;
+    }
+
+    toast.success("Welcome to Medra!");
+    void navigate({ to: ROLE_HOME[role] as "/", replace: true });
+  }
 
   return (
     <AuthLayout
@@ -53,23 +134,25 @@ function SignUpPage() {
         </Link>
       </p>
 
-      <form
-        className="mt-6 space-y-4"
-        onSubmit={(e) => {
-          e.preventDefault();
-        }}
-      >
+      <form className="mt-6 space-y-4" onSubmit={handleSubmit}>
         <div className="grid gap-4 sm:grid-cols-2">
-          <Field label="First name" placeholder="Ada" />
-          <Field label="Last name" placeholder="Okoye" />
+          <Field label="First name" placeholder="Ada" required value={form.first_name} onChange={update("first_name")} />
+          <Field label="Last name" placeholder="Okoye" required value={form.last_name} onChange={update("last_name")} />
         </div>
         <div className="grid gap-4 sm:grid-cols-2">
-          <Field label="Date of birth" type="date" />
-          <Field label="Email address" type="email" placeholder="ada@email.com" />
+          <Field label="Date of birth" type="date" value={form.date_of_birth} onChange={update("date_of_birth")} />
+          <Field
+            label="Email address"
+            type="email"
+            required
+            placeholder="ada@email.com"
+            value={form.email}
+            onChange={update("email")}
+          />
         </div>
         <div className="grid gap-4 sm:grid-cols-2">
-          <Field label="Phone number" placeholder="+234 800 000 0000" />
-          <Field label="WhatsApp number" placeholder="+234 800 000 0000" />
+          <Field label="Phone number" placeholder="+234 800 000 0000" value={form.phone} onChange={update("phone")} />
+          <Field label="WhatsApp number" placeholder="+234 800 000 0000" value={form.whatsapp} onChange={update("whatsapp")} />
         </div>
 
         <div>
@@ -82,16 +165,11 @@ function SignUpPage() {
                 onClick={() => setRole(id)}
                 className={cn(
                   "rounded-xl border p-3 text-left transition-colors",
-                  role === id
-                    ? "border-primary bg-primary/5"
-                    : "border-border hover:bg-muted",
+                  role === id ? "border-primary bg-primary/5" : "border-border hover:bg-muted",
                 )}
               >
                 <Icon
-                  className={cn(
-                    "size-5",
-                    role === id ? "text-primary" : "text-muted-foreground",
-                  )}
+                  className={cn("size-5", role === id ? "text-primary" : "text-muted-foreground")}
                 />
                 <p className="mt-2 text-sm font-bold">{label}</p>
                 <p className="text-xs text-muted-foreground">{sub}</p>
@@ -101,20 +179,38 @@ function SignUpPage() {
         </div>
 
         <div className="grid gap-4 sm:grid-cols-2">
-          <Field label="Password" type="password" placeholder="••••••••" />
-          <Field label="Confirm password" type="password" placeholder="••••••••" />
+          <Field
+            label="Password"
+            type="password"
+            required
+            placeholder="••••••••"
+            value={form.password}
+            onChange={update("password")}
+          />
+          <Field
+            label="Confirm password"
+            type="password"
+            required
+            placeholder="••••••••"
+            value={form.confirm}
+            onChange={update("confirm")}
+          />
         </div>
 
         <label className="flex items-start gap-2 text-sm text-muted-foreground">
-          <input type="checkbox" className="mt-1 accent-primary" />
+          <input type="checkbox" required className="mt-1 accent-primary" />
           <span>
             I agree to Medra's <span className="font-semibold text-primary">Terms</span> and{" "}
             <span className="font-semibold text-primary">Privacy Policy</span>.
           </span>
         </label>
 
-        <Button type="submit" className="w-full rounded-xl py-6 text-base font-bold">
-          Create account
+        <Button
+          type="submit"
+          disabled={submitting}
+          className="w-full rounded-xl py-6 text-base font-bold"
+        >
+          {submitting ? <Loader2 className="size-4 animate-spin" /> : "Create account"}
         </Button>
       </form>
     </AuthLayout>
@@ -125,10 +221,16 @@ function Field({
   label,
   type = "text",
   placeholder,
+  value,
+  onChange,
+  required,
 }: {
   label: string;
   type?: string;
   placeholder?: string;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  required?: boolean;
 }) {
   const id = label.toLowerCase().replace(/\s+/g, "-");
   return (
@@ -136,7 +238,15 @@ function Field({
       <Label htmlFor={id} className="text-sm font-semibold">
         {label}
       </Label>
-      <Input id={id} type={type} placeholder={placeholder} className="h-11 rounded-xl" />
+      <Input
+        id={id}
+        type={type}
+        placeholder={placeholder}
+        value={value}
+        onChange={onChange}
+        required={required}
+        className="h-11 rounded-xl"
+      />
     </div>
   );
 }
