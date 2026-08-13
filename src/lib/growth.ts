@@ -196,7 +196,7 @@ export function useSetPromotionStatus() {
       const { error } = await supabase.rpc("set_promotion_status", {
         _promotion_id: id,
         _status: status as never,
-        _note: note ?? null,
+        ...(note === undefined ? {} : { _note: note }),
       });
       if (error) throw error;
     },
