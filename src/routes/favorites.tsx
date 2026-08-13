@@ -28,7 +28,7 @@ function FavoritesPage() {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("favorites")
-        .select("id, products(id, name, price, image_path, stock_quantity, stores(name))")
+        .select("id, products(id, name, price, image_path, stock_quantity, stores(name, slug))")
         .eq("user_id", user!.id)
         .order("created_at", { ascending: false });
       if (error) throw error;

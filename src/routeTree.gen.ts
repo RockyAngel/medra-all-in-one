@@ -16,6 +16,7 @@ import { Route as BecomeASellerRouteImport } from './routes/become-a-seller'
 import { Route as CartRouteImport } from './routes/cart'
 import { Route as CatalogRouteImport } from './routes/catalog'
 import { Route as CheckoutRouteImport } from './routes/checkout'
+import { Route as FavoritesRouteImport } from './routes/favorites'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as RiderRouteImport } from './routes/rider'
 import { Route as SellerRouteImport } from './routes/seller'
@@ -62,6 +63,11 @@ const CatalogRoute = CatalogRouteImport.update({
 const CheckoutRoute = CheckoutRouteImport.update({
   id: '/checkout',
   path: '/checkout',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FavoritesRoute = FavoritesRouteImport.update({
+  id: '/favorites',
+  path: '/favorites',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LoginRoute = LoginRouteImport.update({
@@ -133,6 +139,7 @@ export interface FileRoutesByFullPath {
   '/cart': typeof CartRoute
   '/catalog': typeof CatalogRoute
   '/checkout': typeof CheckoutRoute
+  '/favorites': typeof FavoritesRoute
   '/login': typeof LoginRoute
   '/rider': typeof RiderRoute
   '/seller': typeof SellerRoute
@@ -154,6 +161,7 @@ export interface FileRoutesByTo {
   '/cart': typeof CartRoute
   '/catalog': typeof CatalogRoute
   '/checkout': typeof CheckoutRoute
+  '/favorites': typeof FavoritesRoute
   '/login': typeof LoginRoute
   '/rider': typeof RiderRoute
   '/seller': typeof SellerRoute
@@ -176,6 +184,7 @@ export interface FileRoutesById {
   '/cart': typeof CartRoute
   '/catalog': typeof CatalogRoute
   '/checkout': typeof CheckoutRoute
+  '/favorites': typeof FavoritesRoute
   '/login': typeof LoginRoute
   '/rider': typeof RiderRoute
   '/seller': typeof SellerRoute
@@ -199,6 +208,7 @@ export interface FileRouteTypes {
     | '/cart'
     | '/catalog'
     | '/checkout'
+    | '/favorites'
     | '/login'
     | '/rider'
     | '/seller'
@@ -220,6 +230,7 @@ export interface FileRouteTypes {
     | '/cart'
     | '/catalog'
     | '/checkout'
+    | '/favorites'
     | '/login'
     | '/rider'
     | '/seller'
@@ -241,6 +252,7 @@ export interface FileRouteTypes {
     | '/cart'
     | '/catalog'
     | '/checkout'
+    | '/favorites'
     | '/login'
     | '/rider'
     | '/seller'
@@ -263,6 +275,7 @@ export interface RootRouteChildren {
   CartRoute: typeof CartRoute
   CatalogRoute: typeof CatalogRoute
   CheckoutRoute: typeof CheckoutRoute
+  FavoritesRoute: typeof FavoritesRoute
   LoginRoute: typeof LoginRoute
   RiderRoute: typeof RiderRoute
   SellerRoute: typeof SellerRoute
@@ -326,6 +339,13 @@ declare module '@tanstack/react-router' {
       path: '/checkout'
       fullPath: '/checkout'
       preLoaderRoute: typeof CheckoutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/favorites': {
+      id: '/favorites'
+      path: '/favorites'
+      fullPath: '/favorites'
+      preLoaderRoute: typeof FavoritesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/login': {
@@ -423,6 +443,7 @@ const rootRouteChildren: RootRouteChildren = {
   CartRoute: CartRoute,
   CatalogRoute: CatalogRoute,
   CheckoutRoute: CheckoutRoute,
+  FavoritesRoute: FavoritesRoute,
   LoginRoute: LoginRoute,
   RiderRoute: RiderRoute,
   SellerRoute: SellerRoute,
