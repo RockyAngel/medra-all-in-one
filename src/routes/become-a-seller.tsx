@@ -209,10 +209,10 @@ function BecomeASeller() {
           </div>
           <div className="flex flex-wrap gap-3">
             <Button asChild className="rounded-full px-6 font-bold">
-              <Link to="/signup">Create vendor account</Link>
+              <Link to="/apply/seller">Apply to sell</Link>
             </Button>
             <Button asChild variant="outline" className="rounded-full px-6 font-bold">
-              <Link to="/seller">Preview seller dashboard</Link>
+              <Link to="/signup">Create vendor account</Link>
             </Button>
           </div>
         </section>

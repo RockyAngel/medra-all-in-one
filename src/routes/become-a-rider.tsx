@@ -211,10 +211,10 @@ function BecomeARider() {
           </div>
           <div className="flex flex-wrap gap-3">
             <Button asChild className="rounded-full px-6 font-bold">
-              <Link to="/signup">Create rider account</Link>
+              <Link to="/apply/rider">Apply to ride</Link>
             </Button>
             <Button asChild variant="outline" className="rounded-full px-6 font-bold">
-              <Link to="/rider">Preview rider dashboard</Link>
+              <Link to="/signup">Create rider account</Link>
             </Button>
           </div>
         </section>
