@@ -16,40 +16,76 @@ export type Database = {
     Tables: {
       addresses: {
         Row: {
+          apartment: string | null
+          area: string | null
+          building: string | null
           city: string | null
+          country: string
           created_at: string
+          delivery_instructions: string | null
+          estate: string | null
           id: string
           is_default: boolean
           label: string | null
+          landmark: string | null
+          latitude: number | null
           line1: string
           line2: string | null
+          location_source: string | null
+          longitude: number | null
           phone: string | null
+          place_id: string | null
+          postal_code: string | null
           recipient_name: string | null
           state: string | null
           user_id: string
         }
         Insert: {
+          apartment?: string | null
+          area?: string | null
+          building?: string | null
           city?: string | null
+          country?: string
           created_at?: string
+          delivery_instructions?: string | null
+          estate?: string | null
           id?: string
           is_default?: boolean
           label?: string | null
+          landmark?: string | null
+          latitude?: number | null
           line1: string
           line2?: string | null
+          location_source?: string | null
+          longitude?: number | null
           phone?: string | null
+          place_id?: string | null
+          postal_code?: string | null
           recipient_name?: string | null
           state?: string | null
           user_id: string
         }
         Update: {
+          apartment?: string | null
+          area?: string | null
+          building?: string | null
           city?: string | null
+          country?: string
           created_at?: string
+          delivery_instructions?: string | null
+          estate?: string | null
           id?: string
           is_default?: boolean
           label?: string | null
+          landmark?: string | null
+          latitude?: number | null
           line1?: string
           line2?: string | null
+          location_source?: string | null
+          longitude?: number | null
           phone?: string | null
+          place_id?: string | null
+          postal_code?: string | null
           recipient_name?: string | null
           state?: string | null
           user_id?: string
@@ -459,80 +495,168 @@ export type Database = {
       deliveries: {
         Row: {
           assigned_at: string | null
+          attempt_number: number
+          code_attempts: number
           created_at: string
           delivered_at: string | null
           delivery_code: string | null
           delivery_verified_at: string | null
+          distance_meters: number | null
+          dropoff_latitude: number | null
+          dropoff_longitude: number | null
+          duration_seconds: number | null
+          eta_at: string | null
+          eta_updated_at: string | null
           expected_delivery_at: string | null
+          expected_pickup_at: string | null
+          failure_note: string | null
+          failure_reason: string | null
           fee_total: number
+          fulfillment_id: string | null
           id: string
           is_peak: boolean
+          is_priority: boolean
+          last_dispatch_at: string | null
           late_alert_sent_at: string | null
+          location_accuracy: number | null
           location_updated_at: string | null
+          milestone: string | null
+          offer_round: number
           order_id: string
           picked_up_at: string | null
           pickup_code: string | null
+          pickup_latitude: number | null
+          pickup_longitude: number | null
           pickup_verified_at: string | null
           platform_amount: number
+          platform_percent: number | null
+          pricing_version_id: string | null
           priority: number
+          priority_amount: number
+          quote_id: string | null
           rider_amount: number
           rider_id: string | null
           rider_latitude: number | null
           rider_longitude: number | null
+          rider_percent: number | null
+          route_calculated_at: string | null
+          routing_provider: string | null
           status: string
+          store_id: string | null
           updated_at: string
         }
         Insert: {
           assigned_at?: string | null
+          attempt_number?: number
+          code_attempts?: number
           created_at?: string
           delivered_at?: string | null
           delivery_code?: string | null
           delivery_verified_at?: string | null
+          distance_meters?: number | null
+          dropoff_latitude?: number | null
+          dropoff_longitude?: number | null
+          duration_seconds?: number | null
+          eta_at?: string | null
+          eta_updated_at?: string | null
           expected_delivery_at?: string | null
+          expected_pickup_at?: string | null
+          failure_note?: string | null
+          failure_reason?: string | null
           fee_total?: number
+          fulfillment_id?: string | null
           id?: string
           is_peak?: boolean
+          is_priority?: boolean
+          last_dispatch_at?: string | null
           late_alert_sent_at?: string | null
+          location_accuracy?: number | null
           location_updated_at?: string | null
+          milestone?: string | null
+          offer_round?: number
           order_id: string
           picked_up_at?: string | null
           pickup_code?: string | null
+          pickup_latitude?: number | null
+          pickup_longitude?: number | null
           pickup_verified_at?: string | null
           platform_amount?: number
+          platform_percent?: number | null
+          pricing_version_id?: string | null
           priority?: number
+          priority_amount?: number
+          quote_id?: string | null
           rider_amount?: number
           rider_id?: string | null
           rider_latitude?: number | null
           rider_longitude?: number | null
+          rider_percent?: number | null
+          route_calculated_at?: string | null
+          routing_provider?: string | null
           status?: string
+          store_id?: string | null
           updated_at?: string
         }
         Update: {
           assigned_at?: string | null
+          attempt_number?: number
+          code_attempts?: number
           created_at?: string
           delivered_at?: string | null
           delivery_code?: string | null
           delivery_verified_at?: string | null
+          distance_meters?: number | null
+          dropoff_latitude?: number | null
+          dropoff_longitude?: number | null
+          duration_seconds?: number | null
+          eta_at?: string | null
+          eta_updated_at?: string | null
           expected_delivery_at?: string | null
+          expected_pickup_at?: string | null
+          failure_note?: string | null
+          failure_reason?: string | null
           fee_total?: number
+          fulfillment_id?: string | null
           id?: string
           is_peak?: boolean
+          is_priority?: boolean
+          last_dispatch_at?: string | null
           late_alert_sent_at?: string | null
+          location_accuracy?: number | null
           location_updated_at?: string | null
+          milestone?: string | null
+          offer_round?: number
           order_id?: string
           picked_up_at?: string | null
           pickup_code?: string | null
+          pickup_latitude?: number | null
+          pickup_longitude?: number | null
           pickup_verified_at?: string | null
           platform_amount?: number
+          platform_percent?: number | null
+          pricing_version_id?: string | null
           priority?: number
+          priority_amount?: number
+          quote_id?: string | null
           rider_amount?: number
           rider_id?: string | null
           rider_latitude?: number | null
           rider_longitude?: number | null
+          rider_percent?: number | null
+          route_calculated_at?: string | null
+          routing_provider?: string | null
           status?: string
+          store_id?: string | null
           updated_at?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "deliveries_fulfillment_id_fkey"
+            columns: ["fulfillment_id"]
+            isOneToOne: false
+            referencedRelation: "order_fulfillments"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "deliveries_order_id_fkey"
             columns: ["order_id"]
@@ -540,29 +664,168 @@ export type Database = {
             referencedRelation: "orders"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "deliveries_pricing_version_id_fkey"
+            columns: ["pricing_version_id"]
+            isOneToOne: false
+            referencedRelation: "delivery_pricing_versions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "deliveries_quote_id_fkey"
+            columns: ["quote_id"]
+            isOneToOne: false
+            referencedRelation: "delivery_quotes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "deliveries_store_id_fkey"
+            columns: ["store_id"]
+            isOneToOne: false
+            referencedRelation: "stores"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      delivery_assignments: {
+        Row: {
+          assigned_by: string | null
+          created_at: string
+          delivery_id: string
+          expires_at: string | null
+          id: string
+          kind: string
+          offer_round: number
+          offered_at: string
+          outcome: string
+          pickup_distance_km: number | null
+          reason: string | null
+          resolved_at: string | null
+          rider_id: string | null
+          score: number | null
+        }
+        Insert: {
+          assigned_by?: string | null
+          created_at?: string
+          delivery_id: string
+          expires_at?: string | null
+          id?: string
+          kind?: string
+          offer_round?: number
+          offered_at?: string
+          outcome?: string
+          pickup_distance_km?: number | null
+          reason?: string | null
+          resolved_at?: string | null
+          rider_id?: string | null
+          score?: number | null
+        }
+        Update: {
+          assigned_by?: string | null
+          created_at?: string
+          delivery_id?: string
+          expires_at?: string | null
+          id?: string
+          kind?: string
+          offer_round?: number
+          offered_at?: string
+          outcome?: string
+          pickup_distance_km?: number | null
+          reason?: string | null
+          resolved_at?: string | null
+          rider_id?: string | null
+          score?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "delivery_assignments_delivery_id_fkey"
+            columns: ["delivery_id"]
+            isOneToOne: false
+            referencedRelation: "deliveries"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      delivery_distance_bands: {
+        Row: {
+          base_fee: number
+          created_at: string
+          id: string
+          is_active: boolean
+          max_km: number | null
+          min_km: number
+          name: string
+          per_km_fee: number
+          pricing_version_id: string
+          updated_at: string
+        }
+        Insert: {
+          base_fee?: number
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          max_km?: number | null
+          min_km?: number
+          name: string
+          per_km_fee?: number
+          pricing_version_id: string
+          updated_at?: string
+        }
+        Update: {
+          base_fee?: number
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          max_km?: number | null
+          min_km?: number
+          name?: string
+          per_km_fee?: number
+          pricing_version_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "delivery_distance_bands_pricing_version_id_fkey"
+            columns: ["pricing_version_id"]
+            isOneToOne: false
+            referencedRelation: "delivery_pricing_versions"
+            referencedColumns: ["id"]
+          },
         ]
       }
       delivery_offers: {
         Row: {
           created_at: string
+          decline_reason: string | null
           delivery_id: string
+          expires_at: string | null
           id: string
+          offer_round: number
+          pickup_distance_km: number | null
           responded_at: string | null
           rider_id: string
           status: string
         }
         Insert: {
           created_at?: string
+          decline_reason?: string | null
           delivery_id: string
+          expires_at?: string | null
           id?: string
+          offer_round?: number
+          pickup_distance_km?: number | null
           responded_at?: string | null
           rider_id: string
           status?: string
         }
         Update: {
           created_at?: string
+          decline_reason?: string | null
           delivery_id?: string
+          expires_at?: string | null
           id?: string
+          offer_round?: number
+          pickup_distance_km?: number | null
           responded_at?: string | null
           rider_id?: string
           status?: string
@@ -577,10 +840,358 @@ export type Database = {
           },
         ]
       }
+      delivery_peak_windows: {
+        Row: {
+          created_at: string
+          days: number[]
+          end_time: string
+          id: string
+          is_active: boolean
+          label: string | null
+          pricing_version_id: string
+          rider_percent: number | null
+          start_time: string
+          surcharge_percent: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          days?: number[]
+          end_time: string
+          id?: string
+          is_active?: boolean
+          label?: string | null
+          pricing_version_id: string
+          rider_percent?: number | null
+          start_time: string
+          surcharge_percent?: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          days?: number[]
+          end_time?: string
+          id?: string
+          is_active?: boolean
+          label?: string | null
+          pricing_version_id?: string
+          rider_percent?: number | null
+          start_time?: string
+          surcharge_percent?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "delivery_peak_windows_pricing_version_id_fkey"
+            columns: ["pricing_version_id"]
+            isOneToOne: false
+            referencedRelation: "delivery_pricing_versions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      delivery_pricing_versions: {
+        Row: {
+          base_fee: number
+          created_at: string
+          created_by: string | null
+          delivery_enabled: boolean
+          effective_from: string
+          effective_to: string | null
+          emergency_fee: number
+          id: string
+          is_active: boolean
+          label: string | null
+          late_threshold_minutes: number
+          location_min_interval_seconds: number
+          location_retention_days: number
+          max_fee: number | null
+          max_offer_rounds: number
+          min_fee: number
+          offer_timeout_seconds: number
+          peak_rider_percent: number
+          peak_surcharge_percent: number
+          per_km_fee: number
+          priority_enabled: boolean
+          priority_fee: number
+          quote_ttl_seconds: number
+          regular_rider_percent: number
+          updated_at: string
+          version: number
+        }
+        Insert: {
+          base_fee?: number
+          created_at?: string
+          created_by?: string | null
+          delivery_enabled?: boolean
+          effective_from?: string
+          effective_to?: string | null
+          emergency_fee?: number
+          id?: string
+          is_active?: boolean
+          label?: string | null
+          late_threshold_minutes?: number
+          location_min_interval_seconds?: number
+          location_retention_days?: number
+          max_fee?: number | null
+          max_offer_rounds?: number
+          min_fee?: number
+          offer_timeout_seconds?: number
+          peak_rider_percent?: number
+          peak_surcharge_percent?: number
+          per_km_fee?: number
+          priority_enabled?: boolean
+          priority_fee?: number
+          quote_ttl_seconds?: number
+          regular_rider_percent?: number
+          updated_at?: string
+          version: number
+        }
+        Update: {
+          base_fee?: number
+          created_at?: string
+          created_by?: string | null
+          delivery_enabled?: boolean
+          effective_from?: string
+          effective_to?: string | null
+          emergency_fee?: number
+          id?: string
+          is_active?: boolean
+          label?: string | null
+          late_threshold_minutes?: number
+          location_min_interval_seconds?: number
+          location_retention_days?: number
+          max_fee?: number | null
+          max_offer_rounds?: number
+          min_fee?: number
+          offer_timeout_seconds?: number
+          peak_rider_percent?: number
+          peak_surcharge_percent?: number
+          per_km_fee?: number
+          priority_enabled?: boolean
+          priority_fee?: number
+          quote_ttl_seconds?: number
+          regular_rider_percent?: number
+          updated_at?: string
+          version?: number
+        }
+        Relationships: []
+      }
+      delivery_quotes: {
+        Row: {
+          address_id: string | null
+          band_id: string | null
+          base_amount: number
+          created_at: string
+          customer_id: string
+          distance_amount: number
+          distance_meters: number | null
+          dropoff_latitude: number | null
+          dropoff_longitude: number | null
+          duration_seconds: number | null
+          emergency_amount: number
+          expires_at: string
+          id: string
+          is_emergency: boolean
+          is_peak: boolean
+          is_priority: boolean
+          order_id: string | null
+          peak_surcharge: number
+          pickup_latitude: number | null
+          pickup_longitude: number | null
+          platform_amount: number
+          platform_percent: number
+          pricing_version_id: string | null
+          priority_amount: number
+          rider_amount: number
+          rider_percent: number
+          route_calculated_at: string | null
+          routing_provider: string | null
+          rule: string | null
+          status: string
+          store_id: string
+          total_fee: number
+          zone_id: string | null
+        }
+        Insert: {
+          address_id?: string | null
+          band_id?: string | null
+          base_amount?: number
+          created_at?: string
+          customer_id: string
+          distance_amount?: number
+          distance_meters?: number | null
+          dropoff_latitude?: number | null
+          dropoff_longitude?: number | null
+          duration_seconds?: number | null
+          emergency_amount?: number
+          expires_at: string
+          id?: string
+          is_emergency?: boolean
+          is_peak?: boolean
+          is_priority?: boolean
+          order_id?: string | null
+          peak_surcharge?: number
+          pickup_latitude?: number | null
+          pickup_longitude?: number | null
+          platform_amount?: number
+          platform_percent: number
+          pricing_version_id?: string | null
+          priority_amount?: number
+          rider_amount?: number
+          rider_percent: number
+          route_calculated_at?: string | null
+          routing_provider?: string | null
+          rule?: string | null
+          status?: string
+          store_id: string
+          total_fee?: number
+          zone_id?: string | null
+        }
+        Update: {
+          address_id?: string | null
+          band_id?: string | null
+          base_amount?: number
+          created_at?: string
+          customer_id?: string
+          distance_amount?: number
+          distance_meters?: number | null
+          dropoff_latitude?: number | null
+          dropoff_longitude?: number | null
+          duration_seconds?: number | null
+          emergency_amount?: number
+          expires_at?: string
+          id?: string
+          is_emergency?: boolean
+          is_peak?: boolean
+          is_priority?: boolean
+          order_id?: string | null
+          peak_surcharge?: number
+          pickup_latitude?: number | null
+          pickup_longitude?: number | null
+          platform_amount?: number
+          platform_percent?: number
+          pricing_version_id?: string | null
+          priority_amount?: number
+          rider_amount?: number
+          rider_percent?: number
+          route_calculated_at?: string | null
+          routing_provider?: string | null
+          rule?: string | null
+          status?: string
+          store_id?: string
+          total_fee?: number
+          zone_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "delivery_quotes_address_id_fkey"
+            columns: ["address_id"]
+            isOneToOne: false
+            referencedRelation: "addresses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "delivery_quotes_band_id_fkey"
+            columns: ["band_id"]
+            isOneToOne: false
+            referencedRelation: "delivery_distance_bands"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "delivery_quotes_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "delivery_quotes_pricing_version_id_fkey"
+            columns: ["pricing_version_id"]
+            isOneToOne: false
+            referencedRelation: "delivery_pricing_versions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "delivery_quotes_store_id_fkey"
+            columns: ["store_id"]
+            isOneToOne: false
+            referencedRelation: "stores"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "delivery_quotes_zone_id_fkey"
+            columns: ["zone_id"]
+            isOneToOne: false
+            referencedRelation: "delivery_zones"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      delivery_status_history: {
+        Row: {
+          actor_id: string | null
+          actor_role: string | null
+          created_at: string
+          delivery_id: string
+          id: string
+          latitude: number | null
+          longitude: number | null
+          new_status: string
+          order_id: string | null
+          previous_status: string | null
+          reason: string | null
+        }
+        Insert: {
+          actor_id?: string | null
+          actor_role?: string | null
+          created_at?: string
+          delivery_id: string
+          id?: string
+          latitude?: number | null
+          longitude?: number | null
+          new_status: string
+          order_id?: string | null
+          previous_status?: string | null
+          reason?: string | null
+        }
+        Update: {
+          actor_id?: string | null
+          actor_role?: string | null
+          created_at?: string
+          delivery_id?: string
+          id?: string
+          latitude?: number | null
+          longitude?: number | null
+          new_status?: string
+          order_id?: string | null
+          previous_status?: string | null
+          reason?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "delivery_status_history_delivery_id_fkey"
+            columns: ["delivery_id"]
+            isOneToOne: false
+            referencedRelation: "deliveries"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "delivery_status_history_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       delivery_zones: {
         Row: {
           base_fee: number
+          center_latitude: number | null
+          center_longitude: number | null
           city: string | null
+          country: string
           created_at: string
           id: string
           is_active: boolean
@@ -588,11 +1199,17 @@ export type Database = {
           name: string
           peak_multiplier: number
           per_km_fee: number
+          polygon: Json | null
+          radius_km: number | null
+          state: string | null
           updated_at: string
         }
         Insert: {
           base_fee: number
+          center_latitude?: number | null
+          center_longitude?: number | null
           city?: string | null
+          country?: string
           created_at?: string
           id?: string
           is_active?: boolean
@@ -600,11 +1217,17 @@ export type Database = {
           name: string
           peak_multiplier?: number
           per_km_fee?: number
+          polygon?: Json | null
+          radius_km?: number | null
+          state?: string | null
           updated_at?: string
         }
         Update: {
           base_fee?: number
+          center_latitude?: number | null
+          center_longitude?: number | null
           city?: string | null
+          country?: string
           created_at?: string
           id?: string
           is_active?: boolean
@@ -612,6 +1235,9 @@ export type Database = {
           name?: string
           peak_multiplier?: number
           per_km_fee?: number
+          polygon?: Json | null
+          radius_km?: number | null
+          state?: string | null
           updated_at?: string
         }
         Relationships: []
@@ -2401,39 +3027,113 @@ export type Database = {
         }
         Relationships: []
       }
+      rider_locations: {
+        Row: {
+          accuracy: number | null
+          delivery_id: string | null
+          id: string
+          latitude: number
+          longitude: number
+          recorded_at: string
+          rider_id: string
+          speed_kmh: number | null
+        }
+        Insert: {
+          accuracy?: number | null
+          delivery_id?: string | null
+          id?: string
+          latitude: number
+          longitude: number
+          recorded_at?: string
+          rider_id: string
+          speed_kmh?: number | null
+        }
+        Update: {
+          accuracy?: number | null
+          delivery_id?: string | null
+          id?: string
+          latitude?: number
+          longitude?: number
+          recorded_at?: string
+          rider_id?: string
+          speed_kmh?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "rider_locations_delivery_id_fkey"
+            columns: ["delivery_id"]
+            isOneToOne: false
+            referencedRelation: "deliveries"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       rider_profiles: {
         Row: {
           active_assignments: number
+          break_until: string | null
           created_at: string
           is_available: boolean
           is_online: boolean
+          is_suspended: boolean
+          latitude: number | null
+          location_accuracy: number | null
+          location_updated_at: string | null
+          longitude: number | null
           max_assignments: number
           service_city: string | null
+          service_state: string | null
+          status: string
           updated_at: string
           user_id: string
+          vehicle_capacity: number | null
+          vehicle_plate: string | null
           vehicle_type: string | null
+          vehicle_verified_at: string | null
         }
         Insert: {
           active_assignments?: number
+          break_until?: string | null
           created_at?: string
           is_available?: boolean
           is_online?: boolean
+          is_suspended?: boolean
+          latitude?: number | null
+          location_accuracy?: number | null
+          location_updated_at?: string | null
+          longitude?: number | null
           max_assignments?: number
           service_city?: string | null
+          service_state?: string | null
+          status?: string
           updated_at?: string
           user_id: string
+          vehicle_capacity?: number | null
+          vehicle_plate?: string | null
           vehicle_type?: string | null
+          vehicle_verified_at?: string | null
         }
         Update: {
           active_assignments?: number
+          break_until?: string | null
           created_at?: string
           is_available?: boolean
           is_online?: boolean
+          is_suspended?: boolean
+          latitude?: number | null
+          location_accuracy?: number | null
+          location_updated_at?: string | null
+          longitude?: number | null
           max_assignments?: number
           service_city?: string | null
+          service_state?: string | null
+          status?: string
           updated_at?: string
           user_id?: string
+          vehicle_capacity?: number | null
+          vehicle_plate?: string | null
           vehicle_type?: string | null
+          vehicle_verified_at?: string | null
         }
         Relationships: []
       }
@@ -2617,10 +3317,12 @@ export type Database = {
         Row: {
           accepts_emergency_orders: boolean
           address: string | null
+          area: string | null
           category_id: string | null
           city: string | null
           contact_email: string | null
           contact_phone: string | null
+          country: string
           cover_url: string | null
           created_at: string
           description: string | null
@@ -2628,7 +3330,11 @@ export type Database = {
           id: string
           is_accepting_orders: boolean
           is_open: boolean
+          latitude: number | null
+          location_source: string | null
+          location_verified_at: string | null
           logo_url: string | null
+          longitude: number | null
           name: string
           opening_hours: Json | null
           operating_hours: Json | null
@@ -2636,10 +3342,14 @@ export type Database = {
           pending_changes: Json | null
           pharmacy_license_expiry: string | null
           pharmacy_license_number: string | null
+          pickup_notes: string | null
+          place_id: string | null
+          postal_code: string | null
           rating_average: number | null
           responsible_pharmacist_license: string | null
           responsible_pharmacist_name: string | null
           slug: string
+          state: string | null
           status: Database["public"]["Enums"]["store_status"]
           store_type: string
           updated_at: string
@@ -2650,10 +3360,12 @@ export type Database = {
         Insert: {
           accepts_emergency_orders?: boolean
           address?: string | null
+          area?: string | null
           category_id?: string | null
           city?: string | null
           contact_email?: string | null
           contact_phone?: string | null
+          country?: string
           cover_url?: string | null
           created_at?: string
           description?: string | null
@@ -2661,7 +3373,11 @@ export type Database = {
           id?: string
           is_accepting_orders?: boolean
           is_open?: boolean
+          latitude?: number | null
+          location_source?: string | null
+          location_verified_at?: string | null
           logo_url?: string | null
+          longitude?: number | null
           name: string
           opening_hours?: Json | null
           operating_hours?: Json | null
@@ -2669,10 +3385,14 @@ export type Database = {
           pending_changes?: Json | null
           pharmacy_license_expiry?: string | null
           pharmacy_license_number?: string | null
+          pickup_notes?: string | null
+          place_id?: string | null
+          postal_code?: string | null
           rating_average?: number | null
           responsible_pharmacist_license?: string | null
           responsible_pharmacist_name?: string | null
           slug: string
+          state?: string | null
           status?: Database["public"]["Enums"]["store_status"]
           store_type?: string
           updated_at?: string
@@ -2683,10 +3403,12 @@ export type Database = {
         Update: {
           accepts_emergency_orders?: boolean
           address?: string | null
+          area?: string | null
           category_id?: string | null
           city?: string | null
           contact_email?: string | null
           contact_phone?: string | null
+          country?: string
           cover_url?: string | null
           created_at?: string
           description?: string | null
@@ -2694,7 +3416,11 @@ export type Database = {
           id?: string
           is_accepting_orders?: boolean
           is_open?: boolean
+          latitude?: number | null
+          location_source?: string | null
+          location_verified_at?: string | null
           logo_url?: string | null
+          longitude?: number | null
           name?: string
           opening_hours?: Json | null
           operating_hours?: Json | null
@@ -2702,10 +3428,14 @@ export type Database = {
           pending_changes?: Json | null
           pharmacy_license_expiry?: string | null
           pharmacy_license_number?: string | null
+          pickup_notes?: string | null
+          place_id?: string | null
+          postal_code?: string | null
           rating_average?: number | null
           responsible_pharmacist_license?: string | null
           responsible_pharmacist_name?: string | null
           slug?: string
+          state?: string | null
           status?: Database["public"]["Enums"]["store_status"]
           store_type?: string
           updated_at?: string
@@ -2977,6 +3707,43 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      active_delivery_pricing: {
+        Args: never
+        Returns: {
+          base_fee: number
+          created_at: string
+          created_by: string | null
+          delivery_enabled: boolean
+          effective_from: string
+          effective_to: string | null
+          emergency_fee: number
+          id: string
+          is_active: boolean
+          label: string | null
+          late_threshold_minutes: number
+          location_min_interval_seconds: number
+          location_retention_days: number
+          max_fee: number | null
+          max_offer_rounds: number
+          min_fee: number
+          offer_timeout_seconds: number
+          peak_rider_percent: number
+          peak_surcharge_percent: number
+          per_km_fee: number
+          priority_enabled: boolean
+          priority_fee: number
+          quote_ttl_seconds: number
+          regular_rider_percent: number
+          updated_at: string
+          version: number
+        }
+        SetofOptions: {
+          from: "*"
+          to: "delivery_pricing_versions"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
       adherence_summary: {
         Args: { _owner_id?: string }
         Returns: {
@@ -2986,6 +3753,15 @@ export type Database = {
           taken: number
           window_label: string
         }[]
+      }
+      admin_assign_rider: {
+        Args: {
+          _delivery_id: string
+          _override?: boolean
+          _reason: string
+          _rider_id: string
+        }
+        Returns: undefined
       }
       admin_review_application: {
         Args: {
@@ -3056,6 +3832,18 @@ export type Database = {
         Args: { _order_id: string; _provider: string; _reference: string }
         Returns: undefined
       }
+      create_delivery_quote: {
+        Args: {
+          _address_id: string
+          _distance_meters?: number
+          _duration_seconds?: number
+          _is_emergency?: boolean
+          _priority?: boolean
+          _provider?: string
+          _store_id: string
+        }
+        Returns: Json
+      }
       current_actor_role: { Args: never; Returns: string }
       customer_request_refund: {
         Args: {
@@ -3068,17 +3856,58 @@ export type Database = {
         }
         Returns: string
       }
+      dispatch_delivery: { Args: { _delivery_id: string }; Returns: Json }
       effective_commission_percent: {
         Args: { _category_id: string; _seller_id: string }
         Returns: number
       }
+      eligible_riders_for_delivery: {
+        Args: { _delivery_id: string }
+        Returns: {
+          pickup_distance_km: number
+          rider_id: string
+          score: number
+        }[]
+      }
       emergency_eligibility: { Args: { _product_id: string }; Returns: Json }
+      expire_delivery_offers: { Args: never; Returns: number }
       fail_order_payment: {
         Args: { _order_id: string; _reason: string }
         Returns: undefined
       }
+      find_delivery_zone: {
+        Args: { _city?: string; _lat: number; _lng: number; _state?: string }
+        Returns: {
+          base_fee: number
+          center_latitude: number | null
+          center_longitude: number | null
+          city: string | null
+          country: string
+          created_at: string
+          id: string
+          is_active: boolean
+          min_fee: number
+          name: string
+          peak_multiplier: number
+          per_km_fee: number
+          polygon: Json | null
+          radius_km: number | null
+          state: string | null
+          updated_at: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "delivery_zones"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
       flag_expiring_batches: { Args: never; Returns: number }
       flag_late_deliveries: { Args: never; Returns: number }
+      geo_distance_km: {
+        Args: { _lat1: number; _lat2: number; _lng1: number; _lng2: number }
+        Returns: number
+      }
       get_delivery_code: { Args: { _order_id: string }; Returns: string }
       get_pickup_code: { Args: { _order_id: string }; Returns: string }
       has_health_access: {
@@ -3145,6 +3974,7 @@ export type Database = {
         Args: { _body: string; _link: string; _title: string }
         Returns: undefined
       }
+      peak_state: { Args: never; Returns: Json }
       pharmacy_review_prescription: {
         Args: {
           _decision: string
@@ -3163,6 +3993,17 @@ export type Database = {
         }
         Returns: Json
       }
+      place_order_from_quotes: {
+        Args: {
+          _address_id: string
+          _customer_note?: string
+          _is_emergency?: boolean
+          _points_to_redeem?: number
+          _quote_ids: string[]
+        }
+        Returns: Json
+      }
+      purge_rider_locations: { Args: never; Returns: number }
       quote_delivery_fee: { Args: { _city: string }; Returns: Json }
       raise_sos: {
         Args: {
@@ -3182,9 +4023,32 @@ export type Database = {
         Args: { _delivery_id: string; _stage: string }
         Returns: undefined
       }
-      rider_respond_to_offer: {
-        Args: { _accept: boolean; _delivery_id: string }
+      rider_report_delivery_problem: {
+        Args: {
+          _delivery_id: string
+          _note?: string
+          _reason: string
+          _stage: string
+        }
         Returns: undefined
+      }
+      rider_respond_to_offer:
+        | {
+            Args: { _accept: boolean; _delivery_id: string }
+            Returns: undefined
+          }
+        | {
+            Args: { _accept: boolean; _delivery_id: string; _reason?: string }
+            Returns: undefined
+          }
+      rider_share_location: {
+        Args: {
+          _accuracy?: number
+          _delivery_id?: string
+          _lat: number
+          _lng: number
+        }
+        Returns: Json
       }
       rider_update_location: {
         Args: { _delivery_id: string; _lat: number; _lng: number }
