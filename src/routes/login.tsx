@@ -1,8 +1,14 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
+import { Loader2 } from "lucide-react";
+import { toast } from "sonner";
 import { AuthLayout } from "@/components/medra/AuthLayout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { supabase } from "@/integrations/supabase/client";
+import { lovable } from "@/integrations/lovable/index";
+import { ROLE_HOME, useAuth, type AppRole } from "@/lib/auth";
 
 export const Route = createFileRoute("/login")({
   head: () => ({
@@ -23,7 +29,45 @@ export const Route = createFileRoute("/login")({
   component: LoginPage,
 });
 
+const ROLE_PRIORITY: AppRole[] = ["super_admin", "admin", "seller", "rider", "customer"];
+
 function LoginPage() {
+  const navigate = useNavigate();
+  const { session, roles, loading } = useAuth();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+
+  useEffect(() => {
+    if (loading || !session) return;
+    const primary = ROLE_PRIORITY.find((r) => roles.includes(r)) ?? "customer";
+    void navigate({ to: ROLE_HOME[primary] as "/", replace: true });
+  }, [loading, session, roles, navigate]);
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setSubmitting(true);
+    const { error } = await supabase.auth.signInWithPassword({
+      email: email.trim(),
+      password,
+    });
+    setSubmitting(false);
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
+    toast.success("Welcome back to Medra");
+  }
+
+  async function handleGoogle() {
+    const result = await lovable.auth.signInWithOAuth("google", {
+      redirect_uri: window.location.origin,
+    });
+    if (result.error) {
+      toast.error("Google sign-in failed. Please try again.");
+    }
+  }
+
   return (
     <AuthLayout
       heading="Welcome back to Medra"
@@ -42,18 +86,17 @@ function LoginPage() {
         </Link>
       </p>
 
-      <form
-        className="mt-6 space-y-4"
-        onSubmit={(e) => {
-          e.preventDefault();
-        }}
-      >
+      <form className="mt-6 space-y-4" onSubmit={handleSubmit}>
         <div className="space-y-1.5">
           <Label htmlFor="identifier" className="text-sm font-semibold">
-            Email or phone number
+            Email address
           </Label>
           <Input
             id="identifier"
+            type="email"
+            required
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             placeholder="ada@email.com"
             className="h-11 rounded-xl"
             autoComplete="username"
@@ -66,6 +109,9 @@ function LoginPage() {
           <Input
             id="password"
             type="password"
+            required
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
             placeholder="••••••••"
             className="h-11 rounded-xl"
             autoComplete="current-password"
@@ -74,15 +120,22 @@ function LoginPage() {
 
         <div className="flex items-center justify-between text-sm">
           <label className="flex items-center gap-2 text-muted-foreground">
-            <input type="checkbox" className="accent-primary" /> Remember me
+            <input type="checkbox" className="accent-primary" defaultChecked /> Remember me
           </label>
-          <span className="cursor-pointer font-semibold text-primary hover:underline">
-            Forgot password?
-          </span>
+          <Link
+            to="/signup"
+            className="font-semibold text-primary hover:underline"
+          >
+            Need an account?
+          </Link>
         </div>
 
-        <Button type="submit" className="w-full rounded-xl py-6 text-base font-bold">
-          Log in
+        <Button
+          type="submit"
+          disabled={submitting}
+          className="w-full rounded-xl py-6 text-base font-bold"
+        >
+          {submitting ? <Loader2 className="size-4 animate-spin" /> : "Log in"}
         </Button>
 
         <div className="flex items-center gap-3 text-xs text-muted-foreground">
@@ -90,32 +143,15 @@ function LoginPage() {
           <span className="h-px flex-1 bg-border" />
         </div>
 
-        <div className="grid gap-3 sm:grid-cols-2">
-          <Button type="button" variant="outline" className="h-11 rounded-xl font-semibold">
-            Google
-          </Button>
-          <Button type="button" variant="outline" className="h-11 rounded-xl font-semibold">
-            Apple
-          </Button>
-        </div>
+        <Button
+          type="button"
+          variant="outline"
+          onClick={() => void handleGoogle()}
+          className="h-11 w-full rounded-xl font-semibold"
+        >
+          Google
+        </Button>
       </form>
-
-      <div className="mt-8 grid gap-2 text-sm sm:grid-cols-4">
-        {[
-          { to: "/", label: "Customer" },
-          { to: "/rider", label: "Rider" },
-          { to: "/seller", label: "Vendor" },
-          { to: "/admin", label: "Admin" },
-        ].map((l) => (
-          <Link
-            key={l.to}
-            to={l.to}
-            className="rounded-lg border border-border px-3 py-2 text-center font-semibold hover:bg-muted"
-          >
-            {l.label}
-          </Link>
-        ))}
-      </div>
     </AuthLayout>
   );
 }
