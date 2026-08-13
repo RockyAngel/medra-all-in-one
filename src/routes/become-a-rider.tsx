@@ -150,7 +150,7 @@ function BecomeARider() {
                 asChild
                 className="rounded-full bg-leaf px-6 py-6 text-base font-bold text-leaf-foreground hover:bg-leaf/90"
               >
-                <Link to="/signup">
+                <Link to="/apply/rider">
                   Join as a Rider <ArrowRight className="ml-1 size-4" />
                 </Link>
               </Button>
@@ -211,10 +211,10 @@ function BecomeARider() {
           </div>
           <div className="flex flex-wrap gap-3">
             <Button asChild className="rounded-full px-6 font-bold">
-              <Link to="/signup">Create rider account</Link>
+              <Link to="/apply/rider">Apply to ride</Link>
             </Button>
             <Button asChild variant="outline" className="rounded-full px-6 font-bold">
-              <Link to="/rider">Preview rider dashboard</Link>
+              <Link to="/signup">Create rider account</Link>
             </Button>
           </div>
         </section>

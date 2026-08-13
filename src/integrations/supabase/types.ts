@@ -188,11 +188,23 @@ export type Database = {
       }
       deliveries: {
         Row: {
+          assigned_at: string | null
           created_at: string
           delivered_at: string | null
+          delivery_code: string | null
+          delivery_verified_at: string | null
+          expected_delivery_at: string | null
+          fee_total: number
           id: string
+          is_peak: boolean
+          late_alert_sent_at: string | null
+          location_updated_at: string | null
           order_id: string
           picked_up_at: string | null
+          pickup_code: string | null
+          pickup_verified_at: string | null
+          platform_amount: number
+          rider_amount: number
           rider_id: string | null
           rider_latitude: number | null
           rider_longitude: number | null
@@ -200,11 +212,23 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          assigned_at?: string | null
           created_at?: string
           delivered_at?: string | null
+          delivery_code?: string | null
+          delivery_verified_at?: string | null
+          expected_delivery_at?: string | null
+          fee_total?: number
           id?: string
+          is_peak?: boolean
+          late_alert_sent_at?: string | null
+          location_updated_at?: string | null
           order_id: string
           picked_up_at?: string | null
+          pickup_code?: string | null
+          pickup_verified_at?: string | null
+          platform_amount?: number
+          rider_amount?: number
           rider_id?: string | null
           rider_latitude?: number | null
           rider_longitude?: number | null
@@ -212,11 +236,23 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          assigned_at?: string | null
           created_at?: string
           delivered_at?: string | null
+          delivery_code?: string | null
+          delivery_verified_at?: string | null
+          expected_delivery_at?: string | null
+          fee_total?: number
           id?: string
+          is_peak?: boolean
+          late_alert_sent_at?: string | null
+          location_updated_at?: string | null
           order_id?: string
           picked_up_at?: string | null
+          pickup_code?: string | null
+          pickup_verified_at?: string | null
+          platform_amount?: number
+          rider_amount?: number
           rider_id?: string | null
           rider_latitude?: number | null
           rider_longitude?: number | null
@@ -232,6 +268,80 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      delivery_offers: {
+        Row: {
+          created_at: string
+          delivery_id: string
+          id: string
+          responded_at: string | null
+          rider_id: string
+          status: string
+        }
+        Insert: {
+          created_at?: string
+          delivery_id: string
+          id?: string
+          responded_at?: string | null
+          rider_id: string
+          status?: string
+        }
+        Update: {
+          created_at?: string
+          delivery_id?: string
+          id?: string
+          responded_at?: string | null
+          rider_id?: string
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "delivery_offers_delivery_id_fkey"
+            columns: ["delivery_id"]
+            isOneToOne: false
+            referencedRelation: "deliveries"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      delivery_zones: {
+        Row: {
+          base_fee: number
+          city: string | null
+          created_at: string
+          id: string
+          is_active: boolean
+          min_fee: number
+          name: string
+          peak_multiplier: number
+          per_km_fee: number
+          updated_at: string
+        }
+        Insert: {
+          base_fee: number
+          city?: string | null
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          min_fee?: number
+          name: string
+          peak_multiplier?: number
+          per_km_fee?: number
+          updated_at?: string
+        }
+        Update: {
+          base_fee?: number
+          city?: string | null
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          min_fee?: number
+          name?: string
+          peak_multiplier?: number
+          per_km_fee?: number
+          updated_at?: string
+        }
+        Relationships: []
       }
       favorites: {
         Row: {
@@ -258,6 +368,70 @@ export type Database = {
             columns: ["product_id"]
             isOneToOne: false
             referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ledger_entries: {
+        Row: {
+          amount: number
+          beneficiary_id: string | null
+          created_at: string
+          delivery_id: string | null
+          fulfillment_id: string | null
+          id: string
+          kind: Database["public"]["Enums"]["ledger_kind"]
+          order_id: string | null
+          payout_status: Database["public"]["Enums"]["payout_status"]
+          percentage: number | null
+          rule: string | null
+        }
+        Insert: {
+          amount: number
+          beneficiary_id?: string | null
+          created_at?: string
+          delivery_id?: string | null
+          fulfillment_id?: string | null
+          id?: string
+          kind: Database["public"]["Enums"]["ledger_kind"]
+          order_id?: string | null
+          payout_status?: Database["public"]["Enums"]["payout_status"]
+          percentage?: number | null
+          rule?: string | null
+        }
+        Update: {
+          amount?: number
+          beneficiary_id?: string | null
+          created_at?: string
+          delivery_id?: string | null
+          fulfillment_id?: string | null
+          id?: string
+          kind?: Database["public"]["Enums"]["ledger_kind"]
+          order_id?: string | null
+          payout_status?: Database["public"]["Enums"]["payout_status"]
+          percentage?: number | null
+          rule?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ledger_entries_delivery_id_fkey"
+            columns: ["delivery_id"]
+            isOneToOne: false
+            referencedRelation: "deliveries"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ledger_entries_fulfillment_id_fkey"
+            columns: ["fulfillment_id"]
+            isOneToOne: false
+            referencedRelation: "order_fulfillments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ledger_entries_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
             referencedColumns: ["id"]
           },
         ]
@@ -292,41 +466,129 @@ export type Database = {
         }
         Relationships: []
       }
+      order_fulfillments: {
+        Row: {
+          accepted_at: string | null
+          created_at: string
+          id: string
+          items_subtotal: number
+          order_id: string
+          platform_amount: number
+          ready_at: string | null
+          rejection_note: string | null
+          rejection_reason: string | null
+          seller_amount: number
+          seller_id: string
+          status: Database["public"]["Enums"]["fulfillment_status"]
+          store_id: string
+          updated_at: string
+        }
+        Insert: {
+          accepted_at?: string | null
+          created_at?: string
+          id?: string
+          items_subtotal?: number
+          order_id: string
+          platform_amount?: number
+          ready_at?: string | null
+          rejection_note?: string | null
+          rejection_reason?: string | null
+          seller_amount?: number
+          seller_id: string
+          status?: Database["public"]["Enums"]["fulfillment_status"]
+          store_id: string
+          updated_at?: string
+        }
+        Update: {
+          accepted_at?: string | null
+          created_at?: string
+          id?: string
+          items_subtotal?: number
+          order_id?: string
+          platform_amount?: number
+          ready_at?: string | null
+          rejection_note?: string | null
+          rejection_reason?: string | null
+          seller_amount?: number
+          seller_id?: string
+          status?: Database["public"]["Enums"]["fulfillment_status"]
+          store_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "order_fulfillments_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "order_fulfillments_store_id_fkey"
+            columns: ["store_id"]
+            isOneToOne: false
+            referencedRelation: "stores"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       order_items: {
         Row: {
           created_at: string
+          fulfillment_id: string | null
           id: string
           order_id: string
+          platform_unit_amount: number
           product_id: string | null
+          product_image_path: string | null
           product_name: string
           quantity: number
           seller_id: string
+          seller_unit_price: number
           store_id: string | null
           unit_price: number
+          variant_label: string | null
         }
         Insert: {
           created_at?: string
+          fulfillment_id?: string | null
           id?: string
           order_id: string
+          platform_unit_amount?: number
           product_id?: string | null
+          product_image_path?: string | null
           product_name: string
           quantity: number
           seller_id: string
+          seller_unit_price?: number
           store_id?: string | null
           unit_price: number
+          variant_label?: string | null
         }
         Update: {
           created_at?: string
+          fulfillment_id?: string | null
           id?: string
           order_id?: string
+          platform_unit_amount?: number
           product_id?: string | null
+          product_image_path?: string | null
           product_name?: string
           quantity?: number
           seller_id?: string
+          seller_unit_price?: number
           store_id?: string | null
           unit_price?: number
+          variant_label?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "order_items_fulfillment_id_fkey"
+            columns: ["fulfillment_id"]
+            isOneToOne: false
+            referencedRelation: "order_fulfillments"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "order_items_order_id_fkey"
             columns: ["order_id"]
@@ -352,27 +614,33 @@ export type Database = {
       }
       order_status_history: {
         Row: {
+          actor_role: string | null
           created_at: string
           created_by: string | null
           id: string
           note: string | null
           order_id: string
+          previous_status: Database["public"]["Enums"]["order_status"] | null
           status: Database["public"]["Enums"]["order_status"]
         }
         Insert: {
+          actor_role?: string | null
           created_at?: string
           created_by?: string | null
           id?: string
           note?: string | null
           order_id: string
+          previous_status?: Database["public"]["Enums"]["order_status"] | null
           status: Database["public"]["Enums"]["order_status"]
         }
         Update: {
+          actor_role?: string | null
           created_at?: string
           created_by?: string | null
           id?: string
           note?: string | null
           order_id?: string
+          previous_status?: Database["public"]["Enums"]["order_status"] | null
           status?: Database["public"]["Enums"]["order_status"]
         }
         Relationships: [
@@ -388,11 +656,20 @@ export type Database = {
       orders: {
         Row: {
           address_id: string | null
+          address_snapshot: Json | null
+          cancelled_reason: string | null
+          completed_at: string | null
           created_at: string
           customer_id: string
           delivery_fee: number
+          delivery_is_peak: boolean
+          delivery_platform_amount: number
+          delivery_rider_amount: number
+          delivery_rule: string | null
           id: string
           order_number: string
+          payment_status: string
+          platform_product_amount: number
           points_discount: number
           points_redeemed: number
           status: Database["public"]["Enums"]["order_status"]
@@ -402,11 +679,20 @@ export type Database = {
         }
         Insert: {
           address_id?: string | null
+          address_snapshot?: Json | null
+          cancelled_reason?: string | null
+          completed_at?: string | null
           created_at?: string
           customer_id: string
           delivery_fee?: number
+          delivery_is_peak?: boolean
+          delivery_platform_amount?: number
+          delivery_rider_amount?: number
+          delivery_rule?: string | null
           id?: string
           order_number?: string
+          payment_status?: string
+          platform_product_amount?: number
           points_discount?: number
           points_redeemed?: number
           status?: Database["public"]["Enums"]["order_status"]
@@ -416,11 +702,20 @@ export type Database = {
         }
         Update: {
           address_id?: string | null
+          address_snapshot?: Json | null
+          cancelled_reason?: string | null
+          completed_at?: string | null
           created_at?: string
           customer_id?: string
           delivery_fee?: number
+          delivery_is_peak?: boolean
+          delivery_platform_amount?: number
+          delivery_rider_amount?: number
+          delivery_rule?: string | null
           id?: string
           order_number?: string
+          payment_status?: string
+          platform_product_amount?: number
           points_discount?: number
           points_redeemed?: number
           status?: Database["public"]["Enums"]["order_status"]
@@ -534,8 +829,10 @@ export type Database = {
           id: string
           image_path: string | null
           name: string
+          platform_markup_percent: number
           price: number
           seller_id: string
+          seller_price: number | null
           sku: string | null
           status: Database["public"]["Enums"]["product_status"]
           stock_quantity: number
@@ -549,8 +846,10 @@ export type Database = {
           id?: string
           image_path?: string | null
           name: string
+          platform_markup_percent?: number
           price: number
           seller_id: string
+          seller_price?: number | null
           sku?: string | null
           status?: Database["public"]["Enums"]["product_status"]
           stock_quantity?: number
@@ -564,8 +863,10 @@ export type Database = {
           id?: string
           image_path?: string | null
           name?: string
+          platform_markup_percent?: number
           price?: number
           seller_id?: string
+          seller_price?: number | null
           sku?: string | null
           status?: Database["public"]["Enums"]["product_status"]
           stock_quantity?: number
@@ -673,6 +974,102 @@ export type Database = {
           },
         ]
       }
+      rider_applications: {
+        Row: {
+          city: string
+          created_at: string
+          document_paths: string[]
+          emergency_contact_name: string | null
+          emergency_contact_phone: string | null
+          full_name: string
+          has_smartphone: boolean
+          id: string
+          phone: string
+          review_note: string | null
+          reviewed_at: string | null
+          reviewed_by: string | null
+          status: Database["public"]["Enums"]["application_status"]
+          updated_at: string
+          user_id: string
+          vehicle_plate: string | null
+          vehicle_type: string
+        }
+        Insert: {
+          city: string
+          created_at?: string
+          document_paths?: string[]
+          emergency_contact_name?: string | null
+          emergency_contact_phone?: string | null
+          full_name: string
+          has_smartphone?: boolean
+          id?: string
+          phone: string
+          review_note?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: Database["public"]["Enums"]["application_status"]
+          updated_at?: string
+          user_id: string
+          vehicle_plate?: string | null
+          vehicle_type: string
+        }
+        Update: {
+          city?: string
+          created_at?: string
+          document_paths?: string[]
+          emergency_contact_name?: string | null
+          emergency_contact_phone?: string | null
+          full_name?: string
+          has_smartphone?: boolean
+          id?: string
+          phone?: string
+          review_note?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: Database["public"]["Enums"]["application_status"]
+          updated_at?: string
+          user_id?: string
+          vehicle_plate?: string | null
+          vehicle_type?: string
+        }
+        Relationships: []
+      }
+      rider_profiles: {
+        Row: {
+          active_assignments: number
+          created_at: string
+          is_available: boolean
+          is_online: boolean
+          max_assignments: number
+          service_city: string | null
+          updated_at: string
+          user_id: string
+          vehicle_type: string | null
+        }
+        Insert: {
+          active_assignments?: number
+          created_at?: string
+          is_available?: boolean
+          is_online?: boolean
+          max_assignments?: number
+          service_city?: string | null
+          updated_at?: string
+          user_id: string
+          vehicle_type?: string | null
+        }
+        Update: {
+          active_assignments?: number
+          created_at?: string
+          is_available?: boolean
+          is_online?: boolean
+          max_assignments?: number
+          service_city?: string | null
+          updated_at?: string
+          user_id?: string
+          vehicle_type?: string | null
+        }
+        Relationships: []
+      }
       role_permissions: {
         Row: {
           created_at: string
@@ -696,6 +1093,131 @@ export type Database = {
           role?: Database["public"]["Enums"]["app_role"]
         }
         Relationships: []
+      }
+      seller_applications: {
+        Row: {
+          address: string | null
+          business_reg_number: string | null
+          category_id: string | null
+          city: string | null
+          contact_phone: string | null
+          created_at: string
+          description: string | null
+          document_paths: string[]
+          id: string
+          review_note: string | null
+          reviewed_at: string | null
+          reviewed_by: string | null
+          status: Database["public"]["Enums"]["application_status"]
+          store_id: string | null
+          store_name: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          address?: string | null
+          business_reg_number?: string | null
+          category_id?: string | null
+          city?: string | null
+          contact_phone?: string | null
+          created_at?: string
+          description?: string | null
+          document_paths?: string[]
+          id?: string
+          review_note?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: Database["public"]["Enums"]["application_status"]
+          store_id?: string | null
+          store_name: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          address?: string | null
+          business_reg_number?: string | null
+          category_id?: string | null
+          city?: string | null
+          contact_phone?: string | null
+          created_at?: string
+          description?: string | null
+          document_paths?: string[]
+          id?: string
+          review_note?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: Database["public"]["Enums"]["application_status"]
+          store_id?: string | null
+          store_name?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "seller_applications_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "categories"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "seller_applications_store_id_fkey"
+            columns: ["store_id"]
+            isOneToOne: false
+            referencedRelation: "stores"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      sos_incidents: {
+        Row: {
+          acknowledged_at: string | null
+          acknowledged_by: string | null
+          created_at: string
+          delivery_id: string | null
+          id: string
+          kind: string
+          latitude: number | null
+          longitude: number | null
+          note: string | null
+          rider_id: string
+          status: string
+        }
+        Insert: {
+          acknowledged_at?: string | null
+          acknowledged_by?: string | null
+          created_at?: string
+          delivery_id?: string | null
+          id?: string
+          kind: string
+          latitude?: number | null
+          longitude?: number | null
+          note?: string | null
+          rider_id: string
+          status?: string
+        }
+        Update: {
+          acknowledged_at?: string | null
+          acknowledged_by?: string | null
+          created_at?: string
+          delivery_id?: string | null
+          id?: string
+          kind?: string
+          latitude?: number | null
+          longitude?: number | null
+          note?: string | null
+          rider_id?: string
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sos_incidents_delivery_id_fkey"
+            columns: ["delivery_id"]
+            isOneToOne: false
+            referencedRelation: "deliveries"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       stores: {
         Row: {
@@ -746,6 +1268,94 @@ export type Database = {
             columns: ["category_id"]
             isOneToOne: false
             referencedRelation: "categories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      support_messages: {
+        Row: {
+          body: string
+          created_at: string
+          id: string
+          sender_id: string | null
+          sender_role: string | null
+          ticket_id: string
+        }
+        Insert: {
+          body: string
+          created_at?: string
+          id?: string
+          sender_id?: string | null
+          sender_role?: string | null
+          ticket_id: string
+        }
+        Update: {
+          body?: string
+          created_at?: string
+          id?: string
+          sender_id?: string | null
+          sender_role?: string | null
+          ticket_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "support_messages_ticket_id_fkey"
+            columns: ["ticket_id"]
+            isOneToOne: false
+            referencedRelation: "support_tickets"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      support_tickets: {
+        Row: {
+          assigned_to: string | null
+          category: string
+          contact_email: string | null
+          contact_name: string | null
+          created_at: string
+          id: string
+          order_id: string | null
+          requester_role: string | null
+          status: string
+          subject: string
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          assigned_to?: string | null
+          category: string
+          contact_email?: string | null
+          contact_name?: string | null
+          created_at?: string
+          id?: string
+          order_id?: string | null
+          requester_role?: string | null
+          status?: string
+          subject: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          assigned_to?: string | null
+          category?: string
+          contact_email?: string | null
+          contact_name?: string | null
+          created_at?: string
+          id?: string
+          order_id?: string | null
+          requester_role?: string | null
+          status?: string
+          subject?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "support_tickets_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
             referencedColumns: ["id"]
           },
         ]
@@ -838,6 +1448,18 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      confirm_order_payment: {
+        Args: { _order_id: string; _provider: string; _reference: string }
+        Returns: undefined
+      }
+      current_actor_role: { Args: never; Returns: string }
+      fail_order_payment: {
+        Args: { _order_id: string; _reason: string }
+        Returns: undefined
+      }
+      flag_late_deliveries: { Args: never; Returns: number }
+      get_delivery_code: { Args: { _order_id: string }; Returns: string }
+      get_pickup_code: { Args: { _order_id: string }; Returns: string }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -845,10 +1467,97 @@ export type Database = {
         }
         Returns: boolean
       }
+      is_peak_now: { Args: never; Returns: boolean }
       is_staff: { Args: { _user_id: string }; Returns: boolean }
+      log_order_status: {
+        Args: {
+          _new: Database["public"]["Enums"]["order_status"]
+          _note: string
+          _order_id: string
+        }
+        Returns: undefined
+      }
+      notify_staff: {
+        Args: { _body: string; _link: string; _title: string }
+        Returns: undefined
+      }
+      place_order: {
+        Args: { _address_id: string; _points_to_redeem?: number }
+        Returns: Json
+      }
+      quote_delivery_fee: { Args: { _city: string }; Returns: Json }
+      raise_sos: {
+        Args: {
+          _delivery_id: string
+          _kind: string
+          _lat?: number
+          _lng?: number
+          _note: string
+        }
+        Returns: string
+      }
+      rider_advance_delivery: {
+        Args: { _delivery_id: string; _stage: string }
+        Returns: undefined
+      }
+      rider_respond_to_offer: {
+        Args: { _accept: boolean; _delivery_id: string }
+        Returns: undefined
+      }
+      rider_update_location: {
+        Args: { _delivery_id: string; _lat: number; _lng: number }
+        Returns: undefined
+      }
+      seller_respond_to_order: {
+        Args: {
+          _accept: boolean
+          _fulfillment_id: string
+          _note?: string
+          _reason?: string
+        }
+        Returns: undefined
+      }
+      seller_set_fulfillment_status: {
+        Args: {
+          _fulfillment_id: string
+          _status: Database["public"]["Enums"]["fulfillment_status"]
+        }
+        Returns: undefined
+      }
+      verify_delivery: {
+        Args: { _code: string; _delivery_id: string }
+        Returns: undefined
+      }
+      verify_pickup: {
+        Args: { _code: string; _delivery_id: string }
+        Returns: undefined
+      }
     }
     Enums: {
       app_role: "customer" | "seller" | "rider" | "admin" | "super_admin"
+      application_status:
+        | "draft"
+        | "submitted"
+        | "under_review"
+        | "approved"
+        | "rejected"
+      fulfillment_status:
+        | "pending"
+        | "seller_reviewing"
+        | "accepted"
+        | "rejected"
+        | "preparing"
+        | "ready_for_pickup"
+        | "picked_up"
+        | "delivered"
+        | "completed"
+        | "cancelled"
+      ledger_kind:
+        | "seller_product_earning"
+        | "platform_product_commission"
+        | "rider_delivery_earning"
+        | "platform_delivery_share"
+        | "refund"
       order_status:
         | "pending_payment"
         | "paid"
@@ -858,6 +1567,24 @@ export type Database = {
         | "delivered"
         | "cancelled"
         | "refunded"
+        | "confirmed"
+        | "seller_reviewing"
+        | "accepted_by_seller"
+        | "rider_assignment"
+        | "rider_assigned"
+        | "rider_en_route_to_seller"
+        | "rider_arrived_at_seller"
+        | "picked_up"
+        | "out_for_delivery"
+        | "rider_arrived_at_customer"
+        | "delivery_verification"
+        | "completed"
+        | "seller_rejected"
+        | "payment_failed"
+        | "refund_pending"
+        | "delivery_failed"
+        | "disputed"
+      payout_status: "pending" | "available" | "paid" | "withheld"
       product_status: "draft" | "active" | "out_of_stock" | "archived"
       store_status: "pending" | "approved" | "suspended"
     }
@@ -988,6 +1715,32 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["customer", "seller", "rider", "admin", "super_admin"],
+      application_status: [
+        "draft",
+        "submitted",
+        "under_review",
+        "approved",
+        "rejected",
+      ],
+      fulfillment_status: [
+        "pending",
+        "seller_reviewing",
+        "accepted",
+        "rejected",
+        "preparing",
+        "ready_for_pickup",
+        "picked_up",
+        "delivered",
+        "completed",
+        "cancelled",
+      ],
+      ledger_kind: [
+        "seller_product_earning",
+        "platform_product_commission",
+        "rider_delivery_earning",
+        "platform_delivery_share",
+        "refund",
+      ],
       order_status: [
         "pending_payment",
         "paid",
@@ -997,7 +1750,25 @@ export const Constants = {
         "delivered",
         "cancelled",
         "refunded",
+        "confirmed",
+        "seller_reviewing",
+        "accepted_by_seller",
+        "rider_assignment",
+        "rider_assigned",
+        "rider_en_route_to_seller",
+        "rider_arrived_at_seller",
+        "picked_up",
+        "out_for_delivery",
+        "rider_arrived_at_customer",
+        "delivery_verification",
+        "completed",
+        "seller_rejected",
+        "payment_failed",
+        "refund_pending",
+        "delivery_failed",
+        "disputed",
       ],
+      payout_status: ["pending", "available", "paid", "withheld"],
       product_status: ["draft", "active", "out_of_stock", "archived"],
       store_status: ["pending", "approved", "suspended"],
     },
