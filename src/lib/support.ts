@@ -217,7 +217,7 @@ export function useOpenSupportTicket() {
       const { data, error } = await supabase.rpc("open_support_ticket", {
         _category: input.category,
         _message: input.message,
-        ...(input.subject ? { _subject: input.subject } : {}),
+        _subject: input.subject ?? input.category.replace(/_/g, " "),
         ...(input.orderId ? { _order_id: input.orderId } : {}),
         ...(input.deliveryId ? { _delivery_id: input.deliveryId } : {}),
         ...(input.fulfillmentId ? { _fulfillment_id: input.fulfillmentId } : {}),
