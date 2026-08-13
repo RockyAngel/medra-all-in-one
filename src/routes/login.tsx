@@ -10,7 +10,16 @@ import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable/index";
 import { ROLE_HOME, useAuth, type AppRole } from "@/lib/auth";
 
+function safeNext(value: unknown): string | undefined {
+  if (typeof value !== "string" || !value.startsWith("/") || value.startsWith("//")) return undefined;
+  return value;
+}
+
 export const Route = createFileRoute("/login")({
+  validateSearch: (s: Record<string, unknown>) => {
+    const next = safeNext(s['next']);
+    return next ? { next } : {};
+  },
   head: () => ({
     meta: [
       { title: "Log in to Medra" },
@@ -33,6 +42,7 @@ const ROLE_PRIORITY: AppRole[] = ["super_admin", "admin", "seller", "rider", "cu
 
 function LoginPage() {
   const navigate = useNavigate();
+  const { next } = Route.useSearch();
   const { session, roles, loading } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -40,9 +50,13 @@ function LoginPage() {
 
   useEffect(() => {
     if (loading || !session) return;
+    if (next) {
+      window.location.replace(next);
+      return;
+    }
     const primary = ROLE_PRIORITY.find((r) => roles.includes(r)) ?? "customer";
     void navigate({ to: ROLE_HOME[primary] as "/", replace: true });
-  }, [loading, session, roles, navigate]);
+  }, [loading, session, roles, navigate, next]);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -61,7 +75,7 @@ function LoginPage() {
 
   async function handleGoogle() {
     const result = await lovable.auth.signInWithOAuth("google", {
-      redirect_uri: window.location.origin,
+      redirect_uri: next ? `${window.location.origin}${next}` : window.location.origin,
     });
     if (result.error) {
       toast.error("Google sign-in failed. Please try again.");
