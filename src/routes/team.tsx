@@ -1,12 +1,16 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useMutation } from "@tanstack/react-query";
+import { useState } from "react";
 import {
   ArrowRight,
   Activity,
   BadgeCheck,
   Banknote,
+  FileText,
   Gauge,
   Headphones,
   LifeBuoy,
+  Loader2,
   Lock,
   MonitorCheck,
   ScrollText,
@@ -14,13 +18,20 @@ import {
   ShieldCheck,
   Users,
 } from "lucide-react";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import {
   FeatureStrip,
   SectionHeading,
   SiteFooter,
   SiteHeader,
 } from "@/components/medra/SiteChrome";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/lib/auth";
+import { SUPPORT_CATEGORIES, workflowError } from "@/lib/workflow";
 
 export const Route = createFileRoute("/team")({
   head: () => ({
@@ -29,12 +40,12 @@ export const Route = createFileRoute("/team")({
       {
         name: "description",
         content:
-          "Secure sign-in portal for the Medra admin and support team: monitor operations, prevent fraud, resolve disputes and support customers, riders and vendors.",
+          "Secure sign-in portal for the Medra admin and support team, plus a support contact form for customers, riders and vendors.",
       },
       { property: "og:title", content: "Medra Team — Admin & Support Portal" },
       {
         property: "og:description",
-        content: "Behind every great experience is a great team. Sign in to the Medra team portal.",
+        content: "Behind every great experience is a great team. Contact support or sign in.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -100,12 +111,21 @@ const security = [
   { Icon: Activity, title: "Live monitoring", body: "Anomalies are flagged in real time." },
 ];
 
+const policies = [
+  { title: "Terms of service", body: "The rules for buying, selling and riding on Medra." },
+  { title: "Privacy policy", body: "What data we collect and how it is protected." },
+  { title: "Refund & dispute policy", body: "How refunds, cancellations and disputes are handled." },
+  { title: "Rider safety policy", body: "Safety standards, SOS handling and escalation." },
+  { title: "Seller policy", body: "Listing standards, pricing rules and payouts." },
+  { title: "Community guidelines", body: "Expected conduct for everyone on Medra." },
+];
+
 function TeamPortal() {
   return (
     <div className="min-h-screen bg-background">
       <header className="hero-surface">
         <SiteHeader accent="sky" />
-        <div className="mx-auto grid max-w-7xl items-center gap-10 px-5 pb-20 pt-6 lg:grid-cols-2">
+        <div className="mx-auto grid max-w-7xl items-start gap-10 px-5 pb-20 pt-6 lg:grid-cols-2">
           <div>
             <span className="inline-flex items-center gap-2 rounded-full bg-grape px-4 py-1.5 text-xs font-bold uppercase tracking-wide text-grape-foreground">
               <ShieldCheck className="size-4" /> Medra team access
@@ -119,7 +139,7 @@ function TeamPortal() {
             </h1>
             <p className="mt-4 max-w-md text-base text-ink-foreground/75">
               The Medra admin and support team keeps the platform safe, fair and fast for
-              millions of customers, riders and vendors.
+              customers, riders and vendors.
             </p>
             <div className="mt-7 flex flex-wrap gap-3">
               <Button
@@ -135,9 +155,9 @@ function TeamPortal() {
                 variant="outline"
                 className="rounded-full border-ink-foreground/25 bg-transparent px-6 py-6 text-base font-bold text-ink-foreground hover:bg-ink-foreground/10 hover:text-ink-foreground"
               >
-                <Link to="/">
+                <a href="#contact-support">
                   <LifeBuoy className="mr-1 size-4" /> Contact support
-                </Link>
+                </a>
               </Button>
             </div>
             <p className="mt-5 text-xs text-ink-foreground/60">
@@ -145,41 +165,7 @@ function TeamPortal() {
             </p>
           </div>
 
-          <div className="surface-card p-4">
-            <div className="flex items-center justify-between border-b border-border pb-3">
-              <p className="text-sm font-bold">Admin dashboard preview</p>
-              <span className="rounded-full bg-leaf/15 px-2 py-0.5 text-[10px] font-bold text-leaf">
-                Live
-              </span>
-            </div>
-            <div className="mt-3 grid grid-cols-3 gap-3">
-              {[
-                { label: "Users", value: "124,568" },
-                { label: "Orders", value: "18,746" },
-                { label: "Revenue", value: "₦48.6M" },
-              ].map((s) => (
-                <div key={s.label} className="rounded-xl bg-muted p-3">
-                  <p className="text-[11px] text-muted-foreground">{s.label}</p>
-                  <p className="text-base font-extrabold">{s.value}</p>
-                </div>
-              ))}
-            </div>
-            <div className="mt-3 space-y-2">
-              {[
-                "3 stores awaiting approval",
-                "5 rider verifications pending",
-                "2 refund disputes escalated",
-              ].map((row) => (
-                <div
-                  key={row}
-                  className="flex items-center justify-between rounded-xl border border-border px-3 py-2 text-xs"
-                >
-                  <span>{row}</span>
-                  <span className="font-bold text-primary">Review</span>
-                </div>
-              ))}
-            </div>
-          </div>
+          <SupportForm />
         </div>
       </header>
 
@@ -204,6 +190,22 @@ function TeamPortal() {
           ))}
         </div>
 
+        <SectionHeading>Policies</SectionHeading>
+        <div className="grid gap-4 md:grid-cols-3">
+          {policies.map((p) => (
+            <article key={p.title} className="surface-card p-5">
+              <span className="grid size-9 place-items-center rounded-xl bg-sky/15 text-sky">
+                <FileText className="size-4" />
+              </span>
+              <h3 className="mt-3 text-sm font-extrabold">{p.title}</h3>
+              <p className="mt-1 text-sm text-muted-foreground">{p.body}</p>
+              <p className="mt-3 text-xs font-semibold text-muted-foreground">
+                Published by the Medra team — request a copy through support.
+              </p>
+            </article>
+          ))}
+        </div>
+
         <section className="hero-surface my-12 rounded-2xl px-6 py-8">
           <div className="grid gap-6 lg:grid-cols-5">
             <h2 className="text-2xl font-extrabold leading-tight">
@@ -223,6 +225,145 @@ function TeamPortal() {
       </div>
 
       <SiteFooter />
+    </div>
+  );
+}
+
+function SupportForm() {
+  const { user } = useAuth();
+  const [form, setForm] = useState({
+    contact_name: "",
+    contact_email: "",
+    category: SUPPORT_CATEGORIES[0]!.value,
+    subject: "",
+    message: "",
+  });
+
+  const submit = useMutation({
+    mutationFn: async () => {
+      if (!form.contact_name.trim()) throw new Error("Please tell us your name");
+      if (!form.contact_email.trim()) throw new Error("An email address is required");
+      if (!form.subject.trim()) throw new Error("Please add a subject");
+      if (!form.message.trim()) throw new Error("Please describe your issue");
+
+      const ticket = await supabase
+        .from("support_tickets")
+        .insert({
+          user_id: user?.id ?? null,
+          category: form.category,
+          subject: form.subject.trim(),
+          contact_email: form.contact_email.trim(),
+          contact_name: form.contact_name.trim(),
+          requester_role: user ? "account_holder" : "guest",
+        })
+        .select("id")
+        .single();
+      if (ticket.error) throw ticket.error;
+
+      const message = await supabase.from("support_messages").insert({
+        ticket_id: ticket.data.id,
+        sender_id: user?.id ?? null,
+        sender_role: user ? "account_holder" : "guest",
+        body: form.message.trim(),
+      });
+      if (message.error) throw message.error;
+    },
+    onSuccess: () => {
+      toast.success("Support request sent — the Medra team will reply by email");
+      setForm((f) => ({ ...f, subject: "", message: "" }));
+    },
+    onError: (e) => toast.error(workflowError(e)),
+  });
+
+  return (
+    <div id="contact-support" className="surface-card p-6">
+      <div className="flex items-center gap-2 border-b border-border pb-3">
+        <LifeBuoy className="size-4 text-primary" />
+        <p className="text-sm font-bold">Contact Medra support</p>
+      </div>
+      <p className="mt-3 text-sm text-muted-foreground">
+        Customers, riders and vendors can reach the team here — no account required. Every
+        message creates a real support ticket.
+      </p>
+      <form
+        className="mt-4 space-y-3"
+        onSubmit={(e) => {
+          e.preventDefault();
+          submit.mutate();
+        }}
+      >
+        <div className="grid gap-3 sm:grid-cols-2">
+          <div className="space-y-1.5">
+            <Label htmlFor="s-name" className="text-sm font-semibold">
+              Your name
+            </Label>
+            <Input
+              id="s-name"
+              value={form.contact_name}
+              onChange={(e) => setForm((f) => ({ ...f, contact_name: e.target.value }))}
+              className="h-11 rounded-xl"
+            />
+          </div>
+          <div className="space-y-1.5">
+            <Label htmlFor="s-email" className="text-sm font-semibold">
+              Email address
+            </Label>
+            <Input
+              id="s-email"
+              type="email"
+              value={form.contact_email}
+              onChange={(e) => setForm((f) => ({ ...f, contact_email: e.target.value }))}
+              className="h-11 rounded-xl"
+            />
+          </div>
+        </div>
+        <div className="space-y-1.5">
+          <Label htmlFor="s-category" className="text-sm font-semibold">
+            What do you need help with?
+          </Label>
+          <select
+            id="s-category"
+            value={form.category}
+            onChange={(e) => setForm((f) => ({ ...f, category: e.target.value }))}
+            className="h-11 w-full rounded-xl border border-input bg-background px-3 text-sm"
+          >
+            {SUPPORT_CATEGORIES.map((c) => (
+              <option key={c.value} value={c.value}>
+                {c.label}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="space-y-1.5">
+          <Label htmlFor="s-subject" className="text-sm font-semibold">
+            Subject
+          </Label>
+          <Input
+            id="s-subject"
+            value={form.subject}
+            onChange={(e) => setForm((f) => ({ ...f, subject: e.target.value }))}
+            className="h-11 rounded-xl"
+          />
+        </div>
+        <div className="space-y-1.5">
+          <Label htmlFor="s-message" className="text-sm font-semibold">
+            How can we help?
+          </Label>
+          <Textarea
+            id="s-message"
+            value={form.message}
+            onChange={(e) => setForm((f) => ({ ...f, message: e.target.value }))}
+            className="min-h-28 rounded-xl"
+          />
+        </div>
+        <Button
+          type="submit"
+          disabled={submit.isPending}
+          className="w-full rounded-full py-6 font-bold"
+        >
+          {submit.isPending ? <Loader2 className="size-4 animate-spin" /> : "Send to support"}
+        </Button>
+      </form>
     </div>
   );
 }
