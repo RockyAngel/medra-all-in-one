@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import { Loader2, Inbox, AlertTriangle } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-export function LoadingState({ label = "Loading…", className }: { label?: string; className?: string }) {
+export function LoadingState({ label = "Loading…", className }: { label?: string | undefined; className?: string | undefined }) {
   return (
     <div className={cn("flex items-center justify-center gap-2 py-10 text-sm text-muted-foreground", className)}>
       <Loader2 className="size-4 animate-spin" /> {label}
@@ -14,8 +14,8 @@ export function ErrorState({
   message = "Something went wrong loading this data.",
   onRetry,
 }: {
-  message?: string;
-  onRetry?: () => void;
+  message?: string | undefined;
+  onRetry?: (() => void) | undefined;
 }) {
   return (
     <div className="flex flex-col items-center gap-3 rounded-xl border border-destructive/30 bg-destructive/5 p-6 text-center">
@@ -37,7 +37,7 @@ export function EmptyState({
   icon,
 }: {
   title: string;
-  body?: string;
+  body?: string | undefined;
   action?: ReactNode;
   icon?: ReactNode;
 }) {
@@ -66,11 +66,11 @@ export function QueryBoundary({
 }: {
   isLoading: boolean;
   error?: unknown;
-  isEmpty?: boolean;
+  isEmpty?: boolean | undefined;
   empty?: ReactNode;
   children: ReactNode;
-  loadingLabel?: string;
-  onRetry?: () => void;
+  loadingLabel?: string | undefined;
+  onRetry?: (() => void) | undefined;
 }) {
   if (isLoading) return <LoadingState label={loadingLabel} />;
   if (error)
