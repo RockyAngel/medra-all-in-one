@@ -5226,6 +5226,10 @@ export type Database = {
         Args: { _order_id: string; _provider: string; _reference: string }
         Returns: undefined
       }
+      conversation_mark_read: {
+        Args: { _conversation_id: string }
+        Returns: undefined
+      }
       coupon_discount_amount: {
         Args: {
           _coupon: Database["public"]["Tables"]["coupons"]["Row"]
@@ -5245,6 +5249,23 @@ export type Database = {
           _store_id: string
         }
         Returns: Json
+      }
+      create_notification: {
+        Args: {
+          _body: string
+          _category?: string
+          _entity_id?: string
+          _entity_type?: string
+          _event_id?: string
+          _event_type: string
+          _link?: string
+          _mandatory?: boolean
+          _metadata?: Json
+          _priority?: Database["public"]["Enums"]["support_priority"]
+          _title: string
+          _user_id: string
+        }
+        Returns: string
       }
       current_actor_role: { Args: never; Returns: string }
       customer_request_refund: {
@@ -5272,6 +5293,14 @@ export type Database = {
         }[]
       }
       emergency_eligibility: { Args: { _product_id: string }; Returns: Json }
+      ensure_delivery_conversation: {
+        Args: { _delivery_id: string }
+        Returns: string
+      }
+      ensure_order_conversation: {
+        Args: { _fulfillment_id: string }
+        Returns: string
+      }
       expire_delivery_offers: { Args: never; Returns: number }
       expire_memberships: { Args: never; Returns: number }
       fail_membership_payment: {
@@ -5389,9 +5418,39 @@ export type Database = {
       }
       my_entitlements: { Args: never; Returns: Json }
       my_savings: { Args: never; Returns: Json }
+      my_unread_counts: { Args: never; Returns: Json }
       notify_staff: {
         Args: { _body: string; _link: string; _title: string }
         Returns: undefined
+      }
+      notify_support_staff: {
+        Args: {
+          _body: string
+          _entity_id: string
+          _event_id: string
+          _link: string
+          _priority: Database["public"]["Enums"]["support_priority"]
+          _title: string
+        }
+        Returns: undefined
+      }
+      open_support_ticket: {
+        Args: {
+          _category: string
+          _consultation_id?: string
+          _delivery_id?: string
+          _fulfillment_id?: string
+          _message: string
+          _order_id?: string
+          _payment_id?: string
+          _payout_request_id?: string
+          _priority?: Database["public"]["Enums"]["support_priority"]
+          _refund_request_id?: string
+          _sos_incident_id?: string
+          _store_id?: string
+          _subject: string
+        }
+        Returns: string
       }
       peak_state: { Args: never; Returns: Json }
       pharmacy_review_prescription: {
@@ -5431,6 +5490,15 @@ export type Database = {
           _lat?: number
           _lng?: number
           _note: string
+        }
+        Returns: string
+      }
+      report_message: {
+        Args: {
+          _conversation_message_id?: string
+          _details?: string
+          _reason: string
+          _support_message_id?: string
         }
         Returns: string
       }
@@ -5522,6 +5590,39 @@ export type Database = {
         }
         Returns: string
       }
+      send_broadcast: {
+        Args: {
+          _audience: string
+          _body: string
+          _category?: string
+          _link?: string
+          _title: string
+        }
+        Returns: string
+      }
+      send_conversation_message: {
+        Args: {
+          _attachment_name?: string
+          _attachment_path?: string
+          _attachment_size?: number
+          _attachment_type?: string
+          _body: string
+          _conversation_id: string
+        }
+        Returns: string
+      }
+      send_support_message: {
+        Args: {
+          _attachment_name?: string
+          _attachment_path?: string
+          _attachment_size?: number
+          _attachment_type?: string
+          _body: string
+          _internal?: boolean
+          _ticket_id: string
+        }
+        Returns: string
+      }
       set_admin_permission: {
         Args: { _enabled: boolean; _permission: string; _user_id: string }
         Returns: undefined
@@ -5577,6 +5678,19 @@ export type Database = {
         Args: { _status: Database["public"]["Enums"]["subscription_status"] }
         Returns: boolean
       }
+      support_admin_action: {
+        Args: {
+          _action: string
+          _entity_id?: string
+          _reason?: string
+          _target_admin?: string
+          _ticket_id: string
+          _value?: string
+        }
+        Returns: undefined
+      }
+      support_mark_read: { Args: { _ticket_id: string }; Returns: undefined }
+      support_metrics: { Args: never; Returns: Json }
       sync_expired_stock: { Args: never; Returns: number }
       upload_prescription: {
         Args: {
