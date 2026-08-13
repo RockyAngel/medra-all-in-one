@@ -43,6 +43,9 @@ export function CustomerHeader({
           <Link to="/membership" className="hover:text-ink-foreground">
             Membership
           </Link>
+          <Link to="/support" search={{ ticket: undefined }} className="hover:text-ink-foreground">
+            Support
+          </Link>
           <Link to="/become-a-rider" className="text-leaf hover:underline">
             Become a Rider
           </Link>
