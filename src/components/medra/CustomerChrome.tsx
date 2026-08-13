@@ -24,9 +24,8 @@ export function CustomerHeader({
   return (
     <header className="hero-surface">
       <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-4 px-5 py-4">
-        <Link to="/">
-          <Logo tone="dark" size={44} />
-        </Link>
+        <Logo tone="dark" size={44} />
+
         <nav className="hidden items-center gap-5 text-sm font-semibold text-ink-foreground/85 xl:flex">
           <Link to="/catalog" className="rounded-lg bg-ink-foreground/10 px-3 py-2">
             Browse
