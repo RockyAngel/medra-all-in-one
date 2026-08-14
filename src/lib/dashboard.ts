@@ -12,6 +12,7 @@ export const SELLER_NAV: NavGroup[] = [
       { label: "Orders", to: "/seller/orders" },
       { label: "Products", to: "/seller/products" },
       { label: "Inventory", to: "/seller/inventory" },
+      { label: "Prescriptions", to: "/seller/prescriptions" },
     ],
   },
   {
