@@ -34,6 +34,7 @@ import { Route as Char91DotmcpChar93ListToolsRouteImport } from './routes/[.mcp]
 import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
 import { Route as ApplyRiderRouteImport } from './routes/apply.rider'
 import { Route as ApplySellerRouteImport } from './routes/apply.seller'
+import { Route as HealthAppointmentsRouteImport } from './routes/health.appointments'
 import { Route as HealthPrescriptionsRouteImport } from './routes/health.prescriptions'
 import { Route as HealthTelehealthRouteImport } from './routes/health.telehealth'
 import { Route as OrdersIndexRouteImport } from './routes/orders.index'
@@ -170,6 +171,11 @@ const ApplySellerRoute = ApplySellerRouteImport.update({
   path: '/apply/seller',
   getParentRoute: () => rootRouteImport,
 } as any)
+const HealthAppointmentsRoute = HealthAppointmentsRouteImport.update({
+  id: '/health/appointments',
+  path: '/health/appointments',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const HealthPrescriptionsRoute = HealthPrescriptionsRouteImport.update({
   id: '/health/prescriptions',
   path: '/health/prescriptions',
@@ -238,6 +244,7 @@ export interface FileRoutesByFullPath {
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/apply/rider': typeof ApplyRiderRoute
   '/apply/seller': typeof ApplySellerRoute
+  '/health/appointments': typeof HealthAppointmentsRoute
   '/health/prescriptions': typeof HealthPrescriptionsRoute
   '/health/telehealth': typeof HealthTelehealthRoute
   '/orders/$orderId': typeof OrdersOrderIdRoute
@@ -273,6 +280,7 @@ export interface FileRoutesByTo {
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/apply/rider': typeof ApplyRiderRoute
   '/apply/seller': typeof ApplySellerRoute
+  '/health/appointments': typeof HealthAppointmentsRoute
   '/health/prescriptions': typeof HealthPrescriptionsRoute
   '/health/telehealth': typeof HealthTelehealthRoute
   '/orders/$orderId': typeof OrdersOrderIdRoute
@@ -309,6 +317,7 @@ export interface FileRoutesById {
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/apply/rider': typeof ApplyRiderRoute
   '/apply/seller': typeof ApplySellerRoute
+  '/health/appointments': typeof HealthAppointmentsRoute
   '/health/prescriptions': typeof HealthPrescriptionsRoute
   '/health/telehealth': typeof HealthTelehealthRoute
   '/orders/$orderId': typeof OrdersOrderIdRoute
@@ -346,6 +355,7 @@ export interface FileRouteTypes {
     | '/.well-known/oauth-protected-resource'
     | '/apply/rider'
     | '/apply/seller'
+    | '/health/appointments'
     | '/health/prescriptions'
     | '/health/telehealth'
     | '/orders/$orderId'
@@ -381,6 +391,7 @@ export interface FileRouteTypes {
     | '/.well-known/oauth-protected-resource'
     | '/apply/rider'
     | '/apply/seller'
+    | '/health/appointments'
     | '/health/prescriptions'
     | '/health/telehealth'
     | '/orders/$orderId'
@@ -416,6 +427,7 @@ export interface FileRouteTypes {
     | '/.well-known/oauth-protected-resource'
     | '/apply/rider'
     | '/apply/seller'
+    | '/health/appointments'
     | '/health/prescriptions'
     | '/health/telehealth'
     | '/orders/$orderId'
@@ -452,6 +464,7 @@ export interface RootRouteChildren {
   Char91DotwellKnownChar93OauthProtectedResourceRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   ApplyRiderRoute: typeof ApplyRiderRoute
   ApplySellerRoute: typeof ApplySellerRoute
+  HealthAppointmentsRoute: typeof HealthAppointmentsRoute
   HealthPrescriptionsRoute: typeof HealthPrescriptionsRoute
   HealthTelehealthRoute: typeof HealthTelehealthRoute
   OrdersOrderIdRoute: typeof OrdersOrderIdRoute
@@ -639,6 +652,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApplySellerRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/health/appointments': {
+      id: '/health/appointments'
+      path: '/health/appointments'
+      fullPath: '/health/appointments'
+      preLoaderRoute: typeof HealthAppointmentsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/health/prescriptions': {
       id: '/health/prescriptions'
       path: '/health/prescriptions'
@@ -725,6 +745,7 @@ const rootRouteChildren: RootRouteChildren = {
     Char91DotwellKnownChar93OauthProtectedResourceRoute,
   ApplyRiderRoute: ApplyRiderRoute,
   ApplySellerRoute: ApplySellerRoute,
+  HealthAppointmentsRoute: HealthAppointmentsRoute,
   HealthPrescriptionsRoute: HealthPrescriptionsRoute,
   HealthTelehealthRoute: HealthTelehealthRoute,
   OrdersOrderIdRoute: OrdersOrderIdRoute,
