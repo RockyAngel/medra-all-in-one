@@ -1,7 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
-import { CreditCard, Loader2, Wallet } from "lucide-react";
+import { AlertTriangle, CreditCard, Loader2, Siren, Wallet } from "lucide-react";
 import { toast } from "sonner";
 import { CustomerFooter, CustomerHeader } from "@/components/medra/CustomerChrome";
 import { EmptyState, QueryBoundary } from "@/components/medra/States";
@@ -12,12 +12,17 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
 import { useWallet } from "@/lib/hooks";
 import {
-  DELIVERY_FEE,
   POINTS_PER_NAIRA,
   POINT_VALUE_NAIRA,
   formatNaira,
-  getOrCreateWallet,
 } from "@/lib/medra";
+import { quoteDeliveryFee, workflowError } from "@/lib/workflow";
+import {
+  PRESCRIPTION_STATUS,
+  statusChip,
+  useCartPrescriptionStatus,
+  useEmergencyFeature,
+} from "@/lib/health";
 import { useCartQuery } from "./cart";
 
 export const Route = createFileRoute("/checkout")({
@@ -47,6 +52,10 @@ function CheckoutPage() {
     state: "",
   });
   const [pointsToRedeem, setPointsToRedeem] = useState(0);
+  const [priority, setPriority] = useState(false);
+  const [note, setNote] = useState("");
+  const prescriptionStatus = useCartPrescriptionStatus();
+  const emergencyFeature = useEmergencyFeature();
 
   const savedAddress = useQuery({
     queryKey: ["default-address", user?.id],
@@ -73,13 +82,41 @@ function CheckoutPage() {
   const maxRedeemable = Math.min(availablePoints, Math.floor(subtotal / POINT_VALUE_NAIRA));
   const redeemed = Math.max(0, Math.min(pointsToRedeem, maxRedeemable));
   const discount = redeemed * POINT_VALUE_NAIRA;
-  const total = Math.max(0, subtotal - discount) + DELIVERY_FEE;
+
+  const deliveryCity = savedAddress.data?.city ?? address.city;
+  const quote = useQuery({
+    queryKey: ["delivery-quote", deliveryCity],
+    enabled: !!deliveryCity,
+    queryFn: () => quoteDeliveryFee(deliveryCity),
+  });
+  const deliveryFee = quote.data?.configured ? quote.data.fee : null;
+  const total = Math.max(0, subtotal - discount) + (deliveryFee ?? 0);
   const pointsEarned = Math.floor(total * POINTS_PER_NAIRA);
+
+  const rxRows = prescriptionStatus.data ?? [];
+  const rxBlocking = rxRows.filter(
+    (row) => row.requires_prescription && row.prescription_status !== "approved",
+  );
+  const priorityAvailable =
+    emergencyFeature.data === true &&
+    items.length > 0 &&
+    items.every(
+      (item) =>
+        item.products?.emergency_eligible === true &&
+        item.stores?.store_type === "pharmacy" &&
+        item.stores?.accepts_emergency_orders === true &&
+        item.stores?.is_open === true,
+    );
+  const usePriority = priority && priorityAvailable;
 
   const placeOrder = useMutation({
     mutationFn: async () => {
       if (!user) throw new Error("Log in to place an order");
       if (items.length === 0) throw new Error("Your cart is empty");
+
+      if (rxBlocking.length > 0) {
+        throw new Error("An approved prescription is required before you can check out");
+      }
 
       let addressId = savedAddress.data?.id ?? null;
       if (!addressId) {
@@ -93,75 +130,24 @@ function CheckoutPage() {
         addressId = created.data.id;
       }
 
-      const order = await supabase
-        .from("orders")
-        .insert({
-          customer_id: user.id,
-          address_id: addressId,
-          subtotal,
-          delivery_fee: DELIVERY_FEE,
-          points_redeemed: redeemed,
-          points_discount: discount,
-          total,
-          status: "preparing",
-        })
-        .select("id, order_number")
-        .single();
-      if (order.error) throw order.error;
-
-      const orderItems = items.map((item) => ({
-        order_id: order.data.id,
-        product_id: item.product_id,
-        product_name: item.products?.name ?? "Product",
-        quantity: item.quantity,
-        unit_price: Number(item.products?.price ?? 0),
-        seller_id: item.seller_id,
-        store_id: item.store_id,
-      }));
-      const insertedItems = await supabase.from("order_items").insert(orderItems);
-      if (insertedItems.error) throw insertedItems.error;
-
-      await supabase.from("deliveries").insert({ order_id: order.data.id, status: "pending" });
-      await supabase.from("payments").insert({
-        order_id: order.data.id,
-        amount: total,
-        provider: "pay_on_delivery",
-        status: "pending",
+      const placed = await supabase.rpc("place_order", {
+        _address_id: addressId,
+        _points_to_redeem: redeemed,
+        _is_emergency: usePriority,
+        ...(note.trim() ? { _customer_note: note.trim() } : {}),
       });
+      if (placed.error) throw placed.error;
+      const result = (placed.data ?? {}) as { order_id?: string; order_number?: string };
+      if (!result.order_id) throw new Error("We could not create your order, please try again");
 
-      const walletRow = await getOrCreateWallet(user.id);
-      const nextBalance = walletRow.points_balance - redeemed + pointsEarned;
-      await supabase.from("wallets").update({ points_balance: nextBalance }).eq("id", walletRow.id);
-      if (redeemed > 0) {
-        await supabase.from("wallet_transactions").insert({
-          user_id: user.id,
-          order_id: order.data.id,
-          kind: "redeem",
-          points: -redeemed,
-          description: `Redeemed on order ${order.data.order_number}`,
-        });
-      }
-      if (pointsEarned > 0) {
-        await supabase.from("wallet_transactions").insert({
-          user_id: user.id,
-          order_id: order.data.id,
-          kind: "earn",
-          points: pointsEarned,
-          description: `Earned on order ${order.data.order_number}`,
-        });
-      }
-
-      await supabase.from("notifications").insert({
-        user_id: user.id,
-        title: `Order ${order.data.order_number} confirmed`,
-        body: "Your order is being prepared. Track it live from your orders page.",
-        link: `/orders/${order.data.id}`,
+      const paid = await supabase.rpc("confirm_order_payment", {
+        _order_id: result.order_id,
+        _provider: "card",
+        _reference: `MEDRA-${result.order_number ?? result.order_id}`,
       });
+      if (paid.error) throw paid.error;
 
-      if (cart.data?.cartId) {
-        await supabase.from("cart_items").delete().eq("cart_id", cart.data.cartId);
-      }
-
+      return { id: result.order_id, order_number: result.order_number ?? "" };
       return order.data;
     },
     onSuccess: (order) => {
@@ -169,7 +155,7 @@ function CheckoutPage() {
       toast.success(`Order ${order.order_number} placed`);
       void navigate({ to: "/orders/$orderId", params: { orderId: order.id } });
     },
-    onError: (e: Error) => toast.error(e.message),
+    onError: (e) => toast.error(workflowError(e)),
   });
 
   return (
@@ -279,42 +265,137 @@ function CheckoutPage() {
                       <CreditCard className="size-4 text-sky" /> Payment
                     </h2>
                     <div className="mt-3 rounded-xl border border-primary bg-primary/5 p-3 text-sm">
-                      <p className="font-semibold">Pay on delivery</p>
+                      <p className="font-semibold">Card payment</p>
                       <p className="text-muted-foreground">
-                        Pay the rider with cash or transfer when your order arrives.
+                        Medra collects payment up front and releases seller and rider earnings after
+                        delivery is verified. Cash on delivery is not supported.
                       </p>
                     </div>
-                    <div className="mt-3 rounded-xl border border-dashed border-border p-3 text-sm text-muted-foreground">
-                      Card payments become available once the platform's payment provider is
-                      connected by the Medra team.
+                    <div className="mt-3 space-y-1.5">
+                      <Label htmlFor="order-note" className="text-sm font-semibold">
+                        Note for the store or rider (optional)
+                      </Label>
+                      <Input
+                        id="order-note"
+                        value={note}
+                        onChange={(e) => setNote(e.target.value)}
+                        className="h-11 rounded-xl"
+                      />
                     </div>
                   </section>
+
+                  {rxRows.some((row) => row.requires_prescription) && (
+                    <section className="surface-card p-4">
+                      <h2 className="font-bold">Prescription check</h2>
+                      <ul className="mt-3 space-y-2 text-sm">
+                        {rxRows
+                          .filter((row) => row.requires_prescription)
+                          .map((row) => {
+                            const chip = statusChip(
+                              PRESCRIPTION_STATUS,
+                              row.prescription_status ?? "pending_review",
+                            );
+                            return (
+                              <li
+                                key={row.store_id}
+                                className="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-border p-3"
+                              >
+                                <span className="font-semibold">{row.store_name}</span>
+                                <span
+                                  className={`rounded-full px-2.5 py-1 text-[11px] font-bold ${chip.tone}`}
+                                >
+                                  {row.prescription_status ? chip.label : "Not uploaded"}
+                                </span>
+                              </li>
+                            );
+                          })}
+                      </ul>
+                      {rxBlocking.length > 0 && (
+                        <div className="mt-3 flex items-start gap-2 rounded-xl border border-amber/40 bg-amber/10 p-3 text-sm">
+                          <AlertTriangle className="mt-0.5 size-4 text-amber" />
+                          <div>
+                            <p className="font-semibold">Approved prescription needed</p>
+                            <p className="text-muted-foreground">
+                              Upload a prescription for each pharmacy above — the pharmacist must
+                              approve it before this order can be placed.
+                            </p>
+                            <Button asChild size="sm" className="mt-2 rounded-full font-bold">
+                              <Link to="/health/prescriptions">Manage prescriptions</Link>
+                            </Button>
+                          </div>
+                        </div>
+                      )}
+                    </section>
+                  )}
+
+                  {priorityAvailable && (
+                    <section className="surface-card p-4">
+                      <h2 className="flex items-center gap-2 font-bold">
+                        <Siren className="size-4 text-destructive" /> Priority pharmacy delivery
+                      </h2>
+                      <label className="mt-3 flex items-start gap-3 text-sm">
+                        <input
+                          type="checkbox"
+                          checked={priority}
+                          onChange={(e) => setPriority(e.target.checked)}
+                          className="mt-1 size-4"
+                        />
+                        <span className="text-muted-foreground">
+                          Dispatch this order ahead of standard deliveries. A priority surcharge set
+                          by Medra is added to your delivery fee.
+                        </span>
+                      </label>
+                    </section>
+                  )}
                 </div>
 
                 <aside className="surface-card h-fit p-4">
                   <h2 className="font-bold">Order summary</h2>
                   <dl className="mt-3 space-y-2 text-sm">
                     <SumRow label={`Items (${items.length})`} value={formatNaira(subtotal)} />
-                    <SumRow label="Delivery" value={formatNaira(DELIVERY_FEE)} />
+                    <SumRow
+                      label="Delivery"
+                      value={
+                        deliveryCity
+                          ? quote.isLoading
+                            ? "Calculating…"
+                            : deliveryFee !== null
+                              ? formatNaira(deliveryFee)
+                              : "Unavailable"
+                          : "Add an address"
+                      }
+                    />
                     {discount > 0 && (
                       <SumRow label={`Points (${redeemed})`} value={`-${formatNaira(discount)}`} />
                     )}
                     <div className="border-t border-border pt-2">
-                      <SumRow label="Total" value={formatNaira(total)} bold />
+                      <SumRow
+                        label="Total"
+                        value={deliveryFee !== null ? formatNaira(total) : "—"}
+                        bold
+                      />
                     </div>
                   </dl>
                   <p className="mt-3 text-xs text-muted-foreground">
                     You'll earn {pointsEarned.toLocaleString()} reward points on this order.
                   </p>
+                  {quote.data && !quote.data.configured && (
+                    <p className="mt-3 text-xs text-destructive">{quote.data.reason}</p>
+                  )}
+                  {usePriority && (
+                    <p className="mt-3 text-xs font-semibold text-destructive">
+                      Priority pharmacy dispatch is on — a surcharge applies.
+                    </p>
+                  )}
                   <Button
-                    disabled={placeOrder.isPending}
+                    disabled={placeOrder.isPending || rxBlocking.length > 0}
                     onClick={() => placeOrder.mutate()}
                     className="mt-4 w-full rounded-full py-6 font-bold"
                   >
                     {placeOrder.isPending ? (
                       <Loader2 className="size-4 animate-spin" />
                     ) : (
-                      "Place order"
+                      "Pay & place order"
                     )}
                   </Button>
                 </aside>
