@@ -194,10 +194,9 @@ export function useCartPrescriptionStatus() {
 export async function uploadPrescriptionFile(userId: string, file: File) {
   const ext = file.name.split(".").pop()?.toLowerCase() ?? "bin";
   const path = `${userId}/${crypto.randomUUID()}.${ext}`;
-  const { error } = await supabase.storage.from("prescriptions").upload(path, file, {
-    contentType: file.type || undefined,
-    upsert: false,
-  });
+  const { error } = await supabase.storage
+    .from("prescriptions")
+    .upload(path, file, file.type ? { contentType: file.type, upsert: false } : { upsert: false });
   if (error) throw error;
   return path;
 }
