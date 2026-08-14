@@ -72,6 +72,11 @@ function OrderDetailPage() {
                 <div>
                   <h1 className="text-2xl font-extrabold">{data.order_number}</h1>
                   <p className="text-sm text-muted-foreground">Placed {formatDate(data.created_at)}</p>
+                  {data.is_emergency && (
+                    <span className="mt-2 inline-block rounded-full bg-destructive/15 px-3 py-1 text-xs font-bold text-destructive">
+                      Priority pharmacy dispatch
+                    </span>
+                  )}
                 </div>
                 <span className="rounded-full bg-leaf/15 px-4 py-1.5 text-sm font-bold text-leaf">
                   {ORDER_STATUS_LABEL[data.status] ?? data.status}
