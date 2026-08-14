@@ -34,6 +34,7 @@ import { Route as Char91DotmcpChar93ListToolsRouteImport } from './routes/[.mcp]
 import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
 import { Route as ApplyRiderRouteImport } from './routes/apply.rider'
 import { Route as ApplySellerRouteImport } from './routes/apply.seller'
+import { Route as HealthPrescriptionsRouteImport } from './routes/health.prescriptions'
 import { Route as OrdersIndexRouteImport } from './routes/orders.index'
 import { Route as OrdersOrderIdRouteImport } from './routes/orders.$orderId'
 import { Route as ProductProductIdRouteImport } from './routes/product.$productId'
@@ -168,6 +169,11 @@ const ApplySellerRoute = ApplySellerRouteImport.update({
   path: '/apply/seller',
   getParentRoute: () => rootRouteImport,
 } as any)
+const HealthPrescriptionsRoute = HealthPrescriptionsRouteImport.update({
+  id: '/health/prescriptions',
+  path: '/health/prescriptions',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const OrdersIndexRoute = OrdersIndexRouteImport.update({
   id: '/orders/',
   path: '/orders/',
@@ -226,6 +232,7 @@ export interface FileRoutesByFullPath {
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/apply/rider': typeof ApplyRiderRoute
   '/apply/seller': typeof ApplySellerRoute
+  '/health/prescriptions': typeof HealthPrescriptionsRoute
   '/orders/$orderId': typeof OrdersOrderIdRoute
   '/product/$productId': typeof ProductProductIdRoute
   '/store/$storeSlug': typeof StoreStoreSlugRoute
@@ -259,6 +266,7 @@ export interface FileRoutesByTo {
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/apply/rider': typeof ApplyRiderRoute
   '/apply/seller': typeof ApplySellerRoute
+  '/health/prescriptions': typeof HealthPrescriptionsRoute
   '/orders/$orderId': typeof OrdersOrderIdRoute
   '/product/$productId': typeof ProductProductIdRoute
   '/store/$storeSlug': typeof StoreStoreSlugRoute
@@ -293,6 +301,7 @@ export interface FileRoutesById {
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/apply/rider': typeof ApplyRiderRoute
   '/apply/seller': typeof ApplySellerRoute
+  '/health/prescriptions': typeof HealthPrescriptionsRoute
   '/orders/$orderId': typeof OrdersOrderIdRoute
   '/product/$productId': typeof ProductProductIdRoute
   '/store/$storeSlug': typeof StoreStoreSlugRoute
@@ -328,6 +337,7 @@ export interface FileRouteTypes {
     | '/.well-known/oauth-protected-resource'
     | '/apply/rider'
     | '/apply/seller'
+    | '/health/prescriptions'
     | '/orders/$orderId'
     | '/product/$productId'
     | '/store/$storeSlug'
@@ -361,6 +371,7 @@ export interface FileRouteTypes {
     | '/.well-known/oauth-protected-resource'
     | '/apply/rider'
     | '/apply/seller'
+    | '/health/prescriptions'
     | '/orders/$orderId'
     | '/product/$productId'
     | '/store/$storeSlug'
@@ -394,6 +405,7 @@ export interface FileRouteTypes {
     | '/.well-known/oauth-protected-resource'
     | '/apply/rider'
     | '/apply/seller'
+    | '/health/prescriptions'
     | '/orders/$orderId'
     | '/product/$productId'
     | '/store/$storeSlug'
@@ -428,6 +440,7 @@ export interface RootRouteChildren {
   Char91DotwellKnownChar93OauthProtectedResourceRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   ApplyRiderRoute: typeof ApplyRiderRoute
   ApplySellerRoute: typeof ApplySellerRoute
+  HealthPrescriptionsRoute: typeof HealthPrescriptionsRoute
   OrdersOrderIdRoute: typeof OrdersOrderIdRoute
   ProductProductIdRoute: typeof ProductProductIdRoute
   StoreStoreSlugRoute: typeof StoreStoreSlugRoute
@@ -613,6 +626,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApplySellerRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/health/prescriptions': {
+      id: '/health/prescriptions'
+      path: '/health/prescriptions'
+      fullPath: '/health/prescriptions'
+      preLoaderRoute: typeof HealthPrescriptionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/orders/': {
       id: '/orders/'
       path: '/orders'
@@ -685,6 +705,7 @@ const rootRouteChildren: RootRouteChildren = {
     Char91DotwellKnownChar93OauthProtectedResourceRoute,
   ApplyRiderRoute: ApplyRiderRoute,
   ApplySellerRoute: ApplySellerRoute,
+  HealthPrescriptionsRoute: HealthPrescriptionsRoute,
   OrdersOrderIdRoute: OrdersOrderIdRoute,
   ProductProductIdRoute: ProductProductIdRoute,
   StoreStoreSlugRoute: StoreStoreSlugRoute,
