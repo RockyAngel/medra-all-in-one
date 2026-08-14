@@ -31,7 +31,7 @@ function OrderDetailPage() {
       const { data, error } = await supabase
         .from("orders")
         .select(
-          "id, order_number, status, subtotal, delivery_fee, points_discount, points_redeemed, total, created_at, order_items(id, product_name, quantity, unit_price), deliveries(status, rider_latitude, rider_longitude, picked_up_at, delivered_at), addresses(line1, city, state, recipient_name)",
+          "id, order_number, status, is_emergency, subtotal, delivery_fee, points_discount, points_redeemed, total, created_at, order_items(id, product_name, quantity, unit_price), deliveries(status, rider_latitude, rider_longitude, picked_up_at, delivered_at), addresses(line1, city, state, recipient_name)",
         )
         .eq("id", orderId)
         .maybeSingle();
