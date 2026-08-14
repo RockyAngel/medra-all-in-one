@@ -35,6 +35,7 @@ import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } fr
 import { Route as ApplyRiderRouteImport } from './routes/apply.rider'
 import { Route as ApplySellerRouteImport } from './routes/apply.seller'
 import { Route as HealthPrescriptionsRouteImport } from './routes/health.prescriptions'
+import { Route as HealthTelehealthRouteImport } from './routes/health.telehealth'
 import { Route as OrdersIndexRouteImport } from './routes/orders.index'
 import { Route as OrdersOrderIdRouteImport } from './routes/orders.$orderId'
 import { Route as ProductProductIdRouteImport } from './routes/product.$productId'
@@ -174,6 +175,11 @@ const HealthPrescriptionsRoute = HealthPrescriptionsRouteImport.update({
   path: '/health/prescriptions',
   getParentRoute: () => rootRouteImport,
 } as any)
+const HealthTelehealthRoute = HealthTelehealthRouteImport.update({
+  id: '/health/telehealth',
+  path: '/health/telehealth',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const OrdersIndexRoute = OrdersIndexRouteImport.update({
   id: '/orders/',
   path: '/orders/',
@@ -233,6 +239,7 @@ export interface FileRoutesByFullPath {
   '/apply/rider': typeof ApplyRiderRoute
   '/apply/seller': typeof ApplySellerRoute
   '/health/prescriptions': typeof HealthPrescriptionsRoute
+  '/health/telehealth': typeof HealthTelehealthRoute
   '/orders/$orderId': typeof OrdersOrderIdRoute
   '/product/$productId': typeof ProductProductIdRoute
   '/store/$storeSlug': typeof StoreStoreSlugRoute
@@ -267,6 +274,7 @@ export interface FileRoutesByTo {
   '/apply/rider': typeof ApplyRiderRoute
   '/apply/seller': typeof ApplySellerRoute
   '/health/prescriptions': typeof HealthPrescriptionsRoute
+  '/health/telehealth': typeof HealthTelehealthRoute
   '/orders/$orderId': typeof OrdersOrderIdRoute
   '/product/$productId': typeof ProductProductIdRoute
   '/store/$storeSlug': typeof StoreStoreSlugRoute
@@ -302,6 +310,7 @@ export interface FileRoutesById {
   '/apply/rider': typeof ApplyRiderRoute
   '/apply/seller': typeof ApplySellerRoute
   '/health/prescriptions': typeof HealthPrescriptionsRoute
+  '/health/telehealth': typeof HealthTelehealthRoute
   '/orders/$orderId': typeof OrdersOrderIdRoute
   '/product/$productId': typeof ProductProductIdRoute
   '/store/$storeSlug': typeof StoreStoreSlugRoute
@@ -338,6 +347,7 @@ export interface FileRouteTypes {
     | '/apply/rider'
     | '/apply/seller'
     | '/health/prescriptions'
+    | '/health/telehealth'
     | '/orders/$orderId'
     | '/product/$productId'
     | '/store/$storeSlug'
@@ -372,6 +382,7 @@ export interface FileRouteTypes {
     | '/apply/rider'
     | '/apply/seller'
     | '/health/prescriptions'
+    | '/health/telehealth'
     | '/orders/$orderId'
     | '/product/$productId'
     | '/store/$storeSlug'
@@ -406,6 +417,7 @@ export interface FileRouteTypes {
     | '/apply/rider'
     | '/apply/seller'
     | '/health/prescriptions'
+    | '/health/telehealth'
     | '/orders/$orderId'
     | '/product/$productId'
     | '/store/$storeSlug'
@@ -441,6 +453,7 @@ export interface RootRouteChildren {
   ApplyRiderRoute: typeof ApplyRiderRoute
   ApplySellerRoute: typeof ApplySellerRoute
   HealthPrescriptionsRoute: typeof HealthPrescriptionsRoute
+  HealthTelehealthRoute: typeof HealthTelehealthRoute
   OrdersOrderIdRoute: typeof OrdersOrderIdRoute
   ProductProductIdRoute: typeof ProductProductIdRoute
   StoreStoreSlugRoute: typeof StoreStoreSlugRoute
@@ -633,6 +646,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HealthPrescriptionsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/health/telehealth': {
+      id: '/health/telehealth'
+      path: '/health/telehealth'
+      fullPath: '/health/telehealth'
+      preLoaderRoute: typeof HealthTelehealthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/orders/': {
       id: '/orders/'
       path: '/orders'
@@ -706,6 +726,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApplyRiderRoute: ApplyRiderRoute,
   ApplySellerRoute: ApplySellerRoute,
   HealthPrescriptionsRoute: HealthPrescriptionsRoute,
+  HealthTelehealthRoute: HealthTelehealthRoute,
   OrdersOrderIdRoute: OrdersOrderIdRoute,
   ProductProductIdRoute: ProductProductIdRoute,
   StoreStoreSlugRoute: StoreStoreSlugRoute,
