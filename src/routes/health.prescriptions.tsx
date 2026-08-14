@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { FileText, Loader2, ShieldCheck, Upload } from "lucide-react";
 import { toast } from "sonner";
@@ -388,6 +388,3 @@ function EventTrail({ prescriptionId }: { prescriptionId: string }) {
     </ol>
   );
 }
-
-/** Reusable query hook consumers: keeps the unused import warning away. */
-export const usePrescriptionQueryCount = useQuery;
