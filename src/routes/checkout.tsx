@@ -148,7 +148,6 @@ function CheckoutPage() {
       if (paid.error) throw paid.error;
 
       return { id: result.order_id, order_number: result.order_number ?? "" };
-      return order.data;
     },
     onSuccess: (order) => {
       queryClient.clear();
