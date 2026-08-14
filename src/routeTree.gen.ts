@@ -35,6 +35,7 @@ import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } fr
 import { Route as ApplyRiderRouteImport } from './routes/apply.rider'
 import { Route as ApplySellerRouteImport } from './routes/apply.seller'
 import { Route as HealthAppointmentsRouteImport } from './routes/health.appointments'
+import { Route as HealthEmergencyRouteImport } from './routes/health.emergency'
 import { Route as HealthPrescriptionsRouteImport } from './routes/health.prescriptions'
 import { Route as HealthTelehealthRouteImport } from './routes/health.telehealth'
 import { Route as OrdersIndexRouteImport } from './routes/orders.index'
@@ -176,6 +177,11 @@ const HealthAppointmentsRoute = HealthAppointmentsRouteImport.update({
   path: '/health/appointments',
   getParentRoute: () => rootRouteImport,
 } as any)
+const HealthEmergencyRoute = HealthEmergencyRouteImport.update({
+  id: '/health/emergency',
+  path: '/health/emergency',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const HealthPrescriptionsRoute = HealthPrescriptionsRouteImport.update({
   id: '/health/prescriptions',
   path: '/health/prescriptions',
@@ -245,6 +251,7 @@ export interface FileRoutesByFullPath {
   '/apply/rider': typeof ApplyRiderRoute
   '/apply/seller': typeof ApplySellerRoute
   '/health/appointments': typeof HealthAppointmentsRoute
+  '/health/emergency': typeof HealthEmergencyRoute
   '/health/prescriptions': typeof HealthPrescriptionsRoute
   '/health/telehealth': typeof HealthTelehealthRoute
   '/orders/$orderId': typeof OrdersOrderIdRoute
@@ -281,6 +288,7 @@ export interface FileRoutesByTo {
   '/apply/rider': typeof ApplyRiderRoute
   '/apply/seller': typeof ApplySellerRoute
   '/health/appointments': typeof HealthAppointmentsRoute
+  '/health/emergency': typeof HealthEmergencyRoute
   '/health/prescriptions': typeof HealthPrescriptionsRoute
   '/health/telehealth': typeof HealthTelehealthRoute
   '/orders/$orderId': typeof OrdersOrderIdRoute
@@ -318,6 +326,7 @@ export interface FileRoutesById {
   '/apply/rider': typeof ApplyRiderRoute
   '/apply/seller': typeof ApplySellerRoute
   '/health/appointments': typeof HealthAppointmentsRoute
+  '/health/emergency': typeof HealthEmergencyRoute
   '/health/prescriptions': typeof HealthPrescriptionsRoute
   '/health/telehealth': typeof HealthTelehealthRoute
   '/orders/$orderId': typeof OrdersOrderIdRoute
@@ -356,6 +365,7 @@ export interface FileRouteTypes {
     | '/apply/rider'
     | '/apply/seller'
     | '/health/appointments'
+    | '/health/emergency'
     | '/health/prescriptions'
     | '/health/telehealth'
     | '/orders/$orderId'
@@ -392,6 +402,7 @@ export interface FileRouteTypes {
     | '/apply/rider'
     | '/apply/seller'
     | '/health/appointments'
+    | '/health/emergency'
     | '/health/prescriptions'
     | '/health/telehealth'
     | '/orders/$orderId'
@@ -428,6 +439,7 @@ export interface FileRouteTypes {
     | '/apply/rider'
     | '/apply/seller'
     | '/health/appointments'
+    | '/health/emergency'
     | '/health/prescriptions'
     | '/health/telehealth'
     | '/orders/$orderId'
@@ -465,6 +477,7 @@ export interface RootRouteChildren {
   ApplyRiderRoute: typeof ApplyRiderRoute
   ApplySellerRoute: typeof ApplySellerRoute
   HealthAppointmentsRoute: typeof HealthAppointmentsRoute
+  HealthEmergencyRoute: typeof HealthEmergencyRoute
   HealthPrescriptionsRoute: typeof HealthPrescriptionsRoute
   HealthTelehealthRoute: typeof HealthTelehealthRoute
   OrdersOrderIdRoute: typeof OrdersOrderIdRoute
@@ -659,6 +672,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HealthAppointmentsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/health/emergency': {
+      id: '/health/emergency'
+      path: '/health/emergency'
+      fullPath: '/health/emergency'
+      preLoaderRoute: typeof HealthEmergencyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/health/prescriptions': {
       id: '/health/prescriptions'
       path: '/health/prescriptions'
@@ -746,6 +766,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApplyRiderRoute: ApplyRiderRoute,
   ApplySellerRoute: ApplySellerRoute,
   HealthAppointmentsRoute: HealthAppointmentsRoute,
+  HealthEmergencyRoute: HealthEmergencyRoute,
   HealthPrescriptionsRoute: HealthPrescriptionsRoute,
   HealthTelehealthRoute: HealthTelehealthRoute,
   OrdersOrderIdRoute: OrdersOrderIdRoute,
