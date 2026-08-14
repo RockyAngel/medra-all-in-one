@@ -31,7 +31,7 @@ function OrderDetailPage() {
       const { data, error } = await supabase
         .from("orders")
         .select(
-          "id, order_number, status, subtotal, delivery_fee, points_discount, points_redeemed, total, created_at, order_items(id, product_name, quantity, unit_price), deliveries(status, rider_latitude, rider_longitude, picked_up_at, delivered_at), addresses(line1, city, state, recipient_name)",
+          "id, order_number, status, is_emergency, subtotal, delivery_fee, points_discount, points_redeemed, total, created_at, order_items(id, product_name, quantity, unit_price), deliveries(status, rider_latitude, rider_longitude, picked_up_at, delivered_at), addresses(line1, city, state, recipient_name)",
         )
         .eq("id", orderId)
         .maybeSingle();
@@ -72,6 +72,11 @@ function OrderDetailPage() {
                 <div>
                   <h1 className="text-2xl font-extrabold">{data.order_number}</h1>
                   <p className="text-sm text-muted-foreground">Placed {formatDate(data.created_at)}</p>
+                  {data.is_emergency && (
+                    <span className="mt-2 inline-block rounded-full bg-destructive/15 px-3 py-1 text-xs font-bold text-destructive">
+                      Priority pharmacy dispatch
+                    </span>
+                  )}
                 </div>
                 <span className="rounded-full bg-leaf/15 px-4 py-1.5 text-sm font-bold text-leaf">
                   {ORDER_STATUS_LABEL[data.status] ?? data.status}

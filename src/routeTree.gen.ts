@@ -34,9 +34,14 @@ import { Route as Char91DotmcpChar93ListToolsRouteImport } from './routes/[.mcp]
 import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
 import { Route as ApplyRiderRouteImport } from './routes/apply.rider'
 import { Route as ApplySellerRouteImport } from './routes/apply.seller'
+import { Route as HealthAppointmentsRouteImport } from './routes/health.appointments'
+import { Route as HealthEmergencyRouteImport } from './routes/health.emergency'
+import { Route as HealthPrescriptionsRouteImport } from './routes/health.prescriptions'
+import { Route as HealthTelehealthRouteImport } from './routes/health.telehealth'
 import { Route as OrdersIndexRouteImport } from './routes/orders.index'
 import { Route as OrdersOrderIdRouteImport } from './routes/orders.$orderId'
 import { Route as ProductProductIdRouteImport } from './routes/product.$productId'
+import { Route as SellerPrescriptionsRouteImport } from './routes/seller.prescriptions'
 import { Route as StoreStoreSlugRouteImport } from './routes/store.$storeSlug'
 import { Route as DotlovableOauthConsentRouteImport } from './routes/[.]lovable.oauth.consent'
 import { Route as Char91DotmcpChar93InvokeToolToolRouteImport } from './routes/[.mcp]/invoke-tool/$tool'
@@ -168,6 +173,26 @@ const ApplySellerRoute = ApplySellerRouteImport.update({
   path: '/apply/seller',
   getParentRoute: () => rootRouteImport,
 } as any)
+const HealthAppointmentsRoute = HealthAppointmentsRouteImport.update({
+  id: '/health/appointments',
+  path: '/health/appointments',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HealthEmergencyRoute = HealthEmergencyRouteImport.update({
+  id: '/health/emergency',
+  path: '/health/emergency',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HealthPrescriptionsRoute = HealthPrescriptionsRouteImport.update({
+  id: '/health/prescriptions',
+  path: '/health/prescriptions',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HealthTelehealthRoute = HealthTelehealthRouteImport.update({
+  id: '/health/telehealth',
+  path: '/health/telehealth',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const OrdersIndexRoute = OrdersIndexRouteImport.update({
   id: '/orders/',
   path: '/orders/',
@@ -182,6 +207,11 @@ const ProductProductIdRoute = ProductProductIdRouteImport.update({
   id: '/product/$productId',
   path: '/product/$productId',
   getParentRoute: () => rootRouteImport,
+} as any)
+const SellerPrescriptionsRoute = SellerPrescriptionsRouteImport.update({
+  id: '/prescriptions',
+  path: '/prescriptions',
+  getParentRoute: () => SellerRoute,
 } as any)
 const StoreStoreSlugRoute = StoreStoreSlugRouteImport.update({
   id: '/store/$storeSlug',
@@ -215,7 +245,7 @@ export interface FileRoutesByFullPath {
   '/membership': typeof MembershipRoute
   '/notifications': typeof NotificationsRoute
   '/rider': typeof RiderRoute
-  '/seller': typeof SellerRoute
+  '/seller': typeof SellerRouteWithChildren
   '/signup': typeof SignupRoute
   '/stores': typeof StoresRoute
   '/super-admin': typeof SuperAdminRoute
@@ -226,8 +256,13 @@ export interface FileRoutesByFullPath {
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/apply/rider': typeof ApplyRiderRoute
   '/apply/seller': typeof ApplySellerRoute
+  '/health/appointments': typeof HealthAppointmentsRoute
+  '/health/emergency': typeof HealthEmergencyRoute
+  '/health/prescriptions': typeof HealthPrescriptionsRoute
+  '/health/telehealth': typeof HealthTelehealthRoute
   '/orders/$orderId': typeof OrdersOrderIdRoute
   '/product/$productId': typeof ProductProductIdRoute
+  '/seller/prescriptions': typeof SellerPrescriptionsRoute
   '/store/$storeSlug': typeof StoreStoreSlugRoute
   '/orders/': typeof OrdersIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
@@ -248,7 +283,7 @@ export interface FileRoutesByTo {
   '/membership': typeof MembershipRoute
   '/notifications': typeof NotificationsRoute
   '/rider': typeof RiderRoute
-  '/seller': typeof SellerRoute
+  '/seller': typeof SellerRouteWithChildren
   '/signup': typeof SignupRoute
   '/stores': typeof StoresRoute
   '/super-admin': typeof SuperAdminRoute
@@ -259,8 +294,13 @@ export interface FileRoutesByTo {
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/apply/rider': typeof ApplyRiderRoute
   '/apply/seller': typeof ApplySellerRoute
+  '/health/appointments': typeof HealthAppointmentsRoute
+  '/health/emergency': typeof HealthEmergencyRoute
+  '/health/prescriptions': typeof HealthPrescriptionsRoute
+  '/health/telehealth': typeof HealthTelehealthRoute
   '/orders/$orderId': typeof OrdersOrderIdRoute
   '/product/$productId': typeof ProductProductIdRoute
+  '/seller/prescriptions': typeof SellerPrescriptionsRoute
   '/store/$storeSlug': typeof StoreStoreSlugRoute
   '/orders': typeof OrdersIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
@@ -282,7 +322,7 @@ export interface FileRoutesById {
   '/membership': typeof MembershipRoute
   '/notifications': typeof NotificationsRoute
   '/rider': typeof RiderRoute
-  '/seller': typeof SellerRoute
+  '/seller': typeof SellerRouteWithChildren
   '/signup': typeof SignupRoute
   '/stores': typeof StoresRoute
   '/super-admin': typeof SuperAdminRoute
@@ -293,8 +333,13 @@ export interface FileRoutesById {
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/apply/rider': typeof ApplyRiderRoute
   '/apply/seller': typeof ApplySellerRoute
+  '/health/appointments': typeof HealthAppointmentsRoute
+  '/health/emergency': typeof HealthEmergencyRoute
+  '/health/prescriptions': typeof HealthPrescriptionsRoute
+  '/health/telehealth': typeof HealthTelehealthRoute
   '/orders/$orderId': typeof OrdersOrderIdRoute
   '/product/$productId': typeof ProductProductIdRoute
+  '/seller/prescriptions': typeof SellerPrescriptionsRoute
   '/store/$storeSlug': typeof StoreStoreSlugRoute
   '/orders/': typeof OrdersIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
@@ -328,8 +373,13 @@ export interface FileRouteTypes {
     | '/.well-known/oauth-protected-resource'
     | '/apply/rider'
     | '/apply/seller'
+    | '/health/appointments'
+    | '/health/emergency'
+    | '/health/prescriptions'
+    | '/health/telehealth'
     | '/orders/$orderId'
     | '/product/$productId'
+    | '/seller/prescriptions'
     | '/store/$storeSlug'
     | '/orders/'
     | '/.lovable/oauth/consent'
@@ -361,8 +411,13 @@ export interface FileRouteTypes {
     | '/.well-known/oauth-protected-resource'
     | '/apply/rider'
     | '/apply/seller'
+    | '/health/appointments'
+    | '/health/emergency'
+    | '/health/prescriptions'
+    | '/health/telehealth'
     | '/orders/$orderId'
     | '/product/$productId'
+    | '/seller/prescriptions'
     | '/store/$storeSlug'
     | '/orders'
     | '/.lovable/oauth/consent'
@@ -394,8 +449,13 @@ export interface FileRouteTypes {
     | '/.well-known/oauth-protected-resource'
     | '/apply/rider'
     | '/apply/seller'
+    | '/health/appointments'
+    | '/health/emergency'
+    | '/health/prescriptions'
+    | '/health/telehealth'
     | '/orders/$orderId'
     | '/product/$productId'
+    | '/seller/prescriptions'
     | '/store/$storeSlug'
     | '/orders/'
     | '/.lovable/oauth/consent'
@@ -417,7 +477,7 @@ export interface RootRouteChildren {
   MembershipRoute: typeof MembershipRoute
   NotificationsRoute: typeof NotificationsRoute
   RiderRoute: typeof RiderRoute
-  SellerRoute: typeof SellerRoute
+  SellerRoute: typeof SellerRouteWithChildren
   SignupRoute: typeof SignupRoute
   StoresRoute: typeof StoresRoute
   SuperAdminRoute: typeof SuperAdminRoute
@@ -428,6 +488,10 @@ export interface RootRouteChildren {
   Char91DotwellKnownChar93OauthProtectedResourceRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   ApplyRiderRoute: typeof ApplyRiderRoute
   ApplySellerRoute: typeof ApplySellerRoute
+  HealthAppointmentsRoute: typeof HealthAppointmentsRoute
+  HealthEmergencyRoute: typeof HealthEmergencyRoute
+  HealthPrescriptionsRoute: typeof HealthPrescriptionsRoute
+  HealthTelehealthRoute: typeof HealthTelehealthRoute
   OrdersOrderIdRoute: typeof OrdersOrderIdRoute
   ProductProductIdRoute: typeof ProductProductIdRoute
   StoreStoreSlugRoute: typeof StoreStoreSlugRoute
@@ -613,6 +677,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApplySellerRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/health/appointments': {
+      id: '/health/appointments'
+      path: '/health/appointments'
+      fullPath: '/health/appointments'
+      preLoaderRoute: typeof HealthAppointmentsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/health/emergency': {
+      id: '/health/emergency'
+      path: '/health/emergency'
+      fullPath: '/health/emergency'
+      preLoaderRoute: typeof HealthEmergencyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/health/prescriptions': {
+      id: '/health/prescriptions'
+      path: '/health/prescriptions'
+      fullPath: '/health/prescriptions'
+      preLoaderRoute: typeof HealthPrescriptionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/health/telehealth': {
+      id: '/health/telehealth'
+      path: '/health/telehealth'
+      fullPath: '/health/telehealth'
+      preLoaderRoute: typeof HealthTelehealthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/orders/': {
       id: '/orders/'
       path: '/orders'
@@ -633,6 +725,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/product/$productId'
       preLoaderRoute: typeof ProductProductIdRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/seller/prescriptions': {
+      id: '/seller/prescriptions'
+      path: '/prescriptions'
+      fullPath: '/seller/prescriptions'
+      preLoaderRoute: typeof SellerPrescriptionsRouteImport
+      parentRoute: typeof SellerRoute
     }
     '/store/$storeSlug': {
       id: '/store/$storeSlug'
@@ -658,6 +757,17 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface SellerRouteChildren {
+  SellerPrescriptionsRoute: typeof SellerPrescriptionsRoute
+}
+
+const SellerRouteChildren: SellerRouteChildren = {
+  SellerPrescriptionsRoute: SellerPrescriptionsRoute,
+}
+
+const SellerRouteWithChildren =
+  SellerRoute._addFileChildren(SellerRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AccountRoute: AccountRoute,
@@ -673,7 +783,7 @@ const rootRouteChildren: RootRouteChildren = {
   MembershipRoute: MembershipRoute,
   NotificationsRoute: NotificationsRoute,
   RiderRoute: RiderRoute,
-  SellerRoute: SellerRoute,
+  SellerRoute: SellerRouteWithChildren,
   SignupRoute: SignupRoute,
   StoresRoute: StoresRoute,
   SuperAdminRoute: SuperAdminRoute,
@@ -685,6 +795,10 @@ const rootRouteChildren: RootRouteChildren = {
     Char91DotwellKnownChar93OauthProtectedResourceRoute,
   ApplyRiderRoute: ApplyRiderRoute,
   ApplySellerRoute: ApplySellerRoute,
+  HealthAppointmentsRoute: HealthAppointmentsRoute,
+  HealthEmergencyRoute: HealthEmergencyRoute,
+  HealthPrescriptionsRoute: HealthPrescriptionsRoute,
+  HealthTelehealthRoute: HealthTelehealthRoute,
   OrdersOrderIdRoute: OrdersOrderIdRoute,
   ProductProductIdRoute: ProductProductIdRoute,
   StoreStoreSlugRoute: StoreStoreSlugRoute,

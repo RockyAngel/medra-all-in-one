@@ -42,6 +42,9 @@ export function CustomerHeader({
           <Link to="/membership" className="hover:text-ink-foreground">
             Membership
           </Link>
+          <Link to="/health/telehealth" className="hover:text-ink-foreground">
+            Health
+          </Link>
           <Link to="/support" search={{ ticket: undefined }} className="hover:text-ink-foreground">
             Support
           </Link>
@@ -139,6 +142,12 @@ export function CustomerFooter() {
           </Link>
           <Link to="/stores" className="hover:text-ink-foreground">
             Stores
+          </Link>
+          <Link to="/health/emergency" className="hover:text-ink-foreground">
+            Emergency pharmacy
+          </Link>
+          <Link to="/health/prescriptions" className="hover:text-ink-foreground">
+            Prescriptions
           </Link>
           <Link to="/become-a-rider" className="hover:text-ink-foreground">
             Become a Rider

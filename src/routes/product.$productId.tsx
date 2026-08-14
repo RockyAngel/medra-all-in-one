@@ -1,7 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
-import { Heart, Minus, Plus, ShieldCheck, Store, Truck } from "lucide-react";
+import { FileText, Heart, Minus, Plus, ShieldCheck, Store, Truck } from "lucide-react";
 import { toast } from "sonner";
 import { CustomerFooter, CustomerHeader, StoredImage } from "@/components/medra/CustomerChrome";
 import { EmptyState, QueryBoundary } from "@/components/medra/States";
@@ -35,7 +35,7 @@ function ProductPage() {
       const { data, error } = await supabase
         .from("products")
         .select(
-          "id, name, description, price, image_path, stock_quantity, seller_id, store_id, stores(name, slug, city, rating_average)",
+          "id, name, description, price, image_path, stock_quantity, seller_id, store_id, prescription_required, is_medication, generic_name, brand_name, strength, nafdac_number, emergency_eligible, stores(name, slug, city, rating_average)",
         )
         .eq("id", productId)
         .eq("status", "active")
@@ -149,6 +149,40 @@ function ProductPage() {
                     ? `${product.data.stock_quantity} in stock`
                     : "Currently out of stock"}
                 </p>
+                {product.data.prescription_required && (
+                  <div className="mt-4 flex items-start gap-2 rounded-2xl border border-amber/40 bg-amber/10 p-3 text-sm">
+                    <FileText className="mt-0.5 size-4 text-amber" />
+                    <div>
+                      <p className="font-bold">Prescription required</p>
+                      <p className="text-muted-foreground">
+                        Add this item to your cart, then upload a prescription for this pharmacy.
+                        Checkout unlocks once a pharmacist approves it.
+                      </p>
+                      <Link
+                        to="/health/prescriptions"
+                        className="mt-1 inline-block font-semibold text-primary hover:underline"
+                      >
+                        Manage prescriptions
+                      </Link>
+                    </div>
+                  </div>
+                )}
+                {product.data.is_medication && (
+                  <dl className="mt-4 grid gap-2 rounded-2xl border border-border p-3 text-sm sm:grid-cols-2">
+                    {product.data.generic_name && (
+                      <MedRow label="Generic name" value={product.data.generic_name} />
+                    )}
+                    {product.data.brand_name && (
+                      <MedRow label="Brand" value={product.data.brand_name} />
+                    )}
+                    {product.data.strength && (
+                      <MedRow label="Strength" value={product.data.strength} />
+                    )}
+                    {product.data.nafdac_number && (
+                      <MedRow label="NAFDAC no." value={product.data.nafdac_number} />
+                    )}
+                  </dl>
+                )}
                 {product.data.description && (
                   <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
                     {product.data.description}
@@ -198,6 +232,12 @@ function ProductPage() {
                   <li className="flex items-center gap-2 text-sm text-muted-foreground">
                     <Truck className="size-4 text-sky" /> Live delivery tracking
                   </li>
+                  {product.data.emergency_eligible && (
+                    <li className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <ShieldCheck className="size-4 text-destructive" /> Eligible for priority
+                      pharmacy delivery
+                    </li>
+                  )}
                 </ul>
               </div>
             </div>
@@ -205,6 +245,17 @@ function ProductPage() {
         </QueryBoundary>
       </div>
       <CustomerFooter />
+    </div>
+  );
+}
+
+function MedRow({ label, value }: { label: string; value: string }) {
+  return (
+    <div>
+      <dt className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+        {label}
+      </dt>
+      <dd className="font-semibold">{value}</dd>
     </div>
   );
 }
