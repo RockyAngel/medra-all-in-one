@@ -45,7 +45,9 @@ import { Route as OrdersOrderIdRouteImport } from './routes/orders.$orderId'
 import { Route as ProductProductIdRouteImport } from './routes/product.$productId'
 import { Route as RiderSectionRouteImport } from './routes/rider_.$section'
 import { Route as SellerSectionRouteImport } from './routes/seller_.$section'
+import { Route as SellerOrdersRouteImport } from './routes/seller_.orders'
 import { Route as SellerPrescriptionsRouteImport } from './routes/seller_.prescriptions'
+import { Route as SellerProductsRouteImport } from './routes/seller_.products'
 import { Route as StoreStoreSlugRouteImport } from './routes/store.$storeSlug'
 import { Route as SuperAdminSectionRouteImport } from './routes/super-admin_.$section'
 import { Route as DotlovableOauthConsentRouteImport } from './routes/[.]lovable.oauth.consent'
@@ -234,9 +236,19 @@ const SellerSectionRoute = SellerSectionRouteImport.update({
   path: '/seller/$section',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SellerOrdersRoute = SellerOrdersRouteImport.update({
+  id: '/seller_/orders',
+  path: '/seller/orders',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SellerPrescriptionsRoute = SellerPrescriptionsRouteImport.update({
   id: '/seller_/prescriptions',
   path: '/seller/prescriptions',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SellerProductsRoute = SellerProductsRouteImport.update({
+  id: '/seller_/products',
+  path: '/seller/products',
   getParentRoute: () => rootRouteImport,
 } as any)
 const StoreStoreSlugRoute = StoreStoreSlugRouteImport.update({
@@ -297,7 +309,9 @@ export interface FileRoutesByFullPath {
   '/product/$productId': typeof ProductProductIdRoute
   '/rider/$section': typeof RiderSectionRoute
   '/seller/$section': typeof SellerSectionRoute
+  '/seller/orders': typeof SellerOrdersRoute
   '/seller/prescriptions': typeof SellerPrescriptionsRoute
+  '/seller/products': typeof SellerProductsRoute
   '/store/$storeSlug': typeof StoreStoreSlugRoute
   '/super-admin/$section': typeof SuperAdminSectionRoute
   '/orders/': typeof OrdersIndexRoute
@@ -340,7 +354,9 @@ export interface FileRoutesByTo {
   '/product/$productId': typeof ProductProductIdRoute
   '/rider/$section': typeof RiderSectionRoute
   '/seller/$section': typeof SellerSectionRoute
+  '/seller/orders': typeof SellerOrdersRoute
   '/seller/prescriptions': typeof SellerPrescriptionsRoute
+  '/seller/products': typeof SellerProductsRoute
   '/store/$storeSlug': typeof StoreStoreSlugRoute
   '/super-admin/$section': typeof SuperAdminSectionRoute
   '/orders': typeof OrdersIndexRoute
@@ -384,7 +400,9 @@ export interface FileRoutesById {
   '/product/$productId': typeof ProductProductIdRoute
   '/rider_/$section': typeof RiderSectionRoute
   '/seller_/$section': typeof SellerSectionRoute
+  '/seller_/orders': typeof SellerOrdersRoute
   '/seller_/prescriptions': typeof SellerPrescriptionsRoute
+  '/seller_/products': typeof SellerProductsRoute
   '/store/$storeSlug': typeof StoreStoreSlugRoute
   '/super-admin_/$section': typeof SuperAdminSectionRoute
   '/orders/': typeof OrdersIndexRoute
@@ -429,7 +447,9 @@ export interface FileRouteTypes {
     | '/product/$productId'
     | '/rider/$section'
     | '/seller/$section'
+    | '/seller/orders'
     | '/seller/prescriptions'
+    | '/seller/products'
     | '/store/$storeSlug'
     | '/super-admin/$section'
     | '/orders/'
@@ -472,7 +492,9 @@ export interface FileRouteTypes {
     | '/product/$productId'
     | '/rider/$section'
     | '/seller/$section'
+    | '/seller/orders'
     | '/seller/prescriptions'
+    | '/seller/products'
     | '/store/$storeSlug'
     | '/super-admin/$section'
     | '/orders'
@@ -515,7 +537,9 @@ export interface FileRouteTypes {
     | '/product/$productId'
     | '/rider_/$section'
     | '/seller_/$section'
+    | '/seller_/orders'
     | '/seller_/prescriptions'
+    | '/seller_/products'
     | '/store/$storeSlug'
     | '/super-admin_/$section'
     | '/orders/'
@@ -559,7 +583,9 @@ export interface RootRouteChildren {
   ProductProductIdRoute: typeof ProductProductIdRoute
   RiderSectionRoute: typeof RiderSectionRoute
   SellerSectionRoute: typeof SellerSectionRoute
+  SellerOrdersRoute: typeof SellerOrdersRoute
   SellerPrescriptionsRoute: typeof SellerPrescriptionsRoute
+  SellerProductsRoute: typeof SellerProductsRoute
   StoreStoreSlugRoute: typeof StoreStoreSlugRoute
   SuperAdminSectionRoute: typeof SuperAdminSectionRoute
   OrdersIndexRoute: typeof OrdersIndexRoute
@@ -821,11 +847,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SellerSectionRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/seller_/orders': {
+      id: '/seller_/orders'
+      path: '/seller/orders'
+      fullPath: '/seller/orders'
+      preLoaderRoute: typeof SellerOrdersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/seller_/prescriptions': {
       id: '/seller_/prescriptions'
       path: '/seller/prescriptions'
       fullPath: '/seller/prescriptions'
       preLoaderRoute: typeof SellerPrescriptionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/seller_/products': {
+      id: '/seller_/products'
+      path: '/seller/products'
+      fullPath: '/seller/products'
+      preLoaderRoute: typeof SellerProductsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/store/$storeSlug': {
@@ -896,7 +936,9 @@ const rootRouteChildren: RootRouteChildren = {
   ProductProductIdRoute: ProductProductIdRoute,
   RiderSectionRoute: RiderSectionRoute,
   SellerSectionRoute: SellerSectionRoute,
+  SellerOrdersRoute: SellerOrdersRoute,
   SellerPrescriptionsRoute: SellerPrescriptionsRoute,
+  SellerProductsRoute: SellerProductsRoute,
   StoreStoreSlugRoute: StoreStoreSlugRoute,
   SuperAdminSectionRoute: SuperAdminSectionRoute,
   OrdersIndexRoute: OrdersIndexRoute,
