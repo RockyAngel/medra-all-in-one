@@ -57,10 +57,18 @@ function TelehealthPage() {
   const slots = useProfessionalSlots(professionalId);
   const professional = (professionals.data ?? []).find((p) => p.id === professionalId) ?? null;
 
+  const paymentsEnabled = useFeatureEnabled("payments.provider.enabled").enabled;
+
   const book = useMutation({
     mutationFn: async () => {
       if (!service || !professionalId) throw new Error("Pick a service and a professional");
+      if (!paymentsEnabled) {
+        throw new Error(
+          "Consultation payments are not available yet — no payment provider is connected, so this booking cannot be confirmed.",
+        );
+      }
       const booked = await supabase.rpc("book_consultation", {
+
         _service_id: service.id,
         _professional_id: professionalId,
         ...(slotId ? { _availability_id: slotId } : {}),
