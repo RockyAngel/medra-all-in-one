@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { AlertTriangle, Banknote, LifeBuoy, ShoppingBag, Store } from "lucide-react";
 import { Panel, StatCard } from "@/components/medra/DashboardShell";
