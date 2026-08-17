@@ -78,6 +78,7 @@ import { Route as SuperAdminCategoriesRouteImport } from './routes/super-admin_.
 import { Route as SuperAdminCommissionRouteImport } from './routes/super-admin_.commission'
 import { Route as SuperAdminFeaturesRouteImport } from './routes/super-admin_.features'
 import { Route as SuperAdminPermissionsRouteImport } from './routes/super-admin_.permissions'
+import { Route as SuperAdminStaffRouteImport } from './routes/super-admin_.staff'
 import { Route as DotlovableOauthConsentRouteImport } from './routes/[.]lovable.oauth.consent'
 import { Route as Char91DotmcpChar93InvokeToolToolRouteImport } from './routes/[.mcp]/invoke-tool/$tool'
 
@@ -429,6 +430,11 @@ const SuperAdminPermissionsRoute = SuperAdminPermissionsRouteImport.update({
   path: '/super-admin/permissions',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SuperAdminStaffRoute = SuperAdminStaffRouteImport.update({
+  id: '/super-admin_/staff',
+  path: '/super-admin/staff',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DotlovableOauthConsentRoute = DotlovableOauthConsentRouteImport.update({
   id: '/.lovable/oauth/consent',
   path: '/.lovable/oauth/consent',
@@ -510,6 +516,7 @@ export interface FileRoutesByFullPath {
   '/super-admin/commission': typeof SuperAdminCommissionRoute
   '/super-admin/features': typeof SuperAdminFeaturesRoute
   '/super-admin/permissions': typeof SuperAdminPermissionsRoute
+  '/super-admin/staff': typeof SuperAdminStaffRoute
   '/orders/': typeof OrdersIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
@@ -583,6 +590,7 @@ export interface FileRoutesByTo {
   '/super-admin/commission': typeof SuperAdminCommissionRoute
   '/super-admin/features': typeof SuperAdminFeaturesRoute
   '/super-admin/permissions': typeof SuperAdminPermissionsRoute
+  '/super-admin/staff': typeof SuperAdminStaffRoute
   '/orders': typeof OrdersIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
@@ -657,6 +665,7 @@ export interface FileRoutesById {
   '/super-admin_/commission': typeof SuperAdminCommissionRoute
   '/super-admin_/features': typeof SuperAdminFeaturesRoute
   '/super-admin_/permissions': typeof SuperAdminPermissionsRoute
+  '/super-admin_/staff': typeof SuperAdminStaffRoute
   '/orders/': typeof OrdersIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
@@ -732,6 +741,7 @@ export interface FileRouteTypes {
     | '/super-admin/commission'
     | '/super-admin/features'
     | '/super-admin/permissions'
+    | '/super-admin/staff'
     | '/orders/'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
@@ -805,6 +815,7 @@ export interface FileRouteTypes {
     | '/super-admin/commission'
     | '/super-admin/features'
     | '/super-admin/permissions'
+    | '/super-admin/staff'
     | '/orders'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
@@ -878,6 +889,7 @@ export interface FileRouteTypes {
     | '/super-admin_/commission'
     | '/super-admin_/features'
     | '/super-admin_/permissions'
+    | '/super-admin_/staff'
     | '/orders/'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
@@ -952,6 +964,7 @@ export interface RootRouteChildren {
   SuperAdminCommissionRoute: typeof SuperAdminCommissionRoute
   SuperAdminFeaturesRoute: typeof SuperAdminFeaturesRoute
   SuperAdminPermissionsRoute: typeof SuperAdminPermissionsRoute
+  SuperAdminStaffRoute: typeof SuperAdminStaffRoute
   OrdersIndexRoute: typeof OrdersIndexRoute
   DotlovableOauthConsentRoute: typeof DotlovableOauthConsentRoute
   Char91DotmcpChar93InvokeToolToolRoute: typeof Char91DotmcpChar93InvokeToolToolRoute
@@ -1442,6 +1455,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SuperAdminPermissionsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/super-admin_/staff': {
+      id: '/super-admin_/staff'
+      path: '/super-admin/staff'
+      fullPath: '/super-admin/staff'
+      preLoaderRoute: typeof SuperAdminStaffRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/.lovable/oauth/consent': {
       id: '/.lovable/oauth/consent'
       path: '/.lovable/oauth/consent'
@@ -1529,6 +1549,7 @@ const rootRouteChildren: RootRouteChildren = {
   SuperAdminCommissionRoute: SuperAdminCommissionRoute,
   SuperAdminFeaturesRoute: SuperAdminFeaturesRoute,
   SuperAdminPermissionsRoute: SuperAdminPermissionsRoute,
+  SuperAdminStaffRoute: SuperAdminStaffRoute,
   OrdersIndexRoute: OrdersIndexRoute,
   DotlovableOauthConsentRoute: DotlovableOauthConsentRoute,
   Char91DotmcpChar93InvokeToolToolRoute: Char91DotmcpChar93InvokeToolToolRoute,
