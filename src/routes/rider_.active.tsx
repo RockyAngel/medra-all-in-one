@@ -6,6 +6,8 @@ import { toast } from "sonner";
 import { Panel } from "@/components/medra/DashboardShell";
 import { Pill, RiderPage } from "@/components/medra/RoleDashboard";
 import { EmptyState, QueryBoundary } from "@/components/medra/States";
+import { TrackingMap } from "@/components/medra/TrackingMap";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { supabase } from "@/integrations/supabase/client";
