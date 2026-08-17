@@ -6,6 +6,8 @@ import { toast } from "sonner";
 import { Panel } from "@/components/medra/DashboardShell";
 import { Pill, RiderPage } from "@/components/medra/RoleDashboard";
 import { EmptyState, QueryBoundary } from "@/components/medra/States";
+import { TrackingMap } from "@/components/medra/TrackingMap";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { supabase } from "@/integrations/supabase/client";
@@ -28,6 +30,17 @@ export const Route = createFileRoute("/rider_/active")({
   }),
   component: RiderActivePage,
 });
+
+function dropLatLng(snapshot: unknown): { lat: number | null; lng: number | null } {
+  if (!snapshot || typeof snapshot !== "object") return { lat: null, lng: null };
+  const raw = snapshot as Record<string, unknown>;
+  const lat = Number(raw["latitude"]);
+  const lng = Number(raw["longitude"]);
+  return {
+    lat: Number.isFinite(lat) ? lat : null,
+    lng: Number.isFinite(lng) ? lng : null,
+  };
+}
 
 const STAGES: { key: string; label: string }[] = [
   { key: "en_route_to_seller", label: "En route to store" },
@@ -157,6 +170,21 @@ function RiderActivePage() {
                   </p>
                 </div>
               </div>
+
+              <div className="mt-4">
+                <TrackingMap
+                  height={200}
+                  destination={{
+                    lat: dropLatLng(d.orders?.address_snapshot).lat,
+                    lng: dropLatLng(d.orders?.address_snapshot).lng,
+                  }}
+                  rider={{ lat: d.rider_latitude, lng: d.rider_longitude }}
+                  store={{ lat: d.stores?.latitude, lng: d.stores?.longitude }}
+                  caption="Green marker is the store, blue is the customer, amber is your last shared location."
+                />
+              </div>
+
+
 
               <div className="mt-4 flex flex-wrap gap-2">
                 {STAGES.map((stage) => (

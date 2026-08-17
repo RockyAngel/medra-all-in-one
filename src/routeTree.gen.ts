@@ -90,6 +90,7 @@ import { Route as SuperAdminPermissionsRouteImport } from './routes/super-admin_
 import { Route as SuperAdminStaffRouteImport } from './routes/super-admin_.staff'
 import { Route as DotlovableOauthConsentRouteImport } from './routes/[.]lovable.oauth.consent'
 import { Route as Char91DotmcpChar93InvokeToolToolRouteImport } from './routes/[.mcp]/invoke-tool/$tool'
+import { Route as ApiPublicMapRouteImport } from './routes/api/public/map'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -500,6 +501,11 @@ const Char91DotmcpChar93InvokeToolToolRoute =
     path: '/.mcp/invoke-tool/$tool',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiPublicMapRoute = ApiPublicMapRouteImport.update({
+  id: '/api/public/map',
+  path: '/api/public/map',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -583,6 +589,7 @@ export interface FileRoutesByFullPath {
   '/orders/': typeof OrdersIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
+  '/api/public/map': typeof ApiPublicMapRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -666,6 +673,7 @@ export interface FileRoutesByTo {
   '/orders': typeof OrdersIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
+  '/api/public/map': typeof ApiPublicMapRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -750,6 +758,7 @@ export interface FileRoutesById {
   '/orders/': typeof OrdersIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
+  '/api/public/map': typeof ApiPublicMapRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -835,6 +844,7 @@ export interface FileRouteTypes {
     | '/orders/'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
+    | '/api/public/map'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -918,6 +928,7 @@ export interface FileRouteTypes {
     | '/orders'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
+    | '/api/public/map'
   id:
     | '__root__'
     | '/'
@@ -1001,6 +1012,7 @@ export interface FileRouteTypes {
     | '/orders/'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
+    | '/api/public/map'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -1085,6 +1097,7 @@ export interface RootRouteChildren {
   OrdersIndexRoute: typeof OrdersIndexRoute
   DotlovableOauthConsentRoute: typeof DotlovableOauthConsentRoute
   Char91DotmcpChar93InvokeToolToolRoute: typeof Char91DotmcpChar93InvokeToolToolRoute
+  ApiPublicMapRoute: typeof ApiPublicMapRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -1656,6 +1669,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof Char91DotmcpChar93InvokeToolToolRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/map': {
+      id: '/api/public/map'
+      path: '/api/public/map'
+      fullPath: '/api/public/map'
+      preLoaderRoute: typeof ApiPublicMapRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -1742,6 +1762,7 @@ const rootRouteChildren: RootRouteChildren = {
   OrdersIndexRoute: OrdersIndexRoute,
   DotlovableOauthConsentRoute: DotlovableOauthConsentRoute,
   Char91DotmcpChar93InvokeToolToolRoute: Char91DotmcpChar93InvokeToolToolRoute,
+  ApiPublicMapRoute: ApiPublicMapRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

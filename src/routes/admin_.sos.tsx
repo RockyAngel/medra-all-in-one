@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import { Panel } from "@/components/medra/DashboardShell";
 import { AdminPage, FilterTabs, Pill } from "@/components/medra/RoleDashboard";
 import { EmptyState, QueryBoundary } from "@/components/medra/States";
+import { TrackingMap } from "@/components/medra/TrackingMap";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { formatDate } from "@/lib/medra";
@@ -106,6 +107,15 @@ function AdminSosPage() {
                       >
                         Open rider location
                       </a>
+                    )}
+                    {i.latitude != null && i.longitude != null && (
+                      <div className="mt-3 max-w-md">
+                        <TrackingMap
+                          height={180}
+                          destination={{ lat: i.latitude, lng: i.longitude }}
+                          caption="Location reported when the SOS was raised."
+                        />
+                      </div>
                     )}
                   </div>
                   <div className="flex flex-wrap items-center gap-2">

@@ -3,6 +3,8 @@ import { useQuery } from "@tanstack/react-query";
 import { CheckCircle2, MapPin, Truck } from "lucide-react";
 import { CustomerFooter, CustomerHeader } from "@/components/medra/CustomerChrome";
 import { EmptyState, QueryBoundary } from "@/components/medra/States";
+import { TrackingMap } from "@/components/medra/TrackingMap";
+
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { ORDER_STATUS_LABEL, formatDate, formatNaira } from "@/lib/medra";
@@ -31,7 +33,7 @@ function OrderDetailPage() {
       const { data, error } = await supabase
         .from("orders")
         .select(
-          "id, order_number, status, is_emergency, subtotal, delivery_fee, points_discount, points_redeemed, total, created_at, order_items(id, product_name, quantity, unit_price), deliveries(status, rider_latitude, rider_longitude, picked_up_at, delivered_at), addresses(line1, city, state, recipient_name)",
+          "id, order_number, status, is_emergency, subtotal, delivery_fee, points_discount, points_redeemed, total, created_at, order_items(id, product_name, quantity, unit_price), deliveries(status, rider_latitude, rider_longitude, picked_up_at, delivered_at), addresses(line1, city, state, recipient_name, latitude, longitude)",
         )
         .eq("id", orderId)
         .maybeSingle();
@@ -111,17 +113,29 @@ function OrderDetailPage() {
                   <p className="flex items-center gap-2 font-semibold">
                     <MapPin className="size-4 text-amberish" /> Rider location
                   </p>
+                  <div className="mt-3">
+                    <TrackingMap
+                      destination={{ lat: address?.latitude, lng: address?.longitude }}
+                      rider={{ lat: delivery?.rider_latitude, lng: delivery?.rider_longitude }}
+                      caption={
+                        delivery?.rider_latitude && delivery?.rider_longitude
+                          ? "Rider marker updates as new location pings arrive."
+                          : "Your delivery address is shown. The rider marker appears once they start the trip."
+                      }
+                    />
+                  </div>
                   {delivery?.rider_latitude && delivery?.rider_longitude ? (
-                    <p className="mt-1 text-muted-foreground">
+                    <p className="mt-2 text-muted-foreground">
                       Last ping: {Number(delivery.rider_latitude).toFixed(4)},{" "}
                       {Number(delivery.rider_longitude).toFixed(4)} — updates automatically.
                     </p>
                   ) : (
-                    <p className="mt-1 text-muted-foreground">
+                    <p className="mt-2 text-muted-foreground">
                       Live location appears here once a rider accepts and starts this delivery.
                     </p>
                   )}
                 </div>
+
               </section>
 
               <div className="mt-6 grid gap-5 md:grid-cols-2">
