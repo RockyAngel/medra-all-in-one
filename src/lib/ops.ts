@@ -213,7 +213,7 @@ export function useAdminDeliveries() {
       const { data, error } = await supabase
         .from("deliveries")
         .select(
-          "id, status, milestone, rider_id, fee_total, rider_amount, platform_amount, is_peak, is_priority, assigned_at, delivered_at, expected_delivery_at, created_at, orders(order_number), stores(name, city)",
+          "id, status, milestone, rider_id, fee_total, rider_amount, platform_amount, is_peak, is_priority, assigned_at, delivered_at, expected_delivery_at, created_at, rider_latitude, rider_longitude, orders(order_number), stores(name, city)",
         )
         .order("created_at", { ascending: false })
         .limit(100);
