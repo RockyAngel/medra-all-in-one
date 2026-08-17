@@ -101,7 +101,7 @@ export function DataTable({
   );
 }
 
-export function Pill({ tone, children }: { tone?: string; children: ReactNode }) {
+export function Pill({ tone, children }: { tone?: string | undefined; children: ReactNode }) {
   return (
     <span
       className={cn(
@@ -113,3 +113,35 @@ export function Pill({ tone, children }: { tone?: string; children: ReactNode })
     </span>
   );
 }
+
+/** Segmented filter buttons shared by the dashboard queues. */
+export function FilterTabs({
+  options,
+  value,
+  onChange,
+}: {
+  options: { key: string; label: string }[];
+  value: string;
+  onChange: (key: string) => void;
+}) {
+  return (
+    <div className="mb-4 flex flex-wrap gap-2">
+      {options.map((option) => (
+        <button
+          key={option.key}
+          type="button"
+          onClick={() => onChange(option.key)}
+          className={cn(
+            "rounded-full px-4 py-2 text-sm font-bold transition-colors",
+            value === option.key
+              ? "bg-primary text-primary-foreground"
+              : "border border-border hover:bg-muted",
+          )}
+        >
+          {option.label}
+        </button>
+      ))}
+    </div>
+  );
+}
+
