@@ -51,6 +51,7 @@ import { Route as SellerOrdersRouteImport } from './routes/seller_.orders'
 import { Route as SellerPayoutsRouteImport } from './routes/seller_.payouts'
 import { Route as SellerPrescriptionsRouteImport } from './routes/seller_.prescriptions'
 import { Route as SellerProductsRouteImport } from './routes/seller_.products'
+import { Route as SellerStoreRouteImport } from './routes/seller_.store'
 import { Route as SellerTransactionsRouteImport } from './routes/seller_.transactions'
 import { Route as StoreStoreSlugRouteImport } from './routes/store.$storeSlug'
 import { Route as SuperAdminSectionRouteImport } from './routes/super-admin_.$section'
@@ -270,6 +271,11 @@ const SellerProductsRoute = SellerProductsRouteImport.update({
   path: '/seller/products',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SellerStoreRoute = SellerStoreRouteImport.update({
+  id: '/seller_/store',
+  path: '/seller/store',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SellerTransactionsRoute = SellerTransactionsRouteImport.update({
   id: '/seller_/transactions',
   path: '/seller/transactions',
@@ -339,6 +345,7 @@ export interface FileRoutesByFullPath {
   '/seller/payouts': typeof SellerPayoutsRoute
   '/seller/prescriptions': typeof SellerPrescriptionsRoute
   '/seller/products': typeof SellerProductsRoute
+  '/seller/store': typeof SellerStoreRoute
   '/seller/transactions': typeof SellerTransactionsRoute
   '/store/$storeSlug': typeof StoreStoreSlugRoute
   '/super-admin/$section': typeof SuperAdminSectionRoute
@@ -388,6 +395,7 @@ export interface FileRoutesByTo {
   '/seller/payouts': typeof SellerPayoutsRoute
   '/seller/prescriptions': typeof SellerPrescriptionsRoute
   '/seller/products': typeof SellerProductsRoute
+  '/seller/store': typeof SellerStoreRoute
   '/seller/transactions': typeof SellerTransactionsRoute
   '/store/$storeSlug': typeof StoreStoreSlugRoute
   '/super-admin/$section': typeof SuperAdminSectionRoute
@@ -438,6 +446,7 @@ export interface FileRoutesById {
   '/seller_/payouts': typeof SellerPayoutsRoute
   '/seller_/prescriptions': typeof SellerPrescriptionsRoute
   '/seller_/products': typeof SellerProductsRoute
+  '/seller_/store': typeof SellerStoreRoute
   '/seller_/transactions': typeof SellerTransactionsRoute
   '/store/$storeSlug': typeof StoreStoreSlugRoute
   '/super-admin_/$section': typeof SuperAdminSectionRoute
@@ -489,6 +498,7 @@ export interface FileRouteTypes {
     | '/seller/payouts'
     | '/seller/prescriptions'
     | '/seller/products'
+    | '/seller/store'
     | '/seller/transactions'
     | '/store/$storeSlug'
     | '/super-admin/$section'
@@ -538,6 +548,7 @@ export interface FileRouteTypes {
     | '/seller/payouts'
     | '/seller/prescriptions'
     | '/seller/products'
+    | '/seller/store'
     | '/seller/transactions'
     | '/store/$storeSlug'
     | '/super-admin/$section'
@@ -587,6 +598,7 @@ export interface FileRouteTypes {
     | '/seller_/payouts'
     | '/seller_/prescriptions'
     | '/seller_/products'
+    | '/seller_/store'
     | '/seller_/transactions'
     | '/store/$storeSlug'
     | '/super-admin_/$section'
@@ -637,6 +649,7 @@ export interface RootRouteChildren {
   SellerPayoutsRoute: typeof SellerPayoutsRoute
   SellerPrescriptionsRoute: typeof SellerPrescriptionsRoute
   SellerProductsRoute: typeof SellerProductsRoute
+  SellerStoreRoute: typeof SellerStoreRoute
   SellerTransactionsRoute: typeof SellerTransactionsRoute
   StoreStoreSlugRoute: typeof StoreStoreSlugRoute
   SuperAdminSectionRoute: typeof SuperAdminSectionRoute
@@ -941,6 +954,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SellerProductsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/seller_/store': {
+      id: '/seller_/store'
+      path: '/seller/store'
+      fullPath: '/seller/store'
+      preLoaderRoute: typeof SellerStoreRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/seller_/transactions': {
       id: '/seller_/transactions'
       path: '/seller/transactions'
@@ -1022,6 +1042,7 @@ const rootRouteChildren: RootRouteChildren = {
   SellerPayoutsRoute: SellerPayoutsRoute,
   SellerPrescriptionsRoute: SellerPrescriptionsRoute,
   SellerProductsRoute: SellerProductsRoute,
+  SellerStoreRoute: SellerStoreRoute,
   SellerTransactionsRoute: SellerTransactionsRoute,
   StoreStoreSlugRoute: StoreStoreSlugRoute,
   SuperAdminSectionRoute: SuperAdminSectionRoute,
