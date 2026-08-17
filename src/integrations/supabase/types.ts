@@ -403,6 +403,44 @@ export type Database = {
           },
         ]
       }
+      consultation_events: {
+        Row: {
+          actor_id: string | null
+          actor_role: string | null
+          consultation_id: string
+          created_at: string
+          id: string
+          note: string | null
+          status: string
+        }
+        Insert: {
+          actor_id?: string | null
+          actor_role?: string | null
+          consultation_id: string
+          created_at?: string
+          id?: string
+          note?: string | null
+          status: string
+        }
+        Update: {
+          actor_id?: string | null
+          actor_role?: string | null
+          consultation_id?: string
+          created_at?: string
+          id?: string
+          note?: string | null
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "consultation_events_consultation_id_fkey"
+            columns: ["consultation_id"]
+            isOneToOne: false
+            referencedRelation: "consultations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       consultation_messages: {
         Row: {
           body: string
@@ -5453,6 +5491,25 @@ export type Database = {
         Returns: string
       }
       peak_state: { Args: never; Returns: Json }
+      pharmacy_dispatch_queue: {
+        Args: { _product_id: string; _quantity?: number }
+        Returns: {
+          accepts_emergency_orders: boolean
+          city: string
+          is_open: boolean
+          prescription_required: boolean
+          price: number
+          product_id: string
+          product_name: string
+          rank: number
+          rating_average: number
+          score: number
+          stock_quantity: number
+          store_id: string
+          store_name: string
+          store_slug: string
+        }[]
+      }
       pharmacy_review_prescription: {
         Args: {
           _decision: string
