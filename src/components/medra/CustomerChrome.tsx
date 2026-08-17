@@ -45,9 +45,16 @@ export function CustomerHeader({
           <Link to="/health/telehealth" className="hover:text-ink-foreground">
             Health
           </Link>
+          <Link to="/community" className="hover:text-ink-foreground">
+            Community
+          </Link>
+          <Link to="/appearance" className="hover:text-ink-foreground">
+            Themes
+          </Link>
           <Link to="/support" search={{ ticket: undefined }} className="hover:text-ink-foreground">
             Support
           </Link>
+
           <Link to="/become-a-rider" className="text-leaf hover:underline">
             Become a Rider
           </Link>
