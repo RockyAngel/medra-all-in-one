@@ -5558,6 +5558,18 @@ export type Database = {
         }
         Returns: boolean
       }
+      is_order_customer: {
+        Args: { _order_id: string; _user_id: string }
+        Returns: boolean
+      }
+      is_order_rider: {
+        Args: { _order_id: string; _user_id: string }
+        Returns: boolean
+      }
+      is_order_seller: {
+        Args: { _order_id: string; _user_id: string }
+        Returns: boolean
+      }
       is_peak_now: { Args: never; Returns: boolean }
       is_pharmacy_owner: {
         Args: { _store_id: string; _user_id: string }
