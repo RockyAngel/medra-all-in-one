@@ -24,23 +24,21 @@ export const Route = createFileRoute("/super-admin")({
 });
 
 const groups = [
-  { items: [{ label: "Global Overview", active: true }, { label: "Revenue" }, { label: "Orders" }] },
+  { items: [{ label: "Global Overview", to: "/super-admin" }, { label: "Commission engine", to: "/super-admin/commission" }, { label: "Admin console", to: "/admin" }] },
   {
     title: "Governance",
     items: [
-      { label: "Administrators", badge: 14 },
-      { label: "Roles & Permissions" },
-      { label: "System Users" },
-      { label: "Audit Trails" },
+      { label: "Administrators", to: "/super-admin/admins" },
+      { label: "Roles & Permissions", to: "/super-admin/permissions" },
+      { label: "Audit Trails", to: "/super-admin/audit" },
     ],
   },
   {
     title: "Platform",
     items: [
-      { label: "Commissions" },
-      { label: "Payouts" },
-      { label: "Feature Flags" },
-      { label: "Compliance" },
+      { label: "Categories", to: "/super-admin/categories" },
+      { label: "Feature Flags", to: "/super-admin/features" },
+      { label: "Notifications", to: "/notifications" },
     ],
   },
 ];

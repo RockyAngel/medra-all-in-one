@@ -13,7 +13,7 @@ import { formatDate } from "@/lib/medra";
 import { workflowError } from "@/lib/workflow";
 import { applicationDocumentUrl, usePharmacyApplications } from "@/lib/health";
 
-export const Route = createFileRoute("/admin/pharmacy-applications")({
+export const Route = createFileRoute("/admin_/pharmacy-applications")({
   head: () => ({
     meta: [
       { title: "Pharmacy onboarding review — Medra admin" },

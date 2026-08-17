@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { Banknote, LifeBuoy, ShieldAlert, ShoppingBag, Users } from "lucide-react";
 import { DashboardShell, Panel, StatCard } from "@/components/medra/DashboardShell";
 import { BarChart, DonutChart } from "@/components/medra/Charts";
@@ -26,21 +26,20 @@ export const Route = createFileRoute("/admin")({
 const groups = [
   {
     items: [
-      { label: "Overview", active: true },
-      { label: "Users" },
-      { label: "Stores", badge: 18 },
-      { label: "Riders", badge: 9 },
-      { label: "Orders" },
+      { label: "Overview", to: "/admin" },
+      { label: "Orders", to: "/admin/orders" },
+      { label: "Deliveries", to: "/admin/deliveries" },
+      { label: "Pharmacy onboarding", to: "/admin/pharmacy-applications" },
     ],
   },
   {
     title: "Operations",
     items: [
-      { label: "Payments" },
-      { label: "Refunds", badge: 6 },
-      { label: "Commissions" },
-      { label: "Support Tickets", badge: 24 },
-      { label: "Safety Reports", badge: 3 },
+      { label: "Payments", to: "/admin/payments" },
+      { label: "Refunds", to: "/admin/refunds" },
+      { label: "Payouts", to: "/admin/payouts" },
+      { label: "Support inbox", to: "/admin/support" },
+      { label: "Safety reports", to: "/admin/sos" },
     ],
   },
 ];
@@ -77,9 +76,7 @@ function AdminDashboard() {
           <Button size="sm" variant="outline" className="rounded-full">
             Export report
           </Button>
-          <Button size="sm" className="rounded-full">
-            Review queue
-          </Button>
+          <Button asChild size="sm" className="rounded-full"><Link to="/admin/pharmacy-applications">Review queue</Link></Button>
         </>
       }
     >

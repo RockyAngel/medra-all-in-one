@@ -3,17 +3,23 @@ import type { ReactNode } from "react";
 import { Bell, Heart, MapPin, ShoppingCart } from "lucide-react";
 import { Logo } from "./Logo";
 
-const navLinks = ["Home", "Categories", "Stores", "Pharmacies", "Deals", "Gift Cards"];
+const navLinks = [
+  { label: "Home", to: "/", search: undefined },
+  { label: "Categories", to: "/catalog", search: {} },
+  { label: "Stores", to: "/stores", search: undefined },
+  { label: "Pharmacies", to: "/catalog", search: { category: "pharmacy-health" } },
+  { label: "Deals", to: "/catalog", search: { q: "deal" } },
+] as const;
 
 export function SiteHeader({ accent = "leaf" }: { accent?: "leaf" | "sky" }) {
   return (
     <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-4 px-5 py-4">
       <Logo tone="dark" size={44} />
       <nav className="hidden items-center gap-5 text-sm font-semibold text-ink-foreground/85 xl:flex">
-        {navLinks.map((l) => (
-          <span key={l} className="cursor-pointer hover:text-ink-foreground">
-            {l}
-          </span>
+        {navLinks.map((link) => (
+          <Link key={link.label} to={link.to} {...(link.search === undefined ? {} : { search: link.search })} className="hover:text-ink-foreground">
+            {link.label}
+          </Link>
         ))}
         <Link
           to="/become-a-seller"
@@ -30,19 +36,9 @@ export function SiteHeader({ accent = "leaf" }: { accent?: "leaf" | "sky" }) {
             Lagos, Nigeria
           </span>
         </span>
-        <Heart className="size-5 cursor-pointer text-ink-foreground/80" />
-        <span className="relative cursor-pointer">
-          <Bell className="size-5 text-ink-foreground/80" />
-          <span className="absolute -right-2 -top-2 grid size-4 place-items-center rounded-full bg-destructive text-[10px] font-bold text-destructive-foreground">
-            3
-          </span>
-        </span>
-        <span className="relative cursor-pointer">
-          <ShoppingCart className="size-5 text-ink-foreground/80" />
-          <span className="absolute -right-2 -top-2 grid size-4 place-items-center rounded-full bg-leaf text-[10px] font-bold text-leaf-foreground">
-            2
-          </span>
-        </span>
+        <Link to="/favorites" aria-label="Saved items"><Heart className="size-5 text-ink-foreground/80" /></Link>
+        <Link to="/notifications" className="relative" aria-label="Notifications"><Bell className="size-5 text-ink-foreground/80" /></Link>
+        <Link to="/cart" className="relative" aria-label="Cart"><ShoppingCart className="size-5 text-ink-foreground/80" /></Link>
         <Link
           to="/login"
           className="rounded-lg border border-ink-foreground/25 px-3 py-1.5 text-sm font-semibold"

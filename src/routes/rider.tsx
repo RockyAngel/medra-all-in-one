@@ -25,17 +25,17 @@ export const Route = createFileRoute("/rider")({
 const groups = [
   {
     items: [
-      { label: "Dashboard", active: true },
-      { label: "Delivery Requests", badge: 4 },
-      { label: "Active Delivery" },
-      { label: "History" },
-      { label: "Earnings" },
-      { label: "Schedule" },
+      { label: "Dashboard", to: "/rider" },
+      { label: "Delivery Requests", to: "/rider/available" },
+      { label: "Active Delivery", to: "/rider/active" },
+      { label: "History", to: "/rider/history" },
+      { label: "Earnings", to: "/rider/earnings" },
+      { label: "Payouts", to: "/rider/payouts" },
     ],
   },
   {
     title: "Account",
-    items: [{ label: "Vehicle & Documents" }, { label: "Support" }, { label: "Settings" }],
+    items: [{ label: "Performance", to: "/rider/performance" }, { label: "Support", to: "/support" }, { label: "Notifications", to: "/notifications" }],
   },
 ];
 
