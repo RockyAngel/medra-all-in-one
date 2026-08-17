@@ -72,6 +72,7 @@ import { Route as SellerStoreRouteImport } from './routes/seller_.store'
 import { Route as SellerTransactionsRouteImport } from './routes/seller_.transactions'
 import { Route as StoreStoreSlugRouteImport } from './routes/store.$storeSlug'
 import { Route as SuperAdminSectionRouteImport } from './routes/super-admin_.$section'
+import { Route as SuperAdminAdminsRouteImport } from './routes/super-admin_.admins'
 import { Route as DotlovableOauthConsentRouteImport } from './routes/[.]lovable.oauth.consent'
 import { Route as Char91DotmcpChar93InvokeToolToolRouteImport } from './routes/[.mcp]/invoke-tool/$tool'
 
@@ -393,6 +394,11 @@ const SuperAdminSectionRoute = SuperAdminSectionRouteImport.update({
   path: '/super-admin/$section',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SuperAdminAdminsRoute = SuperAdminAdminsRouteImport.update({
+  id: '/super-admin_/admins',
+  path: '/super-admin/admins',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DotlovableOauthConsentRoute = DotlovableOauthConsentRouteImport.update({
   id: '/.lovable/oauth/consent',
   path: '/.lovable/oauth/consent',
@@ -468,6 +474,7 @@ export interface FileRoutesByFullPath {
   '/seller/transactions': typeof SellerTransactionsRoute
   '/store/$storeSlug': typeof StoreStoreSlugRoute
   '/super-admin/$section': typeof SuperAdminSectionRoute
+  '/super-admin/admins': typeof SuperAdminAdminsRoute
   '/orders/': typeof OrdersIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
@@ -535,6 +542,7 @@ export interface FileRoutesByTo {
   '/seller/transactions': typeof SellerTransactionsRoute
   '/store/$storeSlug': typeof StoreStoreSlugRoute
   '/super-admin/$section': typeof SuperAdminSectionRoute
+  '/super-admin/admins': typeof SuperAdminAdminsRoute
   '/orders': typeof OrdersIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
@@ -603,6 +611,7 @@ export interface FileRoutesById {
   '/seller_/transactions': typeof SellerTransactionsRoute
   '/store/$storeSlug': typeof StoreStoreSlugRoute
   '/super-admin_/$section': typeof SuperAdminSectionRoute
+  '/super-admin_/admins': typeof SuperAdminAdminsRoute
   '/orders/': typeof OrdersIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
@@ -672,6 +681,7 @@ export interface FileRouteTypes {
     | '/seller/transactions'
     | '/store/$storeSlug'
     | '/super-admin/$section'
+    | '/super-admin/admins'
     | '/orders/'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
@@ -739,6 +749,7 @@ export interface FileRouteTypes {
     | '/seller/transactions'
     | '/store/$storeSlug'
     | '/super-admin/$section'
+    | '/super-admin/admins'
     | '/orders'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
@@ -806,6 +817,7 @@ export interface FileRouteTypes {
     | '/seller_/transactions'
     | '/store/$storeSlug'
     | '/super-admin_/$section'
+    | '/super-admin_/admins'
     | '/orders/'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
@@ -874,6 +886,7 @@ export interface RootRouteChildren {
   SellerTransactionsRoute: typeof SellerTransactionsRoute
   StoreStoreSlugRoute: typeof StoreStoreSlugRoute
   SuperAdminSectionRoute: typeof SuperAdminSectionRoute
+  SuperAdminAdminsRoute: typeof SuperAdminAdminsRoute
   OrdersIndexRoute: typeof OrdersIndexRoute
   DotlovableOauthConsentRoute: typeof DotlovableOauthConsentRoute
   Char91DotmcpChar93InvokeToolToolRoute: typeof Char91DotmcpChar93InvokeToolToolRoute
@@ -1322,6 +1335,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SuperAdminSectionRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/super-admin_/admins': {
+      id: '/super-admin_/admins'
+      path: '/super-admin/admins'
+      fullPath: '/super-admin/admins'
+      preLoaderRoute: typeof SuperAdminAdminsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/.lovable/oauth/consent': {
       id: '/.lovable/oauth/consent'
       path: '/.lovable/oauth/consent'
@@ -1403,6 +1423,7 @@ const rootRouteChildren: RootRouteChildren = {
   SellerTransactionsRoute: SellerTransactionsRoute,
   StoreStoreSlugRoute: StoreStoreSlugRoute,
   SuperAdminSectionRoute: SuperAdminSectionRoute,
+  SuperAdminAdminsRoute: SuperAdminAdminsRoute,
   OrdersIndexRoute: OrdersIndexRoute,
   DotlovableOauthConsentRoute: DotlovableOauthConsentRoute,
   Char91DotmcpChar93InvokeToolToolRoute: Char91DotmcpChar93InvokeToolToolRoute,
