@@ -93,10 +93,21 @@ function AdminDeliveriesPage() {
                   {d.is_priority ? <Pill tone="bg-destructive/15 text-destructive">Priority</Pill> : null}
                   {d.is_peak ? <Pill tone="bg-amber/20 text-amber">Peak</Pill> : null}
                   {!d.rider_id ? <Pill tone="bg-sky/15 text-sky">Unassigned</Pill> : null}
+                  {d.rider_latitude != null && d.rider_longitude != null ? (
+                    <a
+                      className="text-xs font-semibold text-primary hover:underline"
+                      href={`https://www.google.com/maps?q=${d.rider_latitude},${d.rider_longitude}`}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      Rider map
+                    </a>
+                  ) : null}
                 </td>
               </tr>
             ))}
           </DataTable>
+
         </QueryBoundary>
       </Panel>
     </AdminPage>
