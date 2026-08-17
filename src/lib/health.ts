@@ -1,4 +1,5 @@
-import { useQuery } from "@tanstack/react-query";
+import { useEffect } from "react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
 
@@ -280,4 +281,180 @@ export function useEmergencyFeature() {
       return data === true;
     },
   });
+}
+
+/* ---------------- live updates ---------------- */
+
+/**
+ * Subscribes to prescription, prescription-history and consultation changes and
+ * refreshes the matching queries so review status updates land without a reload.
+ */
+export function useHealthRealtime() {
+  const { user } = useAuth();
+  const queryClient = useQueryClient();
+  useEffect(() => {
+    if (!user) return;
+    const invalidate = () => {
+      void queryClient.invalidateQueries({ queryKey: ["my-prescriptions"] });
+      void queryClient.invalidateQueries({ queryKey: ["pharmacy-prescriptions"] });
+      void queryClient.invalidateQueries({ queryKey: ["prescription-events"] });
+      void queryClient.invalidateQueries({ queryKey: ["cart-prescription-status"] });
+      void queryClient.invalidateQueries({ queryKey: ["consultations"] });
+      void queryClient.invalidateQueries({ queryKey: ["consultation-events"] });
+    };
+    const channel = supabase
+      .channel(`health-live-${user.id}`)
+      .on("postgres_changes", { event: "*", schema: "public", table: "prescriptions" }, invalidate)
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "prescription_events" },
+        invalidate,
+      )
+      .on("postgres_changes", { event: "*", schema: "public", table: "consultations" }, invalidate)
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "consultation_events" },
+        invalidate,
+      )
+      .subscribe();
+    return () => {
+      void supabase.removeChannel(channel);
+    };
+  }, [user, queryClient]);
+}
+
+/* ---------------- consultation lifecycle ---------------- */
+
+export const CONSULTATION_EVENT_LABEL: Record<string, string> = {
+  booked: "Appointment booked",
+  payment_pending: "Awaiting payment",
+  payment_paid: "Payment received",
+  payment_refunded: "Payment refunded",
+  payment_failed: "Payment failed",
+  confirmed: "Confirmed by Medra",
+  waiting: "You joined the waiting room",
+  in_progress: "Consultation started",
+  completed: "Consultation completed",
+  cancelled: "Appointment cancelled",
+  no_show: "Marked as missed",
+  refund_pending: "Refund requested",
+  refunded: "Refunded",
+};
+
+export function consultationEventLabel(status: string) {
+  return CONSULTATION_EVENT_LABEL[status] ?? status.replace(/_/g, " ");
+}
+
+export function useConsultationEvents(consultationId: string | null) {
+  return useQuery({
+    queryKey: ["consultation-events", consultationId],
+    enabled: !!consultationId,
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("consultation_events")
+        .select("id, status, note, actor_role, created_at")
+        .eq("consultation_id", consultationId!)
+        .order("created_at");
+      if (error) throw error;
+      return data ?? [];
+    },
+  });
+}
+
+/* ---------------- pharmacy dispatch queue ---------------- */
+
+export function usePharmacyDispatchQueue(productId: string | null, quantity = 1) {
+  return useQuery({
+    queryKey: ["pharmacy-dispatch-queue", productId, quantity],
+    enabled: !!productId,
+    refetchInterval: 20000,
+    queryFn: async () => {
+      const { data, error } = await supabase.rpc("pharmacy_dispatch_queue", {
+        _product_id: productId!,
+        _quantity: quantity,
+      });
+      if (error) throw error;
+      return data ?? [];
+    },
+  });
+}
+
+/* ---------------- review history export ---------------- */
+
+type HistoryRow = {
+  status: string;
+  note: string | null;
+  actor_role: string | null;
+  created_at: string;
+};
+
+/** Builds a CSV of the immutable review trail and triggers a browser download. */
+export function downloadReviewHistory(
+  fileLabel: string,
+  rows: HistoryRow[],
+  meta: Record<string, string> = {},
+) {
+  const escape = (value: unknown) => `"${String(value ?? "").replace(/"/g, '""')}"`;
+  const lines: string[] = [];
+  for (const [key, value] of Object.entries(meta)) lines.push([escape(key), escape(value)].join(","));
+  if (lines.length) lines.push("");
+  lines.push(["Recorded at", "Status", "Actor role", "Note"].map(escape).join(","));
+  for (const row of rows) {
+    lines.push(
+      [row.created_at, row.status, row.actor_role ?? "", row.note ?? ""].map(escape).join(","),
+    );
+  }
+  const blob = new Blob([lines.join("\n")], { type: "text/csv;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const anchor = document.createElement("a");
+  anchor.href = url;
+  anchor.download = `${fileLabel}.csv`;
+  anchor.click();
+  URL.revokeObjectURL(url);
+}
+
+/* ---------------- checkout re-verification ---------------- */
+
+/** Re-asks the database for prescription requirements immediately before paying. */
+export async function assertPrescriptionsClear() {
+  const { data, error } = await supabase.rpc("cart_prescription_status");
+  if (error) throw error;
+  const blocking = (data ?? []).filter(
+    (row) => row.requires_prescription && row.prescription_status !== "approved",
+  );
+  if (blocking.length > 0) {
+    throw new Error(
+      "A pharmacist still needs to approve a prescription for one of your pharmacies before this order can be paid",
+    );
+  }
+}
+
+/* ---------------- admin: pharmacy onboarding ---------------- */
+
+export function usePharmacyApplications(status: string) {
+  return useQuery({
+    queryKey: ["pharmacy-applications", status],
+    queryFn: async () => {
+      let query = supabase
+        .from("seller_applications")
+        .select(
+          "id, store_name, pharmacy_name, city, address, contact_phone, business_reg_number, description, status, review_note, reviewed_at, created_at, store_id, store_type, pharmacy_license_number, pharmacy_license_expiry, responsible_pharmacist_name, responsible_pharmacist_license, responsible_pharmacist_phone, operating_hours, document_paths",
+        )
+        .eq("store_type", "pharmacy")
+        .order("created_at", { ascending: false })
+        .limit(100);
+      if (status !== "all") query = query.eq("status", status as "submitted");
+      const { data, error } = await query;
+      if (error) throw error;
+      return data ?? [];
+    },
+  });
+}
+
+export async function applicationDocumentUrl(path: string) {
+  const { data, error } = await supabase.storage
+    .from("product-images")
+    .createSignedUrl(path, 60 * 10);
+  if (error) throw error;
+  return data.signedUrl;
 }

@@ -15,6 +15,7 @@ import {
   useEmergencyEligibility,
   useEmergencyFeature,
   useEmergencyProducts,
+  usePharmacyDispatchQueue,
 } from "@/lib/health";
 
 export const Route = createFileRoute("/health/emergency")({
@@ -252,6 +253,7 @@ function EmergencyPage() {
                         )}
                       </div>
                     )}
+                    {active && <DispatchQueue productId={p.id} />}
                   </li>
                 );
               })}
@@ -296,6 +298,47 @@ function EmergencyPage() {
         )}
       </main>
       <CustomerFooter />
+    </div>
+  );
+}
+
+function DispatchQueue({ productId }: { productId: string }) {
+  const queue = usePharmacyDispatchQueue(productId);
+  const rows = queue.data ?? [];
+  return (
+    <div className="mt-3 rounded-xl border border-border p-3 text-xs">
+      <p className="font-bold uppercase tracking-wide text-muted-foreground">
+        Pharmacy dispatch queue
+      </p>
+      {queue.isLoading ? (
+        <p className="mt-2 text-muted-foreground">Ranking pharmacies by live stock…</p>
+      ) : queue.error ? (
+        <p className="mt-2 text-destructive">Could not rank pharmacies right now.</p>
+      ) : rows.length === 0 ? (
+        <p className="mt-2 text-muted-foreground">
+          No verified pharmacy currently holds enough stock of this medicine.
+        </p>
+      ) : (
+        <ol className="mt-2 space-y-2">
+          {rows.map((row) => (
+            <li key={row.product_id} className="flex items-start justify-between gap-2">
+              <div>
+                <p className="font-semibold">
+                  {row.rank}. {row.store_name}
+                  {row.rank === 1 ? " · best match" : ""}
+                </p>
+                <p className="text-muted-foreground">
+                  {[row.city, `${row.stock_quantity} in stock`, row.is_open ? "Open now" : "Closed"]
+                    .filter(Boolean)
+                    .join(" · ")}
+                  {row.accepts_emergency_orders ? " · priority ready" : ""}
+                </p>
+              </div>
+              <span className="font-bold">{formatNaira(row.price)}</span>
+            </li>
+          ))}
+        </ol>
+      )}
     </div>
   );
 }

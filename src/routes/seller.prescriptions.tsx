@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
-import { FileText, Loader2 } from "lucide-react";
+import { Download, FileText, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { Panel } from "@/components/medra/DashboardShell";
 import { SellerPage } from "@/components/medra/RoleDashboard";
@@ -19,6 +19,8 @@ import {
   prescriptionFileUrl,
   statusChip,
   usePrescriptionEvents,
+  useHealthRealtime,
+  downloadReviewHistory,
 } from "@/lib/health";
 
 export const Route = createFileRoute("/seller/prescriptions")({
@@ -55,6 +57,7 @@ function PrescriptionReviewPage() {
   const [openId, setOpenId] = useState<string | null>(null);
   const [note, setNote] = useState("");
   const [expiresAt, setExpiresAt] = useState("");
+  useHealthRealtime();
 
   const stores = useQuery({
     queryKey: ["my-pharmacies", user?.id],
@@ -314,6 +317,26 @@ function ReviewHistory({ prescriptionId }: { prescriptionId: string }) {
     return <p className="text-xs text-destructive">Could not load the review history.</p>;
   }
   return (
+    <div className="space-y-2">
+      <div className="flex items-center justify-between">
+        <p className="text-xs font-bold uppercase tracking-wide text-muted-foreground">
+          Immutable review trail
+        </p>
+        <Button
+          size="sm"
+          variant="ghost"
+          className="h-7 rounded-full text-xs font-bold"
+          onClick={() =>
+            downloadReviewHistory(
+              `prescription-${prescriptionId.slice(0, 8)}-history`,
+              events.data ?? [],
+              { Prescription: prescriptionId, Exported: new Date().toISOString() },
+            )
+          }
+        >
+          <Download className="mr-1 size-3.5" /> Download CSV
+        </Button>
+      </div>
     <ol className="space-y-2 border-l border-border pl-4">
       {(events.data ?? []).map((event) => (
         <li key={event.id} className="text-xs">
@@ -326,5 +349,6 @@ function ReviewHistory({ prescriptionId }: { prescriptionId: string }) {
         </li>
       ))}
     </ol>
+    </div>
   );
 }

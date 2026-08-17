@@ -72,6 +72,7 @@ export const ADMIN_NAV: NavGroup[] = [
     title: "Approvals",
     items: [
       { label: "Seller approvals", to: "/admin/seller-approvals" },
+      { label: "Pharmacy onboarding", to: "/admin/pharmacy-applications" },
       { label: "Rider approvals", to: "/admin/rider-approvals" },
     ],
   },

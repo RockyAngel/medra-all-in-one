@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
-import { CalendarClock, Loader2, MessageCircle, Send } from "lucide-react";
+import { CalendarClock, History, Loader2, MessageCircle, Send } from "lucide-react";
 import { toast } from "sonner";
 import { CustomerFooter, CustomerHeader } from "@/components/medra/CustomerChrome";
 import { EmptyState, QueryBoundary } from "@/components/medra/States";
@@ -15,6 +15,9 @@ import {
   CONSULTATION_STATUS,
   statusChip,
   useConsultationMessages,
+  useConsultationEvents,
+  consultationEventLabel,
+  useHealthRealtime,
   useMyConsultations,
 } from "@/lib/health";
 
@@ -44,6 +47,8 @@ function AppointmentsPage() {
   const queryClient = useQueryClient();
   const consultations = useMyConsultations();
   const [openChat, setOpenChat] = useState<string | null>(null);
+  const [openTimeline, setOpenTimeline] = useState<string | null>(null);
+  useHealthRealtime();
 
   const setStatus = useMutation({
     mutationFn: async ({
@@ -175,6 +180,15 @@ function AppointmentsPage() {
                             {chatOpen ? "Hide messages" : "Messages"}
                           </Button>
                         )}
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          className="rounded-full font-bold"
+                          onClick={() => setOpenTimeline(openTimeline === c.id ? null : c.id)}
+                        >
+                          <History className="mr-1 size-4" />
+                          {openTimeline === c.id ? "Hide timeline" : "Timeline"}
+                        </Button>
                         {canAct && c.status !== "waiting" && (
                           <Button
                             size="sm"
@@ -293,6 +307,36 @@ function ConsultationChat({ consultationId }: { consultationId: string }) {
           {send.isPending ? <Loader2 className="size-4 animate-spin" /> : <Send className="size-4" />}
         </Button>
       </form>
+    </div>
+  );
+}
+
+function ConsultationTimeline({ consultationId }: { consultationId: string }) {
+  const events = useConsultationEvents(consultationId);
+  return (
+    <div className="mt-4 rounded-xl border border-border p-3">
+      <p className="text-xs font-bold uppercase tracking-wide text-muted-foreground">
+        Appointment timeline
+      </p>
+      {events.isLoading ? (
+        <p className="mt-2 text-xs text-muted-foreground">Loading timeline…</p>
+      ) : events.error ? (
+        <p className="mt-2 text-xs text-destructive">Could not load this timeline.</p>
+      ) : (events.data ?? []).length === 0 ? (
+        <p className="mt-2 text-xs text-muted-foreground">
+          No lifecycle updates recorded for this appointment yet.
+        </p>
+      ) : (
+        <ol className="mt-3 space-y-3 border-l border-border pl-4">
+          {(events.data ?? []).map((event) => (
+            <li key={event.id} className="text-xs">
+              <p className="font-semibold">{consultationEventLabel(event.status)}</p>
+              <p className="text-muted-foreground">{formatDate(event.created_at)}</p>
+              {event.note && <p className="mt-1">{event.note}</p>}
+            </li>
+          ))}
+        </ol>
+      )}
     </div>
   );
 }

@@ -22,6 +22,7 @@ import {
   statusChip,
   useCartPrescriptionStatus,
   useEmergencyFeature,
+  assertPrescriptionsClear,
 } from "@/lib/health";
 import { useCartQuery } from "./cart";
 
@@ -117,6 +118,8 @@ function CheckoutPage() {
       if (rxBlocking.length > 0) {
         throw new Error("An approved prescription is required before you can check out");
       }
+      // authoritative re-check immediately before payment
+      await assertPrescriptionsClear();
 
       let addressId = savedAddress.data?.id ?? null;
       if (!addressId) {

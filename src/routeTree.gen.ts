@@ -32,6 +32,7 @@ import { Route as TeamRouteImport } from './routes/team'
 import { Route as WalletRouteImport } from './routes/wallet'
 import { Route as Char91DotmcpChar93ListToolsRouteImport } from './routes/[.mcp]/list-tools'
 import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
+import { Route as AdminPharmacyApplicationsRouteImport } from './routes/admin.pharmacy-applications'
 import { Route as ApplyRiderRouteImport } from './routes/apply.rider'
 import { Route as ApplySellerRouteImport } from './routes/apply.seller'
 import { Route as HealthAppointmentsRouteImport } from './routes/health.appointments'
@@ -163,6 +164,12 @@ const Char91DotwellKnownChar93OauthProtectedResourceRoute =
     path: '/.well-known/oauth-protected-resource',
     getParentRoute: () => rootRouteImport,
   } as any)
+const AdminPharmacyApplicationsRoute =
+  AdminPharmacyApplicationsRouteImport.update({
+    id: '/pharmacy-applications',
+    path: '/pharmacy-applications',
+    getParentRoute: () => AdminRoute,
+  } as any)
 const ApplyRiderRoute = ApplyRiderRouteImport.update({
   id: '/apply/rider',
   path: '/apply/rider',
@@ -233,7 +240,7 @@ const Char91DotmcpChar93InvokeToolToolRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/account': typeof AccountRoute
-  '/admin': typeof AdminRoute
+  '/admin': typeof AdminRouteWithChildren
   '/become-a-rider': typeof BecomeARiderRoute
   '/become-a-seller': typeof BecomeASellerRoute
   '/cart': typeof CartRoute
@@ -254,6 +261,7 @@ export interface FileRoutesByFullPath {
   '/wallet': typeof WalletRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
+  '/admin/pharmacy-applications': typeof AdminPharmacyApplicationsRoute
   '/apply/rider': typeof ApplyRiderRoute
   '/apply/seller': typeof ApplySellerRoute
   '/health/appointments': typeof HealthAppointmentsRoute
@@ -271,7 +279,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/account': typeof AccountRoute
-  '/admin': typeof AdminRoute
+  '/admin': typeof AdminRouteWithChildren
   '/become-a-rider': typeof BecomeARiderRoute
   '/become-a-seller': typeof BecomeASellerRoute
   '/cart': typeof CartRoute
@@ -292,6 +300,7 @@ export interface FileRoutesByTo {
   '/wallet': typeof WalletRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
+  '/admin/pharmacy-applications': typeof AdminPharmacyApplicationsRoute
   '/apply/rider': typeof ApplyRiderRoute
   '/apply/seller': typeof ApplySellerRoute
   '/health/appointments': typeof HealthAppointmentsRoute
@@ -310,7 +319,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/account': typeof AccountRoute
-  '/admin': typeof AdminRoute
+  '/admin': typeof AdminRouteWithChildren
   '/become-a-rider': typeof BecomeARiderRoute
   '/become-a-seller': typeof BecomeASellerRoute
   '/cart': typeof CartRoute
@@ -331,6 +340,7 @@ export interface FileRoutesById {
   '/wallet': typeof WalletRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
+  '/admin/pharmacy-applications': typeof AdminPharmacyApplicationsRoute
   '/apply/rider': typeof ApplyRiderRoute
   '/apply/seller': typeof ApplySellerRoute
   '/health/appointments': typeof HealthAppointmentsRoute
@@ -371,6 +381,7 @@ export interface FileRouteTypes {
     | '/wallet'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
+    | '/admin/pharmacy-applications'
     | '/apply/rider'
     | '/apply/seller'
     | '/health/appointments'
@@ -409,6 +420,7 @@ export interface FileRouteTypes {
     | '/wallet'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
+    | '/admin/pharmacy-applications'
     | '/apply/rider'
     | '/apply/seller'
     | '/health/appointments'
@@ -447,6 +459,7 @@ export interface FileRouteTypes {
     | '/wallet'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
+    | '/admin/pharmacy-applications'
     | '/apply/rider'
     | '/apply/seller'
     | '/health/appointments'
@@ -465,7 +478,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AccountRoute: typeof AccountRoute
-  AdminRoute: typeof AdminRoute
+  AdminRoute: typeof AdminRouteWithChildren
   BecomeARiderRoute: typeof BecomeARiderRoute
   BecomeASellerRoute: typeof BecomeASellerRoute
   CartRoute: typeof CartRoute
@@ -663,6 +676,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/pharmacy-applications': {
+      id: '/admin/pharmacy-applications'
+      path: '/pharmacy-applications'
+      fullPath: '/admin/pharmacy-applications'
+      preLoaderRoute: typeof AdminPharmacyApplicationsRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/apply/rider': {
       id: '/apply/rider'
       path: '/apply/rider'
@@ -757,6 +777,16 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AdminRouteChildren {
+  AdminPharmacyApplicationsRoute: typeof AdminPharmacyApplicationsRoute
+}
+
+const AdminRouteChildren: AdminRouteChildren = {
+  AdminPharmacyApplicationsRoute: AdminPharmacyApplicationsRoute,
+}
+
+const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
+
 interface SellerRouteChildren {
   SellerPrescriptionsRoute: typeof SellerPrescriptionsRoute
 }
@@ -771,7 +801,7 @@ const SellerRouteWithChildren =
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AccountRoute: AccountRoute,
-  AdminRoute: AdminRoute,
+  AdminRoute: AdminRouteWithChildren,
   BecomeARiderRoute: BecomeARiderRoute,
   BecomeASellerRoute: BecomeASellerRoute,
   CartRoute: CartRoute,
