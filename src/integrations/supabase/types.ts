@@ -5753,15 +5753,10 @@ export type Database = {
         }
         Returns: undefined
       }
-      rider_respond_to_offer:
-        | {
-            Args: { _accept: boolean; _delivery_id: string }
-            Returns: undefined
-          }
-        | {
-            Args: { _accept: boolean; _delivery_id: string; _reason?: string }
-            Returns: undefined
-          }
+      rider_respond_to_offer: {
+        Args: { _accept: boolean; _delivery_id: string; _reason?: string }
+        Returns: undefined
+      }
       rider_share_location: {
         Args: {
           _accuracy?: number
