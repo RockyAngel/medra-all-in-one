@@ -1,8 +1,12 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Banknote, Package, ShoppingBag, Star, Users } from "lucide-react";
-import { DashboardShell, Panel, StatCard } from "@/components/medra/DashboardShell";
-import { BarChart, LineChart } from "@/components/medra/Charts";
+import { Banknote, Package, ShoppingBag } from "lucide-react";
+import { Panel, StatCard } from "@/components/medra/DashboardShell";
+import { DataTable, Pill, SellerPage } from "@/components/medra/RoleDashboard";
+import { EmptyState, QueryBoundary } from "@/components/medra/States";
 import { Button } from "@/components/ui/button";
+import { useMyBalance, statusLabel } from "@/lib/dashboard";
+import { useSellerFulfillments, useSellerOverview } from "@/lib/ops";
+import { formatDate, formatNaira } from "@/lib/medra";
 
 export const Route = createFileRoute("/seller")({
   head: () => ({
@@ -23,171 +27,119 @@ export const Route = createFileRoute("/seller")({
   component: SellerDashboard,
 });
 
-const groups = [
-  { items: [{ label: "Overview", to: "/seller" }, { label: "Orders", to: "/seller/orders" }, { label: "Products", to: "/seller/products" }, { label: "Inventory", to: "/seller/inventory" }, { label: "Prescriptions", to: "/seller/prescriptions" }] },
-  { title: "Finance", items: [{ label: "Earnings", to: "/seller/earnings" }, { label: "Payouts", to: "/seller/payouts" }, { label: "Transactions", to: "/seller/transactions" }] },
-  { title: "Store", items: [{ label: "Store Profile", to: "/seller/store" }, { label: "Reviews", to: "/seller/reviews" }, { label: "Support", to: "/support" }] },
-];
-
-const orders = [
-  { id: "#MD-77120", customer: "Chidi A.", total: "₦12,400", status: "Processing" },
-  { id: "#MD-77118", customer: "Halima B.", total: "₦4,850", status: "Out for delivery" },
-  { id: "#MD-77113", customer: "Femi O.", total: "₦21,900", status: "Delivered" },
-  { id: "#MD-77109", customer: "Ngozi E.", total: "₦7,300", status: "Delivered" },
-  { id: "#MD-77104", customer: "Musa I.", total: "₦2,150", status: "Cancelled" },
-];
-
-const products = [
-  { name: "Paracetamol 500mg (24s)", sold: 412, stock: 180 },
-  { name: "Vitamin C 1000mg", sold: 388, stock: 96 },
-  { name: "Blood Pressure Monitor", sold: 154, stock: 22 },
-  { name: "First Aid Kit", sold: 121, stock: 8 },
-];
-
-const statusTone: Record<string, string> = {
-  Processing: "bg-amber/20 text-amber",
-  "Out for delivery": "bg-sky/15 text-sky",
-  Delivered: "bg-leaf/15 text-leaf",
-  Cancelled: "bg-destructive/15 text-destructive",
-};
-
 function SellerDashboard() {
+  const overview = useSellerOverview();
+  const balance = useMyBalance();
+  const recent = useSellerFulfillments();
+  const stats = overview.data;
+
   return (
-    <DashboardShell
-      groups={groups}
-      title="Dee Pharmacy"
-      subtitle="Verified vendor · Ikeja, Lagos"
+    <SellerPage
+      title="Store overview"
+      subtitle="Live figures from your Medra store"
       topRight={
         <>
-          <Button asChild size="sm" variant="outline" className="rounded-full"><Link to="/seller/$section" params={{ section: "store" }}>View store</Link></Button>
-          <Button asChild size="sm" className="rounded-full"><Link to="/seller/$section" params={{ section: "products" }}>Add product</Link></Button>
+          <Button asChild size="sm" variant="outline" className="rounded-full">
+            <Link to="/seller/store">Store profile</Link>
+          </Button>
+          <Button asChild size="sm" className="rounded-full">
+            <Link to="/seller/products">Add product</Link>
+          </Button>
         </>
       }
     >
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-5">
         <StatCard
-          label="Total sales"
-          value="₦256,780"
-          delta="+18.2% this month"
+          label="Product earnings"
+          value={formatNaira(stats?.earnings ?? 0)}
           tone="leaf"
           icon={<Banknote className="size-4" />}
         />
         <StatCard
-          label="Total orders"
-          value="1,284"
-          delta="+96 this week"
+          label="Orders received"
+          value={String(stats?.orders ?? 0)}
           tone="sky"
           icon={<ShoppingBag className="size-4" />}
         />
-        <StatCard
-          label="Customers"
-          value="842"
-          delta="+34 new"
-          tone="grape"
-          icon={<Users className="size-4" />}
-        />
-        <StatCard
-          label="Store rating"
-          value="4.8"
-          delta="312 reviews"
-          deltaTone="neutral"
-          tone="amber"
-          icon={<Star className="size-4" />}
-        />
+        <StatCard label="Needs your response" value={String(stats?.needsAction ?? 0)} tone="amber" />
+        <StatCard label="In preparation" value={String(stats?.preparing ?? 0)} tone="grape" />
         <StatCard
           label="Low stock items"
-          value="6"
-          delta="Restock needed"
-          deltaTone="down"
+          value={String(stats?.lowStock ?? 0)}
           tone="sky"
           icon={<Package className="size-4" />}
         />
       </div>
 
       <div className="grid gap-4 xl:grid-cols-3">
-        <Panel
-          title="Sales overview"
-          className="xl:col-span-2"
-          action={<span className="text-xs font-semibold text-muted-foreground">Last 7 months</span>}
-        >
-          <LineChart points={[120, 168, 142, 210, 188, 246, 257]} stroke="var(--grape)" />
-        </Panel>
-        <Panel title="Orders per day">
-          <BarChart
-            data={[
-              { label: "Mon", value: 32 },
-              { label: "Tue", value: 44 },
-              { label: "Wed", value: 38 },
-              { label: "Thu", value: 51 },
-              { label: "Fri", value: 62 },
-              { label: "Sat", value: 74 },
-              { label: "Sun", value: 41 },
-            ]}
-            tone="bg-sky"
-          />
-        </Panel>
-      </div>
-
-      <div className="grid gap-4 xl:grid-cols-3">
-        <Panel
-          title="Recent orders"
-          className="xl:col-span-2"
-          action={<span className="cursor-pointer text-xs font-bold text-primary">View all</span>}
-        >
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="text-left text-xs uppercase tracking-wide text-muted-foreground">
-                  <th className="pb-2 font-semibold">Order</th>
-                  <th className="pb-2 font-semibold">Customer</th>
-                  <th className="pb-2 font-semibold">Total</th>
-                  <th className="pb-2 font-semibold">Status</th>
+        <Panel title="Recent orders" className="xl:col-span-2">
+          <QueryBoundary
+            isLoading={recent.isLoading}
+            error={recent.error}
+            isEmpty={(recent.data ?? []).length === 0}
+            onRetry={() => void recent.refetch()}
+            empty={
+              <EmptyState
+                icon={<ShoppingBag className="size-5" />}
+                title="No orders yet"
+                body="When a customer buys from your store, the order appears here for you to accept and prepare."
+              />
+            }
+          >
+            <DataTable columns={["Order", "Status", "Your share", "Placed"]}>
+              {(recent.data ?? []).slice(0, 8).map((row) => (
+                <tr key={row.id}>
+                  <td className="py-3 pr-4 font-semibold">
+                    {row.orders?.order_number ?? row.order_id.slice(0, 8)}
+                  </td>
+                  <td className="py-3 pr-4">
+                    <Pill>{statusLabel(row.status)}</Pill>
+                  </td>
+                  <td className="py-3 pr-4 font-semibold">{formatNaira(row.seller_amount)}</td>
+                  <td className="py-3 pr-4 text-muted-foreground">{formatDate(row.created_at)}</td>
                 </tr>
-              </thead>
-              <tbody className="divide-y divide-border">
-                {orders.map((o) => (
-                  <tr key={o.id}>
-                    <td className="py-3 font-semibold">{o.id}</td>
-                    <td className="py-3 text-muted-foreground">{o.customer}</td>
-                    <td className="py-3 font-semibold">{o.total}</td>
-                    <td className="py-3">
-                      <span
-                        className={`rounded-full px-3 py-1 text-xs font-bold ${statusTone[o.status]}`}
-                      >
-                        {o.status}
-                      </span>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+              ))}
+            </DataTable>
+            <div className="mt-4">
+              <Button asChild size="sm" variant="outline" className="rounded-full">
+                <Link to="/seller/orders">Open order queue</Link>
+              </Button>
+            </div>
+          </QueryBoundary>
         </Panel>
 
-        <Panel title="Top products">
-          <ul className="space-y-3">
-            {products.map((p) => (
-              <li key={p.name} className="flex items-center gap-3">
-                <span className="size-10 shrink-0 rounded-lg bg-muted" />
-                <div className="min-w-0 flex-1">
-                  <p className="truncate text-sm font-semibold">{p.name}</p>
-                  <p className="text-xs text-muted-foreground">
-                    {p.sold} sold · {p.stock} in stock
-                  </p>
-                </div>
-                {p.stock < 25 && (
-                  <span className="rounded-full bg-amber/20 px-2 py-1 text-[10px] font-bold text-amber">
-                    Low
-                  </span>
-                )}
-              </li>
-            ))}
-          </ul>
-          <div className="mt-4 rounded-xl bg-muted p-3 text-xs text-muted-foreground">
-            Next payout: <span className="font-bold text-foreground">₦184,220</span> on Friday.
-          </div>
+        <Panel title="Settlement">
+          <QueryBoundary
+            isLoading={balance.isLoading}
+            error={balance.error}
+            onRetry={() => void balance.refetch()}
+          >
+            <dl className="space-y-3 text-sm">
+              <Row label="Available" value={formatNaira(balance.data?.available ?? 0)} />
+              <Row label="Pending settlement" value={formatNaira(balance.data?.pending ?? 0)} />
+              <Row label="Requested" value={formatNaira(balance.data?.requested ?? 0)} />
+              <Row label="Lifetime" value={formatNaira(balance.data?.lifetime ?? 0)} />
+            </dl>
+            <div className="mt-4 flex flex-wrap gap-2">
+              <Button asChild size="sm" className="rounded-full">
+                <Link to="/seller/payouts">Request payout</Link>
+              </Button>
+              <Button asChild size="sm" variant="outline" className="rounded-full">
+                <Link to="/seller/earnings">View ledger</Link>
+              </Button>
+            </div>
+          </QueryBoundary>
         </Panel>
       </div>
-    </DashboardShell>
+    </SellerPage>
+  );
+}
+
+function Row({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="flex items-center justify-between gap-3">
+      <dt className="text-muted-foreground">{label}</dt>
+      <dd className="font-bold">{value}</dd>
+    </div>
   );
 }

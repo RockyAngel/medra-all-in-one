@@ -11,6 +11,8 @@ import { Label } from "@/components/ui/label";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
 import { useWallet } from "@/lib/hooks";
+import { useFeatureEnabled } from "@/lib/permissions";
+
 import {
   POINTS_PER_NAIRA,
   POINT_VALUE_NAIRA,
@@ -57,6 +59,8 @@ function CheckoutPage() {
   const [note, setNote] = useState("");
   const prescriptionStatus = useCartPrescriptionStatus();
   const emergencyFeature = useEmergencyFeature();
+  const paymentsEnabled = useFeatureEnabled("payments.provider.enabled").enabled;
+
 
   const savedAddress = useQuery({
     queryKey: ["default-address", user?.id],
@@ -114,12 +118,18 @@ function CheckoutPage() {
     mutationFn: async () => {
       if (!user) throw new Error("Log in to place an order");
       if (items.length === 0) throw new Error("Your cart is empty");
+      if (!paymentsEnabled) {
+        throw new Error(
+          "Payments are not available yet — no payment provider is connected, so this order cannot be placed.",
+        );
+      }
 
       if (rxBlocking.length > 0) {
         throw new Error("An approved prescription is required before you can check out");
       }
       // authoritative re-check immediately before payment
       await assertPrescriptionsClear();
+
 
       let addressId = savedAddress.data?.id ?? null;
       if (!addressId) {
@@ -389,17 +399,26 @@ function CheckoutPage() {
                       Priority pharmacy dispatch is on — a surcharge applies.
                     </p>
                   )}
+                  {!paymentsEnabled && (
+                    <p className="mt-4 rounded-2xl border border-destructive/30 bg-destructive/5 p-3 text-xs font-semibold text-destructive">
+                      Card payments are not available yet. No payment provider is connected to this
+                      environment, so orders cannot be paid for or placed. Nothing has been charged.
+                    </p>
+                  )}
                   <Button
-                    disabled={placeOrder.isPending || rxBlocking.length > 0}
+                    disabled={placeOrder.isPending || rxBlocking.length > 0 || !paymentsEnabled}
                     onClick={() => placeOrder.mutate()}
                     className="mt-4 w-full rounded-full py-6 font-bold"
                   >
                     {placeOrder.isPending ? (
                       <Loader2 className="size-4 animate-spin" />
-                    ) : (
+                    ) : paymentsEnabled ? (
                       "Pay & place order"
+                    ) : (
+                      "Payments unavailable"
                     )}
                   </Button>
+
                 </aside>
               </div>
             </QueryBoundary>

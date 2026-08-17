@@ -12,6 +12,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
 import { formatDate, formatNaira } from "@/lib/medra";
 import { workflowError } from "@/lib/workflow";
+import { useFeatureEnabled } from "@/lib/permissions";
+
 import {
   useHealthProfessionals,
   useProfessionalSlots,
@@ -57,10 +59,18 @@ function TelehealthPage() {
   const slots = useProfessionalSlots(professionalId);
   const professional = (professionals.data ?? []).find((p) => p.id === professionalId) ?? null;
 
+  const paymentsEnabled = useFeatureEnabled("payments.provider.enabled").enabled;
+
   const book = useMutation({
     mutationFn: async () => {
       if (!service || !professionalId) throw new Error("Pick a service and a professional");
+      if (!paymentsEnabled) {
+        throw new Error(
+          "Consultation payments are not available yet — no payment provider is connected, so this booking cannot be confirmed.",
+        );
+      }
       const booked = await supabase.rpc("book_consultation", {
+
         _service_id: service.id,
         _professional_id: professionalId,
         ...(slotId ? { _availability_id: slotId } : {}),
@@ -307,21 +317,28 @@ function TelehealthPage() {
               ) : (
                 <Button
                   disabled={
-                    book.isPending || (!slotId && !professional?.is_available_now)
+                    book.isPending ||
+                    !paymentsEnabled ||
+                    (!slotId && !professional?.is_available_now)
                   }
                   onClick={() => book.mutate()}
                   className="mt-4 w-full rounded-full py-6 font-bold"
                 >
                   {book.isPending ? (
                     <Loader2 className="size-4 animate-spin" />
-                  ) : (
+                  ) : paymentsEnabled ? (
                     `Pay ${formatNaira(service.price)} & confirm`
+                  ) : (
+                    "Payments unavailable"
                   )}
                 </Button>
               )}
               <p className="mt-2 text-xs text-muted-foreground">
-                Card payment only. Your appointment is confirmed the moment payment succeeds.
+                {paymentsEnabled
+                  ? "Card payment only. Your appointment is confirmed the moment payment succeeds."
+                  : "Consultation bookings are paused until a payment provider is connected. Nothing has been charged."}
               </p>
+
             </aside>
           </section>
         )}

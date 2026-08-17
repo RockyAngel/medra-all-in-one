@@ -1,8 +1,12 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { Banknote, KeyRound, ScrollText, ShieldCheck, Users } from "lucide-react";
-import { DashboardShell, Panel, StatCard } from "@/components/medra/DashboardShell";
-import { DonutChart, LineChart } from "@/components/medra/Charts";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { Banknote, ScrollText, ShieldCheck, ShoppingBag } from "lucide-react";
+import { Panel, StatCard } from "@/components/medra/DashboardShell";
+import { DataTable, Pill, SuperAdminPage } from "@/components/medra/RoleDashboard";
+import { EmptyState, QueryBoundary } from "@/components/medra/States";
 import { Button } from "@/components/ui/button";
+import { statusLabel } from "@/lib/dashboard";
+import { useAdminOverview, useAdministrators, useAuditLogs, useCommissionRules } from "@/lib/ops";
+import { formatDate, formatNaira } from "@/lib/medra";
 
 export const Route = createFileRoute("/super-admin")({
   head: () => ({
@@ -11,172 +15,160 @@ export const Route = createFileRoute("/super-admin")({
       {
         name: "description",
         content:
-          "Medra super admin console: manage administrators, roles, permissions, audit trails and global platform revenue.",
+          "Medra super admin console: platform governance, administrator roles, commission rules, feature flags and audit trails.",
       },
       { property: "og:title", content: "Super Admin Console — Medra" },
       {
         property: "og:description",
-        content: "Global control over administrators, roles, permissions and audit trails on Medra.",
+        content: "Govern administrators, permissions, commissions and audit trails on Medra.",
       },
     ],
   }),
   component: SuperAdminDashboard,
 });
 
-const groups = [
-  { items: [{ label: "Global Overview", to: "/super-admin" }, { label: "Commission engine", to: "/super-admin/commission" }, { label: "Admin console", to: "/admin" }] },
-  {
-    title: "Governance",
-    items: [
-      { label: "Administrators", to: "/super-admin/admins" },
-      { label: "Roles & Permissions", to: "/super-admin/permissions" },
-      { label: "Audit Trails", to: "/super-admin/audit" },
-    ],
-  },
-  {
-    title: "Platform",
-    items: [
-      { label: "Categories", to: "/super-admin/categories" },
-      { label: "Feature Flags", to: "/super-admin/features" },
-      { label: "Notifications", to: "/notifications" },
-    ],
-  },
-];
-
-const activity = [
-  { who: "Amaka N.", what: "Approved payout batch #2291", role: "Finance Admin", when: "12m ago" },
-  { who: "Tobi K.", what: "Suspended store: QuickBuy Mart", role: "Ops Admin", when: "48m ago" },
-  { who: "Zainab M.", what: "Updated commission to 12% (Groceries)", role: "Super Admin", when: "2h ago" },
-  { who: "Daniel U.", what: "Granted refunds permission to Support L2", role: "Super Admin", when: "4h ago" },
-  { who: "System", what: "Rotated payment gateway credentials", role: "Automation", when: "9h ago" },
-];
-
-const admins = [
-  { role: "Super Admin", count: 3, scope: "Full platform control" },
-  { role: "Ops Admin", count: 6, scope: "Orders, riders, stores" },
-  { role: "Finance Admin", count: 3, scope: "Payouts, commissions" },
-  { role: "Support L2", count: 2, scope: "Tickets, refunds" },
-];
-
 function SuperAdminDashboard() {
+  const overview = useAdminOverview();
+  const admins = useAdministrators();
+  const audit = useAuditLogs("all");
+  const commission = useCommissionRules();
+  const stats = overview.data;
+
   return (
-    <DashboardShell
-      groups={groups}
+    <SuperAdminPage
       title="Super admin console"
-      subtitle="Global platform governance"
+      subtitle="Global platform governance · live data"
       topRight={
-        <>
-          <span className="rounded-full bg-grape/15 px-3 py-1.5 text-xs font-bold text-grape">
-            Elevated session
-          </span>
-          <Button size="sm" className="rounded-full">
-            Create administrator
-          </Button>
-        </>
+        <Button asChild size="sm" className="rounded-full">
+          <Link to="/super-admin/$section" params={{ section: "admins" }}>Manage administrators</Link>
+        </Button>
       }
     >
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         <StatCard
-          label="Global revenue"
-          value="₦248.5M"
-          delta="+16.4% YoY"
+          label="Gross order value"
+          value={formatNaira(stats?.gmv ?? 0)}
           tone="leaf"
           icon={<Banknote className="size-4" />}
         />
         <StatCard
-          label="Platform users"
-          value="1.42M"
-          delta="+62,410 this quarter"
+          label="Orders"
+          value={String(stats?.orders ?? 0)}
           tone="sky"
-          icon={<Users className="size-4" />}
+          icon={<ShoppingBag className="size-4" />}
         />
         <StatCard
           label="Administrators"
-          value="14"
-          delta="4 roles configured"
-          deltaTone="neutral"
+          value={String((admins.data ?? []).length)}
           tone="grape"
           icon={<ShieldCheck className="size-4" />}
         />
         <StatCard
-          label="Audit events (24h)"
-          value="3,182"
-          delta="2 flagged for review"
-          deltaTone="down"
+          label="Audit events"
+          value={String((audit.data ?? []).length)}
           tone="amber"
           icon={<ScrollText className="size-4" />}
         />
       </div>
 
       <div className="grid gap-4 xl:grid-cols-3">
-        <Panel
-          title="Global revenue trend"
-          className="xl:col-span-2"
-          action={<span className="text-xs font-semibold text-muted-foreground">12 months</span>}
-        >
-          <LineChart
-            points={[96, 108, 121, 118, 140, 156, 171, 165, 190, 208, 226, 248]}
-            stroke="var(--leaf)"
-          />
-        </Panel>
-        <Panel title="Order status overview">
-          <DonutChart
-            segments={[
-              { label: "Delivered", value: 71, color: "var(--leaf)" },
-              { label: "In transit", value: 16, color: "var(--sky)" },
-              { label: "Pending", value: 9, color: "var(--amber)" },
-              { label: "Refunded", value: 4, color: "var(--grape)" },
-            ]}
-          />
-        </Panel>
-      </div>
-
-      <div className="grid gap-4 xl:grid-cols-3">
-        <Panel
-          title="Recent admin activity"
-          className="xl:col-span-2"
-          action={<span className="cursor-pointer text-xs font-bold text-primary">Full audit trail</span>}
-        >
-          <ul className="divide-y divide-border">
-            {activity.map((a) => (
-              <li key={a.what} className="flex items-start gap-3 py-3">
-                <span className="grid size-9 shrink-0 place-items-center rounded-full bg-muted text-xs font-bold">
-                  {a.who.slice(0, 2).toUpperCase()}
-                </span>
-                <div className="min-w-0 flex-1">
-                  <p className="text-sm font-semibold">{a.what}</p>
-                  <p className="text-xs text-muted-foreground">
-                    {a.who} · {a.role}
-                  </p>
-                </div>
-                <span className="shrink-0 text-xs text-muted-foreground">{a.when}</span>
-              </li>
-            ))}
-          </ul>
+        <Panel title="Administrators" className="xl:col-span-2">
+          <QueryBoundary
+            isLoading={admins.isLoading}
+            error={admins.error}
+            isEmpty={(admins.data ?? []).length === 0}
+            onRetry={() => void admins.refetch()}
+            empty={
+              <EmptyState
+                icon={<ShieldCheck className="size-5" />}
+                title="No administrators recorded"
+                body="Grant admin or super admin roles from the administrators screen."
+              />
+            }
+          >
+            <DataTable columns={["Person", "Role", "Granted"]}>
+              {(admins.data ?? []).slice(0, 8).map((row) => (
+                <tr key={row.id}>
+                  <td className="py-3 pr-4 font-semibold">
+                    {[row.profile?.first_name, row.profile?.last_name].filter(Boolean).join(" ") ||
+                      row.profile?.email ||
+                      row.user_id.slice(0, 8)}
+                  </td>
+                  <td className="py-3 pr-4">
+                    <Pill>{statusLabel(row.role)}</Pill>
+                  </td>
+                  <td className="py-3 pr-4 text-muted-foreground">{formatDate(row.created_at)}</td>
+                </tr>
+              ))}
+            </DataTable>
+          </QueryBoundary>
         </Panel>
 
-        <Panel title="Roles & permissions">
-          <ul className="space-y-3">
-            {admins.map((a) => (
-              <li key={a.role} className="rounded-xl border border-border p-3">
-                <div className="flex items-center justify-between">
-                  <p className="text-sm font-bold">{a.role}</p>
-                  <span className="rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-bold text-primary">
-                    {a.count} users
+        <Panel title="Commission rules">
+          <QueryBoundary
+            isLoading={commission.isLoading}
+            error={commission.error}
+            isEmpty={(commission.data ?? []).length === 0}
+            onRetry={() => void commission.refetch()}
+            empty={
+              <EmptyState
+                title="No commission rules yet"
+                body="Set the platform default and category overrides in the commission engine."
+                action={
+                  <Button asChild size="sm" className="rounded-full">
+                    <Link to="/super-admin/$section" params={{ section: "commission" }}>Open commission engine</Link>
+                  </Button>
+                }
+              />
+            }
+          >
+            <ul className="space-y-2 text-sm">
+              {(commission.data ?? []).slice(0, 6).map((rule) => (
+                <li key={rule.id} className="flex items-center justify-between gap-3 border-b border-border pb-2 last:border-0">
+                  <span className="font-semibold">
+                    {statusLabel(rule.scope)}
+                    {rule.categories?.name ? ` · ${rule.categories.name}` : ""}
                   </span>
-                </div>
-                <p className="mt-1 text-xs text-muted-foreground">{a.scope}</p>
-              </li>
-            ))}
-          </ul>
-          <div className="mt-4 flex items-start gap-3 rounded-xl bg-muted p-3">
-            <KeyRound className="mt-0.5 size-4 text-grape" />
-            <p className="text-xs text-muted-foreground">
-              Permission changes require two-person approval and are written to the audit trail.
-            </p>
-          </div>
+                  <Pill tone={rule.is_active ? "bg-leaf/15 text-leaf" : undefined}>{rule.percent}%</Pill>
+                </li>
+              ))}
+            </ul>
+          </QueryBoundary>
         </Panel>
       </div>
-    </DashboardShell>
+
+      <Panel title="Recent audit trail">
+        <QueryBoundary
+          isLoading={audit.isLoading}
+          error={audit.error}
+          isEmpty={(audit.data ?? []).length === 0}
+          onRetry={() => void audit.refetch()}
+          empty={
+            <EmptyState
+              icon={<ScrollText className="size-5" />}
+              title="No audit events yet"
+              body="Privileged actions such as approvals, payouts and role changes are recorded here."
+            />
+          }
+        >
+          <DataTable columns={["Action", "Entity", "Actor role", "Reason", "When"]}>
+            {(audit.data ?? []).slice(0, 10).map((row) => (
+              <tr key={row.id}>
+                <td className="py-3 pr-4 font-semibold">{statusLabel(row.action)}</td>
+                <td className="py-3 pr-4 text-muted-foreground">{row.entity}</td>
+                <td className="py-3 pr-4">{row.actor_role ? statusLabel(row.actor_role) : "—"}</td>
+                <td className="py-3 pr-4 text-muted-foreground">{row.reason ?? "—"}</td>
+                <td className="py-3 pr-4 text-muted-foreground">{formatDate(row.created_at)}</td>
+              </tr>
+            ))}
+          </DataTable>
+          <div className="mt-4">
+            <Button asChild size="sm" variant="outline" className="rounded-full">
+              <Link to="/super-admin/$section" params={{ section: "audit" }}>Open full audit trail</Link>
+            </Button>
+          </div>
+        </QueryBoundary>
+      </Panel>
+    </SuperAdminPage>
   );
 }
