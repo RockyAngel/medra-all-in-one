@@ -14,7 +14,7 @@ import { useWallet } from "@/lib/hooks";
 import { useFeatureEnabled } from "@/lib/permissions";
 
 import {
-  POINTS_PER_NAIRA,
+  
   POINT_VALUE_NAIRA,
   formatNaira,
 } from "@/lib/medra";
