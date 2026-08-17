@@ -66,7 +66,7 @@ function SuperAdminDeliveryPage() {
     base: "700",
     perKm: "120",
     minimum: "700",
-    peakMultiplier: "1.25",
+    peakSurcharge: "25",
     riderShare: "85",
     peakRiderShare: "90",
   });
@@ -82,11 +82,13 @@ function SuperAdminDeliveryPage() {
       }
       const { error } = await supabase.from("delivery_zones").insert({
         name,
-        slug: slugify(name),
         city: zone.city.trim() || null,
-        center_lat: lat,
-        center_lng: lng,
+        center_latitude: lat,
+        center_longitude: lng,
         radius_km: Number(zone.radius) || 15,
+        base_fee: Number(fees.base) || 700,
+        per_km_fee: Number(fees.perKm) || 120,
+        min_fee: Number(fees.minimum) || 700,
         is_active: true,
       });
       if (error) throw error;
@@ -104,19 +106,29 @@ function SuperAdminDeliveryPage() {
       const numbers = {
         base_fee: Number(fees.base),
         per_km_fee: Number(fees.perKm),
-        minimum_fee: Number(fees.minimum),
-        peak_multiplier: Number(fees.peakMultiplier),
-        rider_share_percent: Number(fees.riderShare),
-        peak_rider_share_percent: Number(fees.peakRiderShare),
+        min_fee: Number(fees.minimum),
+        peak_surcharge_percent: Number(fees.peakSurcharge),
+        regular_rider_percent: Number(fees.riderShare),
+        peak_rider_percent: Number(fees.peakRiderShare),
       };
       for (const [key, value] of Object.entries(numbers)) {
         if (!Number.isFinite(value) || value < 0) throw new Error(`Enter a valid ${key.replace(/_/g, " ")}.`);
       }
-      if (numbers.rider_share_percent > 100 || numbers.peak_rider_share_percent > 100) {
+      if (numbers.regular_rider_percent > 100 || numbers.peak_rider_percent > 100) {
         throw new Error("Rider share cannot exceed 100%.");
       }
+      const nextVersion =
+        Math.max(0, ...(pricing.data ?? []).map((p) => Number(p.version) || 0)) + 1;
+      const { error: retireError } = await supabase
+        .from("delivery_pricing_versions")
+        .update({ is_active: false, effective_to: new Date().toISOString() })
+        .eq("is_active", true);
+      if (retireError) throw retireError;
       const { error } = await supabase.from("delivery_pricing_versions").insert({
         ...numbers,
+        version: nextVersion,
+        label: `v${nextVersion}`,
+        delivery_enabled: true,
         is_active: true,
         effective_from: new Date().toISOString(),
       });
@@ -128,6 +140,7 @@ function SuperAdminDeliveryPage() {
     },
     onError: (e: unknown) => toast.error(e instanceof Error ? e.message : "Could not publish pricing"),
   });
+
 
   const toggleZone = useMutation({
     mutationFn: async (input: { id: string; isActive: boolean }) => {
