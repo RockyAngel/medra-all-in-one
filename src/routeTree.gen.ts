@@ -51,6 +51,7 @@ import { Route as HealthAppointmentsRouteImport } from './routes/health.appointm
 import { Route as HealthEmergencyRouteImport } from './routes/health.emergency'
 import { Route as HealthPrescriptionsRouteImport } from './routes/health.prescriptions'
 import { Route as HealthTelehealthRouteImport } from './routes/health.telehealth'
+import { Route as LegalDocRouteImport } from './routes/legal.$doc'
 import { Route as OrdersIndexRouteImport } from './routes/orders.index'
 import { Route as OrdersOrderIdRouteImport } from './routes/orders.$orderId'
 import { Route as ProductProductIdRouteImport } from './routes/product.$productId'
@@ -296,6 +297,11 @@ const HealthTelehealthRoute = HealthTelehealthRouteImport.update({
   path: '/health/telehealth',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LegalDocRoute = LegalDocRouteImport.update({
+  id: '/legal/$doc',
+  path: '/legal/$doc',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const OrdersIndexRoute = OrdersIndexRouteImport.update({
   id: '/orders/',
   path: '/orders/',
@@ -496,6 +502,7 @@ export interface FileRoutesByFullPath {
   '/health/emergency': typeof HealthEmergencyRoute
   '/health/prescriptions': typeof HealthPrescriptionsRoute
   '/health/telehealth': typeof HealthTelehealthRoute
+  '/legal/$doc': typeof LegalDocRoute
   '/orders/$orderId': typeof OrdersOrderIdRoute
   '/product/$productId': typeof ProductProductIdRoute
   '/rider/$section': typeof RiderSectionRoute
@@ -571,6 +578,7 @@ export interface FileRoutesByTo {
   '/health/emergency': typeof HealthEmergencyRoute
   '/health/prescriptions': typeof HealthPrescriptionsRoute
   '/health/telehealth': typeof HealthTelehealthRoute
+  '/legal/$doc': typeof LegalDocRoute
   '/orders/$orderId': typeof OrdersOrderIdRoute
   '/product/$productId': typeof ProductProductIdRoute
   '/rider/$section': typeof RiderSectionRoute
@@ -647,6 +655,7 @@ export interface FileRoutesById {
   '/health/emergency': typeof HealthEmergencyRoute
   '/health/prescriptions': typeof HealthPrescriptionsRoute
   '/health/telehealth': typeof HealthTelehealthRoute
+  '/legal/$doc': typeof LegalDocRoute
   '/orders/$orderId': typeof OrdersOrderIdRoute
   '/product/$productId': typeof ProductProductIdRoute
   '/rider_/$section': typeof RiderSectionRoute
@@ -724,6 +733,7 @@ export interface FileRouteTypes {
     | '/health/emergency'
     | '/health/prescriptions'
     | '/health/telehealth'
+    | '/legal/$doc'
     | '/orders/$orderId'
     | '/product/$productId'
     | '/rider/$section'
@@ -799,6 +809,7 @@ export interface FileRouteTypes {
     | '/health/emergency'
     | '/health/prescriptions'
     | '/health/telehealth'
+    | '/legal/$doc'
     | '/orders/$orderId'
     | '/product/$productId'
     | '/rider/$section'
@@ -874,6 +885,7 @@ export interface FileRouteTypes {
     | '/health/emergency'
     | '/health/prescriptions'
     | '/health/telehealth'
+    | '/legal/$doc'
     | '/orders/$orderId'
     | '/product/$productId'
     | '/rider_/$section'
@@ -950,6 +962,7 @@ export interface RootRouteChildren {
   HealthEmergencyRoute: typeof HealthEmergencyRoute
   HealthPrescriptionsRoute: typeof HealthPrescriptionsRoute
   HealthTelehealthRoute: typeof HealthTelehealthRoute
+  LegalDocRoute: typeof LegalDocRoute
   OrdersOrderIdRoute: typeof OrdersOrderIdRoute
   ProductProductIdRoute: typeof ProductProductIdRoute
   RiderSectionRoute: typeof RiderSectionRoute
@@ -1279,6 +1292,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HealthTelehealthRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/legal/$doc': {
+      id: '/legal/$doc'
+      path: '/legal/$doc'
+      fullPath: '/legal/$doc'
+      preLoaderRoute: typeof LegalDocRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/orders/': {
       id: '/orders/'
       path: '/orders'
@@ -1543,6 +1563,7 @@ const rootRouteChildren: RootRouteChildren = {
   HealthEmergencyRoute: HealthEmergencyRoute,
   HealthPrescriptionsRoute: HealthPrescriptionsRoute,
   HealthTelehealthRoute: HealthTelehealthRoute,
+  LegalDocRoute: LegalDocRoute,
   OrdersOrderIdRoute: OrdersOrderIdRoute,
   ProductProductIdRoute: ProductProductIdRoute,
   RiderSectionRoute: RiderSectionRoute,
