@@ -43,6 +43,7 @@ import { Route as AdminRefundsRouteImport } from './routes/admin_.refunds'
 import { Route as AdminRiderApprovalsRouteImport } from './routes/admin_.rider-approvals'
 import { Route as AdminSellerApprovalsRouteImport } from './routes/admin_.seller-approvals'
 import { Route as AdminSosRouteImport } from './routes/admin_.sos'
+import { Route as AdminSupportRouteImport } from './routes/admin_.support'
 import { Route as ApplyRiderRouteImport } from './routes/apply.rider'
 import { Route as ApplySellerRouteImport } from './routes/apply.seller'
 import { Route as HealthAppointmentsRouteImport } from './routes/health.appointments'
@@ -247,6 +248,11 @@ const AdminSosRoute = AdminSosRouteImport.update({
   path: '/admin/sos',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminSupportRoute = AdminSupportRouteImport.update({
+  id: '/admin_/support',
+  path: '/admin/support',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApplyRiderRoute = ApplyRiderRouteImport.update({
   id: '/apply/rider',
   path: '/apply/rider',
@@ -434,6 +440,7 @@ export interface FileRoutesByFullPath {
   '/admin/rider-approvals': typeof AdminRiderApprovalsRoute
   '/admin/seller-approvals': typeof AdminSellerApprovalsRoute
   '/admin/sos': typeof AdminSosRoute
+  '/admin/support': typeof AdminSupportRoute
   '/apply/rider': typeof ApplyRiderRoute
   '/apply/seller': typeof ApplySellerRoute
   '/health/appointments': typeof HealthAppointmentsRoute
@@ -500,6 +507,7 @@ export interface FileRoutesByTo {
   '/admin/rider-approvals': typeof AdminRiderApprovalsRoute
   '/admin/seller-approvals': typeof AdminSellerApprovalsRoute
   '/admin/sos': typeof AdminSosRoute
+  '/admin/support': typeof AdminSupportRoute
   '/apply/rider': typeof ApplyRiderRoute
   '/apply/seller': typeof ApplySellerRoute
   '/health/appointments': typeof HealthAppointmentsRoute
@@ -567,6 +575,7 @@ export interface FileRoutesById {
   '/admin_/rider-approvals': typeof AdminRiderApprovalsRoute
   '/admin_/seller-approvals': typeof AdminSellerApprovalsRoute
   '/admin_/sos': typeof AdminSosRoute
+  '/admin_/support': typeof AdminSupportRoute
   '/apply/rider': typeof ApplyRiderRoute
   '/apply/seller': typeof ApplySellerRoute
   '/health/appointments': typeof HealthAppointmentsRoute
@@ -635,6 +644,7 @@ export interface FileRouteTypes {
     | '/admin/rider-approvals'
     | '/admin/seller-approvals'
     | '/admin/sos'
+    | '/admin/support'
     | '/apply/rider'
     | '/apply/seller'
     | '/health/appointments'
@@ -701,6 +711,7 @@ export interface FileRouteTypes {
     | '/admin/rider-approvals'
     | '/admin/seller-approvals'
     | '/admin/sos'
+    | '/admin/support'
     | '/apply/rider'
     | '/apply/seller'
     | '/health/appointments'
@@ -767,6 +778,7 @@ export interface FileRouteTypes {
     | '/admin_/rider-approvals'
     | '/admin_/seller-approvals'
     | '/admin_/sos'
+    | '/admin_/support'
     | '/apply/rider'
     | '/apply/seller'
     | '/health/appointments'
@@ -834,6 +846,7 @@ export interface RootRouteChildren {
   AdminRiderApprovalsRoute: typeof AdminRiderApprovalsRoute
   AdminSellerApprovalsRoute: typeof AdminSellerApprovalsRoute
   AdminSosRoute: typeof AdminSosRoute
+  AdminSupportRoute: typeof AdminSupportRoute
   ApplyRiderRoute: typeof ApplyRiderRoute
   ApplySellerRoute: typeof ApplySellerRoute
   HealthAppointmentsRoute: typeof HealthAppointmentsRoute
@@ -1106,6 +1119,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminSosRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin_/support': {
+      id: '/admin_/support'
+      path: '/admin/support'
+      fullPath: '/admin/support'
+      preLoaderRoute: typeof AdminSupportRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/apply/rider': {
       id: '/apply/rider'
       path: '/apply/rider'
@@ -1355,6 +1375,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminRiderApprovalsRoute: AdminRiderApprovalsRoute,
   AdminSellerApprovalsRoute: AdminSellerApprovalsRoute,
   AdminSosRoute: AdminSosRoute,
+  AdminSupportRoute: AdminSupportRoute,
   ApplyRiderRoute: ApplyRiderRoute,
   ApplySellerRoute: ApplySellerRoute,
   HealthAppointmentsRoute: HealthAppointmentsRoute,
