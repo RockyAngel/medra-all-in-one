@@ -16,10 +16,12 @@ import {
   usePayoutRequests,
 } from "@/lib/dashboard";
 import { formatDate, formatNaira } from "@/lib/medra";
+import { useAuth } from "@/lib/auth";
 import { workflowError } from "@/lib/workflow";
 
 /** Shared payout request + bank account management for sellers and riders. */
-export function PayoutsPanel() {
+export function PayoutsPanel({ role }: { role: "seller" | "rider" }) {
+  const { user } = useAuth();
   const balance = useMyBalance();
   const accounts = usePayoutAccounts();
   const requests = usePayoutRequests();
@@ -39,7 +41,10 @@ export function PayoutsPanel() {
       if (!bank.bank_name.trim() || !bank.account_number.trim() || !bank.account_name.trim()) {
         throw new Error("Fill in the bank, account name and account number");
       }
+      if (!user) throw new Error("Sign in to add a payout account");
       const { error } = await supabase.from("payout_accounts").insert({
+        user_id: user.id,
+        role,
         bank_name: bank.bank_name.trim(),
         account_name: bank.account_name.trim(),
         account_number: bank.account_number.trim(),
