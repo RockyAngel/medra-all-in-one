@@ -93,10 +93,12 @@ export function DashboardShell({
       <div className="flex min-h-screen">
         <aside className="hidden w-64 shrink-0 flex-col gap-6 bg-sidebar px-4 py-6 lg:flex">
           <Logo tone="dark" size={40} />
+          <DashboardSwitcher />
           <nav className="flex flex-1 flex-col gap-6 overflow-y-auto">
             <NavLinks groups={groups} />
           </nav>
           {footer}
+
           <div className="border-t border-sidebar-accent pt-4">
             {user?.email && (
               <p className="truncate px-3 pb-2 text-xs text-sidebar-foreground/60">{user.email}</p>
