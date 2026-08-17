@@ -3863,6 +3863,27 @@ export type Database = {
           },
         ]
       }
+      qa_log: {
+        Row: {
+          at: string | null
+          detail: Json | null
+          id: number
+          step: string | null
+        }
+        Insert: {
+          at?: string | null
+          detail?: Json | null
+          id?: number
+          step?: string | null
+        }
+        Update: {
+          at?: string | null
+          detail?: Json | null
+          id?: number
+          step?: string | null
+        }
+        Relationships: []
+      }
       refund_events: {
         Row: {
           actor_id: string | null
@@ -5753,15 +5774,10 @@ export type Database = {
         }
         Returns: undefined
       }
-      rider_respond_to_offer:
-        | {
-            Args: { _accept: boolean; _delivery_id: string }
-            Returns: undefined
-          }
-        | {
-            Args: { _accept: boolean; _delivery_id: string; _reason?: string }
-            Returns: undefined
-          }
+      rider_respond_to_offer: {
+        Args: { _accept: boolean; _delivery_id: string; _reason?: string }
+        Returns: undefined
+      }
       rider_share_location: {
         Args: {
           _accuracy?: number
