@@ -232,6 +232,7 @@ export function useSellerApplications(status: string) {
         .select(
           "id, store_name, store_type, city, address, contact_phone, business_reg_number, description, status, review_note, reviewed_at, created_at, document_paths",
         )
+        .neq("store_type", "pharmacy")
         .order("created_at", { ascending: false })
         .limit(100);
       if (status !== "all") query = query.eq("status", status as "submitted");
