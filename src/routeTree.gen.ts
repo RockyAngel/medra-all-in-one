@@ -46,6 +46,7 @@ import { Route as ProductProductIdRouteImport } from './routes/product.$productI
 import { Route as RiderSectionRouteImport } from './routes/rider_.$section'
 import { Route as RiderActiveRouteImport } from './routes/rider_.active'
 import { Route as RiderAvailableRouteImport } from './routes/rider_.available'
+import { Route as RiderHistoryRouteImport } from './routes/rider_.history'
 import { Route as SellerSectionRouteImport } from './routes/seller_.$section'
 import { Route as SellerEarningsRouteImport } from './routes/seller_.earnings'
 import { Route as SellerInventoryRouteImport } from './routes/seller_.inventory'
@@ -249,6 +250,11 @@ const RiderAvailableRoute = RiderAvailableRouteImport.update({
   path: '/rider/available',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RiderHistoryRoute = RiderHistoryRouteImport.update({
+  id: '/rider_/history',
+  path: '/rider/history',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SellerSectionRoute = SellerSectionRouteImport.update({
   id: '/seller_/$section',
   path: '/seller/$section',
@@ -358,6 +364,7 @@ export interface FileRoutesByFullPath {
   '/rider/$section': typeof RiderSectionRoute
   '/rider/active': typeof RiderActiveRoute
   '/rider/available': typeof RiderAvailableRoute
+  '/rider/history': typeof RiderHistoryRoute
   '/seller/$section': typeof SellerSectionRoute
   '/seller/earnings': typeof SellerEarningsRoute
   '/seller/inventory': typeof SellerInventoryRoute
@@ -411,6 +418,7 @@ export interface FileRoutesByTo {
   '/rider/$section': typeof RiderSectionRoute
   '/rider/active': typeof RiderActiveRoute
   '/rider/available': typeof RiderAvailableRoute
+  '/rider/history': typeof RiderHistoryRoute
   '/seller/$section': typeof SellerSectionRoute
   '/seller/earnings': typeof SellerEarningsRoute
   '/seller/inventory': typeof SellerInventoryRoute
@@ -465,6 +473,7 @@ export interface FileRoutesById {
   '/rider_/$section': typeof RiderSectionRoute
   '/rider_/active': typeof RiderActiveRoute
   '/rider_/available': typeof RiderAvailableRoute
+  '/rider_/history': typeof RiderHistoryRoute
   '/seller_/$section': typeof SellerSectionRoute
   '/seller_/earnings': typeof SellerEarningsRoute
   '/seller_/inventory': typeof SellerInventoryRoute
@@ -520,6 +529,7 @@ export interface FileRouteTypes {
     | '/rider/$section'
     | '/rider/active'
     | '/rider/available'
+    | '/rider/history'
     | '/seller/$section'
     | '/seller/earnings'
     | '/seller/inventory'
@@ -573,6 +583,7 @@ export interface FileRouteTypes {
     | '/rider/$section'
     | '/rider/active'
     | '/rider/available'
+    | '/rider/history'
     | '/seller/$section'
     | '/seller/earnings'
     | '/seller/inventory'
@@ -626,6 +637,7 @@ export interface FileRouteTypes {
     | '/rider_/$section'
     | '/rider_/active'
     | '/rider_/available'
+    | '/rider_/history'
     | '/seller_/$section'
     | '/seller_/earnings'
     | '/seller_/inventory'
@@ -680,6 +692,7 @@ export interface RootRouteChildren {
   RiderSectionRoute: typeof RiderSectionRoute
   RiderActiveRoute: typeof RiderActiveRoute
   RiderAvailableRoute: typeof RiderAvailableRoute
+  RiderHistoryRoute: typeof RiderHistoryRoute
   SellerSectionRoute: typeof SellerSectionRoute
   SellerEarningsRoute: typeof SellerEarningsRoute
   SellerInventoryRoute: typeof SellerInventoryRoute
@@ -958,6 +971,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RiderAvailableRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/rider_/history': {
+      id: '/rider_/history'
+      path: '/rider/history'
+      fullPath: '/rider/history'
+      preLoaderRoute: typeof RiderHistoryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/seller_/$section': {
       id: '/seller_/$section'
       path: '/seller/$section'
@@ -1097,6 +1117,7 @@ const rootRouteChildren: RootRouteChildren = {
   RiderSectionRoute: RiderSectionRoute,
   RiderActiveRoute: RiderActiveRoute,
   RiderAvailableRoute: RiderAvailableRoute,
+  RiderHistoryRoute: RiderHistoryRoute,
   SellerSectionRoute: SellerSectionRoute,
   SellerEarningsRoute: SellerEarningsRoute,
   SellerInventoryRoute: SellerInventoryRoute,
