@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { supabase } from "@/integrations/supabase/client";
-import { formatDate, formatNaira, slugify } from "@/lib/medra";
+import { formatDate, formatNaira } from "@/lib/medra";
 
 export const Route = createFileRoute("/super-admin_/delivery")({
   head: () => ({
@@ -172,9 +172,9 @@ function SuperAdminDeliveryPage() {
               onChange={(v) => setFees({ ...fees, minimum: v })}
             />
             <Field
-              label="Peak multiplier"
-              value={fees.peakMultiplier}
-              onChange={(v) => setFees({ ...fees, peakMultiplier: v })}
+              label="Peak surcharge %"
+              value={fees.peakSurcharge}
+              onChange={(v) => setFees({ ...fees, peakSurcharge: v })}
             />
             <Field
               label="Rider share %"
@@ -228,15 +228,16 @@ function SuperAdminDeliveryPage() {
             />
           }
         >
-          <DataTable columns={["Base", "Per km", "Minimum", "Peak ×", "Rider split", "Active", "From"]}>
+          <DataTable columns={["Version", "Base", "Per km", "Minimum", "Peak +%", "Rider split", "Active", "From"]}>
             {(pricing.data ?? []).map((p) => (
               <tr key={p.id}>
-                <td className="py-3 pr-4 font-semibold">{formatNaira(Number(p.base_fee))}</td>
+                <td className="py-3 pr-4 font-semibold">v{Number(p.version)}</td>
+                <td className="py-3 pr-4">{formatNaira(Number(p.base_fee))}</td>
                 <td className="py-3 pr-4">{formatNaira(Number(p.per_km_fee))}</td>
-                <td className="py-3 pr-4">{formatNaira(Number(p.minimum_fee))}</td>
-                <td className="py-3 pr-4">{Number(p.peak_multiplier)}×</td>
+                <td className="py-3 pr-4">{formatNaira(Number(p.min_fee))}</td>
+                <td className="py-3 pr-4">{Number(p.peak_surcharge_percent)}%</td>
                 <td className="py-3 pr-4 text-muted-foreground">
-                  {Number(p.rider_share_percent)}% / peak {Number(p.peak_rider_share_percent)}%
+                  {Number(p.regular_rider_percent)}% / peak {Number(p.peak_rider_percent)}%
                 </td>
                 <td className="py-3 pr-4">
                   <Pill tone={p.is_active ? "bg-leaf/15 text-leaf" : "bg-muted text-muted-foreground"}>
@@ -270,9 +271,9 @@ function SuperAdminDeliveryPage() {
                 <td className="py-3 pr-4 font-semibold">{z.name}</td>
                 <td className="py-3 pr-4 text-muted-foreground">{z.city ?? "—"}</td>
                 <td className="py-3 pr-4 font-mono text-xs text-muted-foreground">
-                  {Number(z.center_lat).toFixed(4)}, {Number(z.center_lng).toFixed(4)}
+                  {Number(z.center_latitude ?? 0).toFixed(4)}, {Number(z.center_longitude ?? 0).toFixed(4)}
                 </td>
-                <td className="py-3 pr-4 text-muted-foreground">{Number(z.radius_km)} km</td>
+                <td className="py-3 pr-4 text-muted-foreground">{Number(z.radius_km ?? 0)} km</td>
                 <td className="py-3 pr-4">
                   <Pill tone={z.is_active ? "bg-leaf/15 text-leaf" : "bg-muted text-muted-foreground"}>
                     {z.is_active ? "Live" : "Paused"}
