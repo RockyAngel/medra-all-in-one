@@ -78,6 +78,7 @@ import { Route as SuperAdminAdminsRouteImport } from './routes/super-admin_.admi
 import { Route as SuperAdminAuditRouteImport } from './routes/super-admin_.audit'
 import { Route as SuperAdminCategoriesRouteImport } from './routes/super-admin_.categories'
 import { Route as SuperAdminCommissionRouteImport } from './routes/super-admin_.commission'
+import { Route as SuperAdminDeliveryRouteImport } from './routes/super-admin_.delivery'
 import { Route as SuperAdminFeaturesRouteImport } from './routes/super-admin_.features'
 import { Route as SuperAdminPermissionsRouteImport } from './routes/super-admin_.permissions'
 import { Route as SuperAdminStaffRouteImport } from './routes/super-admin_.staff'
@@ -432,6 +433,11 @@ const SuperAdminCommissionRoute = SuperAdminCommissionRouteImport.update({
   path: '/super-admin/commission',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SuperAdminDeliveryRoute = SuperAdminDeliveryRouteImport.update({
+  id: '/super-admin_/delivery',
+  path: '/super-admin/delivery',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SuperAdminFeaturesRoute = SuperAdminFeaturesRouteImport.update({
   id: '/super-admin_/features',
   path: '/super-admin/features',
@@ -528,6 +534,7 @@ export interface FileRoutesByFullPath {
   '/super-admin/audit': typeof SuperAdminAuditRoute
   '/super-admin/categories': typeof SuperAdminCategoriesRoute
   '/super-admin/commission': typeof SuperAdminCommissionRoute
+  '/super-admin/delivery': typeof SuperAdminDeliveryRoute
   '/super-admin/features': typeof SuperAdminFeaturesRoute
   '/super-admin/permissions': typeof SuperAdminPermissionsRoute
   '/super-admin/staff': typeof SuperAdminStaffRoute
@@ -604,6 +611,7 @@ export interface FileRoutesByTo {
   '/super-admin/audit': typeof SuperAdminAuditRoute
   '/super-admin/categories': typeof SuperAdminCategoriesRoute
   '/super-admin/commission': typeof SuperAdminCommissionRoute
+  '/super-admin/delivery': typeof SuperAdminDeliveryRoute
   '/super-admin/features': typeof SuperAdminFeaturesRoute
   '/super-admin/permissions': typeof SuperAdminPermissionsRoute
   '/super-admin/staff': typeof SuperAdminStaffRoute
@@ -681,6 +689,7 @@ export interface FileRoutesById {
   '/super-admin_/audit': typeof SuperAdminAuditRoute
   '/super-admin_/categories': typeof SuperAdminCategoriesRoute
   '/super-admin_/commission': typeof SuperAdminCommissionRoute
+  '/super-admin_/delivery': typeof SuperAdminDeliveryRoute
   '/super-admin_/features': typeof SuperAdminFeaturesRoute
   '/super-admin_/permissions': typeof SuperAdminPermissionsRoute
   '/super-admin_/staff': typeof SuperAdminStaffRoute
@@ -759,6 +768,7 @@ export interface FileRouteTypes {
     | '/super-admin/audit'
     | '/super-admin/categories'
     | '/super-admin/commission'
+    | '/super-admin/delivery'
     | '/super-admin/features'
     | '/super-admin/permissions'
     | '/super-admin/staff'
@@ -835,6 +845,7 @@ export interface FileRouteTypes {
     | '/super-admin/audit'
     | '/super-admin/categories'
     | '/super-admin/commission'
+    | '/super-admin/delivery'
     | '/super-admin/features'
     | '/super-admin/permissions'
     | '/super-admin/staff'
@@ -911,6 +922,7 @@ export interface FileRouteTypes {
     | '/super-admin_/audit'
     | '/super-admin_/categories'
     | '/super-admin_/commission'
+    | '/super-admin_/delivery'
     | '/super-admin_/features'
     | '/super-admin_/permissions'
     | '/super-admin_/staff'
@@ -988,6 +1000,7 @@ export interface RootRouteChildren {
   SuperAdminAuditRoute: typeof SuperAdminAuditRoute
   SuperAdminCategoriesRoute: typeof SuperAdminCategoriesRoute
   SuperAdminCommissionRoute: typeof SuperAdminCommissionRoute
+  SuperAdminDeliveryRoute: typeof SuperAdminDeliveryRoute
   SuperAdminFeaturesRoute: typeof SuperAdminFeaturesRoute
   SuperAdminPermissionsRoute: typeof SuperAdminPermissionsRoute
   SuperAdminStaffRoute: typeof SuperAdminStaffRoute
@@ -1481,6 +1494,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SuperAdminCommissionRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/super-admin_/delivery': {
+      id: '/super-admin_/delivery'
+      path: '/super-admin/delivery'
+      fullPath: '/super-admin/delivery'
+      preLoaderRoute: typeof SuperAdminDeliveryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/super-admin_/features': {
       id: '/super-admin_/features'
       path: '/super-admin/features'
@@ -1589,6 +1609,7 @@ const rootRouteChildren: RootRouteChildren = {
   SuperAdminAuditRoute: SuperAdminAuditRoute,
   SuperAdminCategoriesRoute: SuperAdminCategoriesRoute,
   SuperAdminCommissionRoute: SuperAdminCommissionRoute,
+  SuperAdminDeliveryRoute: SuperAdminDeliveryRoute,
   SuperAdminFeaturesRoute: SuperAdminFeaturesRoute,
   SuperAdminPermissionsRoute: SuperAdminPermissionsRoute,
   SuperAdminStaffRoute: SuperAdminStaffRoute,
