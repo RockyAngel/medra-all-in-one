@@ -51,6 +51,7 @@ import { Route as SellerOrdersRouteImport } from './routes/seller_.orders'
 import { Route as SellerPayoutsRouteImport } from './routes/seller_.payouts'
 import { Route as SellerPrescriptionsRouteImport } from './routes/seller_.prescriptions'
 import { Route as SellerProductsRouteImport } from './routes/seller_.products'
+import { Route as SellerReviewsRouteImport } from './routes/seller_.reviews'
 import { Route as SellerStoreRouteImport } from './routes/seller_.store'
 import { Route as SellerTransactionsRouteImport } from './routes/seller_.transactions'
 import { Route as StoreStoreSlugRouteImport } from './routes/store.$storeSlug'
@@ -271,6 +272,11 @@ const SellerProductsRoute = SellerProductsRouteImport.update({
   path: '/seller/products',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SellerReviewsRoute = SellerReviewsRouteImport.update({
+  id: '/seller_/reviews',
+  path: '/seller/reviews',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SellerStoreRoute = SellerStoreRouteImport.update({
   id: '/seller_/store',
   path: '/seller/store',
@@ -345,6 +351,7 @@ export interface FileRoutesByFullPath {
   '/seller/payouts': typeof SellerPayoutsRoute
   '/seller/prescriptions': typeof SellerPrescriptionsRoute
   '/seller/products': typeof SellerProductsRoute
+  '/seller/reviews': typeof SellerReviewsRoute
   '/seller/store': typeof SellerStoreRoute
   '/seller/transactions': typeof SellerTransactionsRoute
   '/store/$storeSlug': typeof StoreStoreSlugRoute
@@ -395,6 +402,7 @@ export interface FileRoutesByTo {
   '/seller/payouts': typeof SellerPayoutsRoute
   '/seller/prescriptions': typeof SellerPrescriptionsRoute
   '/seller/products': typeof SellerProductsRoute
+  '/seller/reviews': typeof SellerReviewsRoute
   '/seller/store': typeof SellerStoreRoute
   '/seller/transactions': typeof SellerTransactionsRoute
   '/store/$storeSlug': typeof StoreStoreSlugRoute
@@ -446,6 +454,7 @@ export interface FileRoutesById {
   '/seller_/payouts': typeof SellerPayoutsRoute
   '/seller_/prescriptions': typeof SellerPrescriptionsRoute
   '/seller_/products': typeof SellerProductsRoute
+  '/seller_/reviews': typeof SellerReviewsRoute
   '/seller_/store': typeof SellerStoreRoute
   '/seller_/transactions': typeof SellerTransactionsRoute
   '/store/$storeSlug': typeof StoreStoreSlugRoute
@@ -498,6 +507,7 @@ export interface FileRouteTypes {
     | '/seller/payouts'
     | '/seller/prescriptions'
     | '/seller/products'
+    | '/seller/reviews'
     | '/seller/store'
     | '/seller/transactions'
     | '/store/$storeSlug'
@@ -548,6 +558,7 @@ export interface FileRouteTypes {
     | '/seller/payouts'
     | '/seller/prescriptions'
     | '/seller/products'
+    | '/seller/reviews'
     | '/seller/store'
     | '/seller/transactions'
     | '/store/$storeSlug'
@@ -598,6 +609,7 @@ export interface FileRouteTypes {
     | '/seller_/payouts'
     | '/seller_/prescriptions'
     | '/seller_/products'
+    | '/seller_/reviews'
     | '/seller_/store'
     | '/seller_/transactions'
     | '/store/$storeSlug'
@@ -649,6 +661,7 @@ export interface RootRouteChildren {
   SellerPayoutsRoute: typeof SellerPayoutsRoute
   SellerPrescriptionsRoute: typeof SellerPrescriptionsRoute
   SellerProductsRoute: typeof SellerProductsRoute
+  SellerReviewsRoute: typeof SellerReviewsRoute
   SellerStoreRoute: typeof SellerStoreRoute
   SellerTransactionsRoute: typeof SellerTransactionsRoute
   StoreStoreSlugRoute: typeof StoreStoreSlugRoute
@@ -954,6 +967,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SellerProductsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/seller_/reviews': {
+      id: '/seller_/reviews'
+      path: '/seller/reviews'
+      fullPath: '/seller/reviews'
+      preLoaderRoute: typeof SellerReviewsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/seller_/store': {
       id: '/seller_/store'
       path: '/seller/store'
@@ -1042,6 +1062,7 @@ const rootRouteChildren: RootRouteChildren = {
   SellerPayoutsRoute: SellerPayoutsRoute,
   SellerPrescriptionsRoute: SellerPrescriptionsRoute,
   SellerProductsRoute: SellerProductsRoute,
+  SellerReviewsRoute: SellerReviewsRoute,
   SellerStoreRoute: SellerStoreRoute,
   SellerTransactionsRoute: SellerTransactionsRoute,
   StoreStoreSlugRoute: StoreStoreSlugRoute,
