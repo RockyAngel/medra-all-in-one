@@ -119,6 +119,30 @@ export type Database = {
         }
         Relationships: []
       }
+      appearance_preferences: {
+        Row: {
+          changes_purchased: number
+          mode: string
+          theme: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          changes_purchased?: number
+          mode?: string
+          theme?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          changes_purchased?: number
+          mode?: string
+          theme?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       audit_logs: {
         Row: {
           action: string
@@ -358,6 +382,83 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      chat_channel_messages: {
+        Row: {
+          body: string
+          channel_id: string
+          created_at: string
+          hidden_at: string | null
+          hidden_by: string | null
+          id: string
+          is_hidden: boolean
+          sender_id: string
+          sender_role: Database["public"]["Enums"]["app_role"] | null
+        }
+        Insert: {
+          body: string
+          channel_id: string
+          created_at?: string
+          hidden_at?: string | null
+          hidden_by?: string | null
+          id?: string
+          is_hidden?: boolean
+          sender_id: string
+          sender_role?: Database["public"]["Enums"]["app_role"] | null
+        }
+        Update: {
+          body?: string
+          channel_id?: string
+          created_at?: string
+          hidden_at?: string | null
+          hidden_by?: string | null
+          id?: string
+          is_hidden?: boolean
+          sender_id?: string
+          sender_role?: Database["public"]["Enums"]["app_role"] | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "chat_channel_messages_channel_id_fkey"
+            columns: ["channel_id"]
+            isOneToOne: false
+            referencedRelation: "chat_channels"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      chat_channels: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          is_active: boolean
+          kind: string
+          name: string
+          role: Database["public"]["Enums"]["app_role"] | null
+          slug: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_active?: boolean
+          kind: string
+          name: string
+          role?: Database["public"]["Enums"]["app_role"] | null
+          slug: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_active?: boolean
+          kind?: string
+          name?: string
+          role?: Database["public"]["Enums"]["app_role"] | null
+          slug?: string
+        }
+        Relationships: []
       }
       commission_rules: {
         Row: {
@@ -1755,26 +1856,32 @@ export type Database = {
       }
       feature_flags: {
         Row: {
+          category: string
           description: string | null
           enabled: boolean
           key: string
           label: string
+          state: string
           updated_at: string
           updated_by: string | null
         }
         Insert: {
+          category?: string
           description?: string | null
           enabled?: boolean
           key: string
           label: string
+          state?: string
           updated_at?: string
           updated_by?: string | null
         }
         Update: {
+          category?: string
           description?: string | null
           enabled?: boolean
           key?: string
           label?: string
+          state?: string
           updated_at?: string
           updated_by?: string | null
         }
@@ -4329,6 +4436,42 @@ export type Database = {
           },
         ]
       }
+      staff_shifts: {
+        Row: {
+          adjusted_at: string | null
+          adjusted_by: string | null
+          clock_in_at: string
+          clock_out_at: string | null
+          created_at: string
+          id: string
+          note: string | null
+          status: string
+          user_id: string
+        }
+        Insert: {
+          adjusted_at?: string | null
+          adjusted_by?: string | null
+          clock_in_at?: string
+          clock_out_at?: string | null
+          created_at?: string
+          id?: string
+          note?: string | null
+          status?: string
+          user_id: string
+        }
+        Update: {
+          adjusted_at?: string | null
+          adjusted_by?: string | null
+          clock_in_at?: string
+          clock_out_at?: string | null
+          created_at?: string
+          id?: string
+          note?: string | null
+          status?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       stores: {
         Row: {
           accepts_emergency_orders: boolean
@@ -5165,6 +5308,10 @@ export type Database = {
           window_label: string
         }[]
       }
+      adjust_staff_shift: {
+        Args: { _note?: string; _shift_id: string; _status: string }
+        Returns: undefined
+      }
       admin_assign_rider: {
         Args: {
           _delivery_id: string
@@ -5228,6 +5375,10 @@ export type Database = {
         }
         Returns: Json
       }
+      can_access_chat_channel: {
+        Args: { _channel_id: string; _user_id: string }
+        Returns: boolean
+      }
       cancel_membership: {
         Args: { _immediate?: boolean; _subscription_id: string }
         Returns: Json
@@ -5243,6 +5394,8 @@ export type Database = {
           store_name: string
         }[]
       }
+      clock_in: { Args: { _note?: string }; Returns: string }
+      clock_out: { Args: { _note?: string }; Returns: string }
       confirm_consultation_payment: {
         Args: {
           _consultation_id: string
@@ -5538,6 +5691,14 @@ export type Database = {
         }
         Returns: Json
       }
+      purchase_appearance: {
+        Args: { _mode: string; _theme: string }
+        Returns: {
+          mode: string
+          points_balance: number
+          theme: string
+        }[]
+      }
       purge_rider_locations: { Args: never; Returns: number }
       quote_delivery_fee: { Args: { _city: string }; Returns: Json }
       raise_sos: {
@@ -5562,6 +5723,10 @@ export type Database = {
       request_payout: {
         Args: { _account_id: string; _amount: number }
         Returns: string
+      }
+      resolve_late_delivery: {
+        Args: { _event_id: string; _note?: string; _status: string }
+        Returns: undefined
       }
       rider_advance_delivery: {
         Args: { _delivery_id: string; _stage: string }
@@ -5688,6 +5853,10 @@ export type Database = {
         Args: { _make_admin: boolean; _user_id: string }
         Returns: undefined
       }
+      set_chat_message_hidden: {
+        Args: { _hidden: boolean; _message_id: string }
+        Returns: undefined
+      }
       set_commission_rule: {
         Args: {
           _category_id?: string
@@ -5703,6 +5872,10 @@ export type Database = {
       }
       set_feature_flag: {
         Args: { _enabled: boolean; _key: string }
+        Returns: undefined
+      }
+      set_feature_state: {
+        Args: { _key: string; _state: string }
         Returns: undefined
       }
       set_platform_setting: {

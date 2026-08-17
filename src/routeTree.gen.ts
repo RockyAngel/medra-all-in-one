@@ -33,10 +33,18 @@ import { Route as WalletRouteImport } from './routes/wallet'
 import { Route as Char91DotmcpChar93ListToolsRouteImport } from './routes/[.mcp]/list-tools'
 import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
 import { Route as AdminSectionRouteImport } from './routes/admin_.$section'
+import { Route as AdminDeliveriesRouteImport } from './routes/admin_.deliveries'
+import { Route as AdminLateDeliveriesRouteImport } from './routes/admin_.late-deliveries'
 import { Route as AdminOrdersRouteImport } from './routes/admin_.orders'
+import { Route as AdminPaymentsRouteImport } from './routes/admin_.payments'
+import { Route as AdminPayoutsRouteImport } from './routes/admin_.payouts'
 import { Route as AdminPharmacyApplicationsRouteImport } from './routes/admin_.pharmacy-applications'
+import { Route as AdminRefundsRouteImport } from './routes/admin_.refunds'
 import { Route as AdminRiderApprovalsRouteImport } from './routes/admin_.rider-approvals'
 import { Route as AdminSellerApprovalsRouteImport } from './routes/admin_.seller-approvals'
+import { Route as AdminSosRouteImport } from './routes/admin_.sos'
+import { Route as AdminSupportRouteImport } from './routes/admin_.support'
+import { Route as AdminTimeclockRouteImport } from './routes/admin_.timeclock'
 import { Route as ApplyRiderRouteImport } from './routes/apply.rider'
 import { Route as ApplySellerRouteImport } from './routes/apply.seller'
 import { Route as HealthAppointmentsRouteImport } from './routes/health.appointments'
@@ -65,6 +73,13 @@ import { Route as SellerStoreRouteImport } from './routes/seller_.store'
 import { Route as SellerTransactionsRouteImport } from './routes/seller_.transactions'
 import { Route as StoreStoreSlugRouteImport } from './routes/store.$storeSlug'
 import { Route as SuperAdminSectionRouteImport } from './routes/super-admin_.$section'
+import { Route as SuperAdminAdminsRouteImport } from './routes/super-admin_.admins'
+import { Route as SuperAdminAuditRouteImport } from './routes/super-admin_.audit'
+import { Route as SuperAdminCategoriesRouteImport } from './routes/super-admin_.categories'
+import { Route as SuperAdminCommissionRouteImport } from './routes/super-admin_.commission'
+import { Route as SuperAdminFeaturesRouteImport } from './routes/super-admin_.features'
+import { Route as SuperAdminPermissionsRouteImport } from './routes/super-admin_.permissions'
+import { Route as SuperAdminStaffRouteImport } from './routes/super-admin_.staff'
 import { Route as DotlovableOauthConsentRouteImport } from './routes/[.]lovable.oauth.consent'
 import { Route as Char91DotmcpChar93InvokeToolToolRouteImport } from './routes/[.mcp]/invoke-tool/$tool'
 
@@ -190,9 +205,29 @@ const AdminSectionRoute = AdminSectionRouteImport.update({
   path: '/admin/$section',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminDeliveriesRoute = AdminDeliveriesRouteImport.update({
+  id: '/admin_/deliveries',
+  path: '/admin/deliveries',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminLateDeliveriesRoute = AdminLateDeliveriesRouteImport.update({
+  id: '/admin_/late-deliveries',
+  path: '/admin/late-deliveries',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminOrdersRoute = AdminOrdersRouteImport.update({
   id: '/admin_/orders',
   path: '/admin/orders',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminPaymentsRoute = AdminPaymentsRouteImport.update({
+  id: '/admin_/payments',
+  path: '/admin/payments',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminPayoutsRoute = AdminPayoutsRouteImport.update({
+  id: '/admin_/payouts',
+  path: '/admin/payouts',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminPharmacyApplicationsRoute =
@@ -201,6 +236,11 @@ const AdminPharmacyApplicationsRoute =
     path: '/admin/pharmacy-applications',
     getParentRoute: () => rootRouteImport,
   } as any)
+const AdminRefundsRoute = AdminRefundsRouteImport.update({
+  id: '/admin_/refunds',
+  path: '/admin/refunds',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminRiderApprovalsRoute = AdminRiderApprovalsRouteImport.update({
   id: '/admin_/rider-approvals',
   path: '/admin/rider-approvals',
@@ -209,6 +249,21 @@ const AdminRiderApprovalsRoute = AdminRiderApprovalsRouteImport.update({
 const AdminSellerApprovalsRoute = AdminSellerApprovalsRouteImport.update({
   id: '/admin_/seller-approvals',
   path: '/admin/seller-approvals',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminSosRoute = AdminSosRouteImport.update({
+  id: '/admin_/sos',
+  path: '/admin/sos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminSupportRoute = AdminSupportRouteImport.update({
+  id: '/admin_/support',
+  path: '/admin/support',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminTimeclockRoute = AdminTimeclockRouteImport.update({
+  id: '/admin_/timeclock',
+  path: '/admin/timeclock',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApplyRiderRoute = ApplyRiderRouteImport.update({
@@ -351,6 +406,41 @@ const SuperAdminSectionRoute = SuperAdminSectionRouteImport.update({
   path: '/super-admin/$section',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SuperAdminAdminsRoute = SuperAdminAdminsRouteImport.update({
+  id: '/super-admin_/admins',
+  path: '/super-admin/admins',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SuperAdminAuditRoute = SuperAdminAuditRouteImport.update({
+  id: '/super-admin_/audit',
+  path: '/super-admin/audit',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SuperAdminCategoriesRoute = SuperAdminCategoriesRouteImport.update({
+  id: '/super-admin_/categories',
+  path: '/super-admin/categories',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SuperAdminCommissionRoute = SuperAdminCommissionRouteImport.update({
+  id: '/super-admin_/commission',
+  path: '/super-admin/commission',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SuperAdminFeaturesRoute = SuperAdminFeaturesRouteImport.update({
+  id: '/super-admin_/features',
+  path: '/super-admin/features',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SuperAdminPermissionsRoute = SuperAdminPermissionsRouteImport.update({
+  id: '/super-admin_/permissions',
+  path: '/super-admin/permissions',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SuperAdminStaffRoute = SuperAdminStaffRouteImport.update({
+  id: '/super-admin_/staff',
+  path: '/super-admin/staff',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DotlovableOauthConsentRoute = DotlovableOauthConsentRouteImport.update({
   id: '/.lovable/oauth/consent',
   path: '/.lovable/oauth/consent',
@@ -388,10 +478,18 @@ export interface FileRoutesByFullPath {
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/admin/$section': typeof AdminSectionRoute
+  '/admin/deliveries': typeof AdminDeliveriesRoute
+  '/admin/late-deliveries': typeof AdminLateDeliveriesRoute
   '/admin/orders': typeof AdminOrdersRoute
+  '/admin/payments': typeof AdminPaymentsRoute
+  '/admin/payouts': typeof AdminPayoutsRoute
   '/admin/pharmacy-applications': typeof AdminPharmacyApplicationsRoute
+  '/admin/refunds': typeof AdminRefundsRoute
   '/admin/rider-approvals': typeof AdminRiderApprovalsRoute
   '/admin/seller-approvals': typeof AdminSellerApprovalsRoute
+  '/admin/sos': typeof AdminSosRoute
+  '/admin/support': typeof AdminSupportRoute
+  '/admin/timeclock': typeof AdminTimeclockRoute
   '/apply/rider': typeof ApplyRiderRoute
   '/apply/seller': typeof ApplySellerRoute
   '/health/appointments': typeof HealthAppointmentsRoute
@@ -419,6 +517,13 @@ export interface FileRoutesByFullPath {
   '/seller/transactions': typeof SellerTransactionsRoute
   '/store/$storeSlug': typeof StoreStoreSlugRoute
   '/super-admin/$section': typeof SuperAdminSectionRoute
+  '/super-admin/admins': typeof SuperAdminAdminsRoute
+  '/super-admin/audit': typeof SuperAdminAuditRoute
+  '/super-admin/categories': typeof SuperAdminCategoriesRoute
+  '/super-admin/commission': typeof SuperAdminCommissionRoute
+  '/super-admin/features': typeof SuperAdminFeaturesRoute
+  '/super-admin/permissions': typeof SuperAdminPermissionsRoute
+  '/super-admin/staff': typeof SuperAdminStaffRoute
   '/orders/': typeof OrdersIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
@@ -448,10 +553,18 @@ export interface FileRoutesByTo {
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/admin/$section': typeof AdminSectionRoute
+  '/admin/deliveries': typeof AdminDeliveriesRoute
+  '/admin/late-deliveries': typeof AdminLateDeliveriesRoute
   '/admin/orders': typeof AdminOrdersRoute
+  '/admin/payments': typeof AdminPaymentsRoute
+  '/admin/payouts': typeof AdminPayoutsRoute
   '/admin/pharmacy-applications': typeof AdminPharmacyApplicationsRoute
+  '/admin/refunds': typeof AdminRefundsRoute
   '/admin/rider-approvals': typeof AdminRiderApprovalsRoute
   '/admin/seller-approvals': typeof AdminSellerApprovalsRoute
+  '/admin/sos': typeof AdminSosRoute
+  '/admin/support': typeof AdminSupportRoute
+  '/admin/timeclock': typeof AdminTimeclockRoute
   '/apply/rider': typeof ApplyRiderRoute
   '/apply/seller': typeof ApplySellerRoute
   '/health/appointments': typeof HealthAppointmentsRoute
@@ -479,6 +592,13 @@ export interface FileRoutesByTo {
   '/seller/transactions': typeof SellerTransactionsRoute
   '/store/$storeSlug': typeof StoreStoreSlugRoute
   '/super-admin/$section': typeof SuperAdminSectionRoute
+  '/super-admin/admins': typeof SuperAdminAdminsRoute
+  '/super-admin/audit': typeof SuperAdminAuditRoute
+  '/super-admin/categories': typeof SuperAdminCategoriesRoute
+  '/super-admin/commission': typeof SuperAdminCommissionRoute
+  '/super-admin/features': typeof SuperAdminFeaturesRoute
+  '/super-admin/permissions': typeof SuperAdminPermissionsRoute
+  '/super-admin/staff': typeof SuperAdminStaffRoute
   '/orders': typeof OrdersIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
@@ -509,10 +629,18 @@ export interface FileRoutesById {
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/admin_/$section': typeof AdminSectionRoute
+  '/admin_/deliveries': typeof AdminDeliveriesRoute
+  '/admin_/late-deliveries': typeof AdminLateDeliveriesRoute
   '/admin_/orders': typeof AdminOrdersRoute
+  '/admin_/payments': typeof AdminPaymentsRoute
+  '/admin_/payouts': typeof AdminPayoutsRoute
   '/admin_/pharmacy-applications': typeof AdminPharmacyApplicationsRoute
+  '/admin_/refunds': typeof AdminRefundsRoute
   '/admin_/rider-approvals': typeof AdminRiderApprovalsRoute
   '/admin_/seller-approvals': typeof AdminSellerApprovalsRoute
+  '/admin_/sos': typeof AdminSosRoute
+  '/admin_/support': typeof AdminSupportRoute
+  '/admin_/timeclock': typeof AdminTimeclockRoute
   '/apply/rider': typeof ApplyRiderRoute
   '/apply/seller': typeof ApplySellerRoute
   '/health/appointments': typeof HealthAppointmentsRoute
@@ -540,6 +668,13 @@ export interface FileRoutesById {
   '/seller_/transactions': typeof SellerTransactionsRoute
   '/store/$storeSlug': typeof StoreStoreSlugRoute
   '/super-admin_/$section': typeof SuperAdminSectionRoute
+  '/super-admin_/admins': typeof SuperAdminAdminsRoute
+  '/super-admin_/audit': typeof SuperAdminAuditRoute
+  '/super-admin_/categories': typeof SuperAdminCategoriesRoute
+  '/super-admin_/commission': typeof SuperAdminCommissionRoute
+  '/super-admin_/features': typeof SuperAdminFeaturesRoute
+  '/super-admin_/permissions': typeof SuperAdminPermissionsRoute
+  '/super-admin_/staff': typeof SuperAdminStaffRoute
   '/orders/': typeof OrdersIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
@@ -571,10 +706,18 @@ export interface FileRouteTypes {
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
     | '/admin/$section'
+    | '/admin/deliveries'
+    | '/admin/late-deliveries'
     | '/admin/orders'
+    | '/admin/payments'
+    | '/admin/payouts'
     | '/admin/pharmacy-applications'
+    | '/admin/refunds'
     | '/admin/rider-approvals'
     | '/admin/seller-approvals'
+    | '/admin/sos'
+    | '/admin/support'
+    | '/admin/timeclock'
     | '/apply/rider'
     | '/apply/seller'
     | '/health/appointments'
@@ -602,6 +745,13 @@ export interface FileRouteTypes {
     | '/seller/transactions'
     | '/store/$storeSlug'
     | '/super-admin/$section'
+    | '/super-admin/admins'
+    | '/super-admin/audit'
+    | '/super-admin/categories'
+    | '/super-admin/commission'
+    | '/super-admin/features'
+    | '/super-admin/permissions'
+    | '/super-admin/staff'
     | '/orders/'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
@@ -631,10 +781,18 @@ export interface FileRouteTypes {
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
     | '/admin/$section'
+    | '/admin/deliveries'
+    | '/admin/late-deliveries'
     | '/admin/orders'
+    | '/admin/payments'
+    | '/admin/payouts'
     | '/admin/pharmacy-applications'
+    | '/admin/refunds'
     | '/admin/rider-approvals'
     | '/admin/seller-approvals'
+    | '/admin/sos'
+    | '/admin/support'
+    | '/admin/timeclock'
     | '/apply/rider'
     | '/apply/seller'
     | '/health/appointments'
@@ -662,6 +820,13 @@ export interface FileRouteTypes {
     | '/seller/transactions'
     | '/store/$storeSlug'
     | '/super-admin/$section'
+    | '/super-admin/admins'
+    | '/super-admin/audit'
+    | '/super-admin/categories'
+    | '/super-admin/commission'
+    | '/super-admin/features'
+    | '/super-admin/permissions'
+    | '/super-admin/staff'
     | '/orders'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
@@ -691,10 +856,18 @@ export interface FileRouteTypes {
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
     | '/admin_/$section'
+    | '/admin_/deliveries'
+    | '/admin_/late-deliveries'
     | '/admin_/orders'
+    | '/admin_/payments'
+    | '/admin_/payouts'
     | '/admin_/pharmacy-applications'
+    | '/admin_/refunds'
     | '/admin_/rider-approvals'
     | '/admin_/seller-approvals'
+    | '/admin_/sos'
+    | '/admin_/support'
+    | '/admin_/timeclock'
     | '/apply/rider'
     | '/apply/seller'
     | '/health/appointments'
@@ -722,6 +895,13 @@ export interface FileRouteTypes {
     | '/seller_/transactions'
     | '/store/$storeSlug'
     | '/super-admin_/$section'
+    | '/super-admin_/admins'
+    | '/super-admin_/audit'
+    | '/super-admin_/categories'
+    | '/super-admin_/commission'
+    | '/super-admin_/features'
+    | '/super-admin_/permissions'
+    | '/super-admin_/staff'
     | '/orders/'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
@@ -752,10 +932,18 @@ export interface RootRouteChildren {
   Char91DotmcpChar93ListToolsRoute: typeof Char91DotmcpChar93ListToolsRoute
   Char91DotwellKnownChar93OauthProtectedResourceRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   AdminSectionRoute: typeof AdminSectionRoute
+  AdminDeliveriesRoute: typeof AdminDeliveriesRoute
+  AdminLateDeliveriesRoute: typeof AdminLateDeliveriesRoute
   AdminOrdersRoute: typeof AdminOrdersRoute
+  AdminPaymentsRoute: typeof AdminPaymentsRoute
+  AdminPayoutsRoute: typeof AdminPayoutsRoute
   AdminPharmacyApplicationsRoute: typeof AdminPharmacyApplicationsRoute
+  AdminRefundsRoute: typeof AdminRefundsRoute
   AdminRiderApprovalsRoute: typeof AdminRiderApprovalsRoute
   AdminSellerApprovalsRoute: typeof AdminSellerApprovalsRoute
+  AdminSosRoute: typeof AdminSosRoute
+  AdminSupportRoute: typeof AdminSupportRoute
+  AdminTimeclockRoute: typeof AdminTimeclockRoute
   ApplyRiderRoute: typeof ApplyRiderRoute
   ApplySellerRoute: typeof ApplySellerRoute
   HealthAppointmentsRoute: typeof HealthAppointmentsRoute
@@ -783,6 +971,13 @@ export interface RootRouteChildren {
   SellerTransactionsRoute: typeof SellerTransactionsRoute
   StoreStoreSlugRoute: typeof StoreStoreSlugRoute
   SuperAdminSectionRoute: typeof SuperAdminSectionRoute
+  SuperAdminAdminsRoute: typeof SuperAdminAdminsRoute
+  SuperAdminAuditRoute: typeof SuperAdminAuditRoute
+  SuperAdminCategoriesRoute: typeof SuperAdminCategoriesRoute
+  SuperAdminCommissionRoute: typeof SuperAdminCommissionRoute
+  SuperAdminFeaturesRoute: typeof SuperAdminFeaturesRoute
+  SuperAdminPermissionsRoute: typeof SuperAdminPermissionsRoute
+  SuperAdminStaffRoute: typeof SuperAdminStaffRoute
   OrdersIndexRoute: typeof OrdersIndexRoute
   DotlovableOauthConsentRoute: typeof DotlovableOauthConsentRoute
   Char91DotmcpChar93InvokeToolToolRoute: typeof Char91DotmcpChar93InvokeToolToolRoute
@@ -958,6 +1153,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminSectionRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin_/deliveries': {
+      id: '/admin_/deliveries'
+      path: '/admin/deliveries'
+      fullPath: '/admin/deliveries'
+      preLoaderRoute: typeof AdminDeliveriesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin_/late-deliveries': {
+      id: '/admin_/late-deliveries'
+      path: '/admin/late-deliveries'
+      fullPath: '/admin/late-deliveries'
+      preLoaderRoute: typeof AdminLateDeliveriesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin_/orders': {
       id: '/admin_/orders'
       path: '/admin/orders'
@@ -965,11 +1174,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminOrdersRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin_/payments': {
+      id: '/admin_/payments'
+      path: '/admin/payments'
+      fullPath: '/admin/payments'
+      preLoaderRoute: typeof AdminPaymentsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin_/payouts': {
+      id: '/admin_/payouts'
+      path: '/admin/payouts'
+      fullPath: '/admin/payouts'
+      preLoaderRoute: typeof AdminPayoutsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin_/pharmacy-applications': {
       id: '/admin_/pharmacy-applications'
       path: '/admin/pharmacy-applications'
       fullPath: '/admin/pharmacy-applications'
       preLoaderRoute: typeof AdminPharmacyApplicationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin_/refunds': {
+      id: '/admin_/refunds'
+      path: '/admin/refunds'
+      fullPath: '/admin/refunds'
+      preLoaderRoute: typeof AdminRefundsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin_/rider-approvals': {
@@ -984,6 +1214,27 @@ declare module '@tanstack/react-router' {
       path: '/admin/seller-approvals'
       fullPath: '/admin/seller-approvals'
       preLoaderRoute: typeof AdminSellerApprovalsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin_/sos': {
+      id: '/admin_/sos'
+      path: '/admin/sos'
+      fullPath: '/admin/sos'
+      preLoaderRoute: typeof AdminSosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin_/support': {
+      id: '/admin_/support'
+      path: '/admin/support'
+      fullPath: '/admin/support'
+      preLoaderRoute: typeof AdminSupportRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin_/timeclock': {
+      id: '/admin_/timeclock'
+      path: '/admin/timeclock'
+      fullPath: '/admin/timeclock'
+      preLoaderRoute: typeof AdminTimeclockRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/apply/rider': {
@@ -1182,6 +1433,55 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SuperAdminSectionRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/super-admin_/admins': {
+      id: '/super-admin_/admins'
+      path: '/super-admin/admins'
+      fullPath: '/super-admin/admins'
+      preLoaderRoute: typeof SuperAdminAdminsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/super-admin_/audit': {
+      id: '/super-admin_/audit'
+      path: '/super-admin/audit'
+      fullPath: '/super-admin/audit'
+      preLoaderRoute: typeof SuperAdminAuditRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/super-admin_/categories': {
+      id: '/super-admin_/categories'
+      path: '/super-admin/categories'
+      fullPath: '/super-admin/categories'
+      preLoaderRoute: typeof SuperAdminCategoriesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/super-admin_/commission': {
+      id: '/super-admin_/commission'
+      path: '/super-admin/commission'
+      fullPath: '/super-admin/commission'
+      preLoaderRoute: typeof SuperAdminCommissionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/super-admin_/features': {
+      id: '/super-admin_/features'
+      path: '/super-admin/features'
+      fullPath: '/super-admin/features'
+      preLoaderRoute: typeof SuperAdminFeaturesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/super-admin_/permissions': {
+      id: '/super-admin_/permissions'
+      path: '/super-admin/permissions'
+      fullPath: '/super-admin/permissions'
+      preLoaderRoute: typeof SuperAdminPermissionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/super-admin_/staff': {
+      id: '/super-admin_/staff'
+      path: '/super-admin/staff'
+      fullPath: '/super-admin/staff'
+      preLoaderRoute: typeof SuperAdminStaffRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/.lovable/oauth/consent': {
       id: '/.lovable/oauth/consent'
       path: '/.lovable/oauth/consent'
@@ -1225,10 +1525,18 @@ const rootRouteChildren: RootRouteChildren = {
   Char91DotwellKnownChar93OauthProtectedResourceRoute:
     Char91DotwellKnownChar93OauthProtectedResourceRoute,
   AdminSectionRoute: AdminSectionRoute,
+  AdminDeliveriesRoute: AdminDeliveriesRoute,
+  AdminLateDeliveriesRoute: AdminLateDeliveriesRoute,
   AdminOrdersRoute: AdminOrdersRoute,
+  AdminPaymentsRoute: AdminPaymentsRoute,
+  AdminPayoutsRoute: AdminPayoutsRoute,
   AdminPharmacyApplicationsRoute: AdminPharmacyApplicationsRoute,
+  AdminRefundsRoute: AdminRefundsRoute,
   AdminRiderApprovalsRoute: AdminRiderApprovalsRoute,
   AdminSellerApprovalsRoute: AdminSellerApprovalsRoute,
+  AdminSosRoute: AdminSosRoute,
+  AdminSupportRoute: AdminSupportRoute,
+  AdminTimeclockRoute: AdminTimeclockRoute,
   ApplyRiderRoute: ApplyRiderRoute,
   ApplySellerRoute: ApplySellerRoute,
   HealthAppointmentsRoute: HealthAppointmentsRoute,
@@ -1256,6 +1564,13 @@ const rootRouteChildren: RootRouteChildren = {
   SellerTransactionsRoute: SellerTransactionsRoute,
   StoreStoreSlugRoute: StoreStoreSlugRoute,
   SuperAdminSectionRoute: SuperAdminSectionRoute,
+  SuperAdminAdminsRoute: SuperAdminAdminsRoute,
+  SuperAdminAuditRoute: SuperAdminAuditRoute,
+  SuperAdminCategoriesRoute: SuperAdminCategoriesRoute,
+  SuperAdminCommissionRoute: SuperAdminCommissionRoute,
+  SuperAdminFeaturesRoute: SuperAdminFeaturesRoute,
+  SuperAdminPermissionsRoute: SuperAdminPermissionsRoute,
+  SuperAdminStaffRoute: SuperAdminStaffRoute,
   OrdersIndexRoute: OrdersIndexRoute,
   DotlovableOauthConsentRoute: DotlovableOauthConsentRoute,
   Char91DotmcpChar93InvokeToolToolRoute: Char91DotmcpChar93InvokeToolToolRoute,

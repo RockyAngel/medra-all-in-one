@@ -90,6 +90,7 @@ export const ADMIN_NAV: NavGroup[] = [
       { label: "SOS incidents", to: "/admin/sos" },
       { label: "Late deliveries", to: "/admin/late-deliveries" },
       { label: "Support inbox", to: "/admin/support" },
+      { label: "My time clock", to: "/admin/timeclock" },
     ],
   },
 ];
@@ -109,7 +110,8 @@ export const SUPER_ADMIN_NAV: NavGroup[] = [
     items: [
       { label: "Commission engine", to: "/super-admin/commission" },
       { label: "Categories", to: "/super-admin/categories" },
-      { label: "Feature controls", to: "/super-admin/features" },
+      { label: "Feature marketplace", to: "/super-admin/features" },
+      { label: "Staff time clock", to: "/super-admin/staff" },
     ],
   },
   {
