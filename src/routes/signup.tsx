@@ -57,10 +57,11 @@ function SignUpPage() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (form.password.length < 8) {
-      toast.error("Use a password with at least 8 characters.");
+    if (form.password.length < 6) {
+      toast.error("Use a password with at least 6 characters.");
       return;
     }
+
     if (form.password !== form.confirm) {
       toast.error("Passwords do not match.");
       return;
