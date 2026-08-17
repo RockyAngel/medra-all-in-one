@@ -34,6 +34,7 @@ import { Route as Char91DotmcpChar93ListToolsRouteImport } from './routes/[.mcp]
 import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
 import { Route as AdminSectionRouteImport } from './routes/admin_.$section'
 import { Route as AdminDeliveriesRouteImport } from './routes/admin_.deliveries'
+import { Route as AdminLateDeliveriesRouteImport } from './routes/admin_.late-deliveries'
 import { Route as AdminOrdersRouteImport } from './routes/admin_.orders'
 import { Route as AdminPaymentsRouteImport } from './routes/admin_.payments'
 import { Route as AdminPayoutsRouteImport } from './routes/admin_.payouts'
@@ -198,6 +199,11 @@ const AdminSectionRoute = AdminSectionRouteImport.update({
 const AdminDeliveriesRoute = AdminDeliveriesRouteImport.update({
   id: '/admin_/deliveries',
   path: '/admin/deliveries',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminLateDeliveriesRoute = AdminLateDeliveriesRouteImport.update({
+  id: '/admin_/late-deliveries',
+  path: '/admin/late-deliveries',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminOrdersRoute = AdminOrdersRouteImport.update({
@@ -419,6 +425,7 @@ export interface FileRoutesByFullPath {
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/admin/$section': typeof AdminSectionRoute
   '/admin/deliveries': typeof AdminDeliveriesRoute
+  '/admin/late-deliveries': typeof AdminLateDeliveriesRoute
   '/admin/orders': typeof AdminOrdersRoute
   '/admin/payments': typeof AdminPaymentsRoute
   '/admin/payouts': typeof AdminPayoutsRoute
@@ -484,6 +491,7 @@ export interface FileRoutesByTo {
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/admin/$section': typeof AdminSectionRoute
   '/admin/deliveries': typeof AdminDeliveriesRoute
+  '/admin/late-deliveries': typeof AdminLateDeliveriesRoute
   '/admin/orders': typeof AdminOrdersRoute
   '/admin/payments': typeof AdminPaymentsRoute
   '/admin/payouts': typeof AdminPayoutsRoute
@@ -550,6 +558,7 @@ export interface FileRoutesById {
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/admin_/$section': typeof AdminSectionRoute
   '/admin_/deliveries': typeof AdminDeliveriesRoute
+  '/admin_/late-deliveries': typeof AdminLateDeliveriesRoute
   '/admin_/orders': typeof AdminOrdersRoute
   '/admin_/payments': typeof AdminPaymentsRoute
   '/admin_/payouts': typeof AdminPayoutsRoute
@@ -617,6 +626,7 @@ export interface FileRouteTypes {
     | '/.well-known/oauth-protected-resource'
     | '/admin/$section'
     | '/admin/deliveries'
+    | '/admin/late-deliveries'
     | '/admin/orders'
     | '/admin/payments'
     | '/admin/payouts'
@@ -682,6 +692,7 @@ export interface FileRouteTypes {
     | '/.well-known/oauth-protected-resource'
     | '/admin/$section'
     | '/admin/deliveries'
+    | '/admin/late-deliveries'
     | '/admin/orders'
     | '/admin/payments'
     | '/admin/payouts'
@@ -747,6 +758,7 @@ export interface FileRouteTypes {
     | '/.well-known/oauth-protected-resource'
     | '/admin_/$section'
     | '/admin_/deliveries'
+    | '/admin_/late-deliveries'
     | '/admin_/orders'
     | '/admin_/payments'
     | '/admin_/payouts'
@@ -813,6 +825,7 @@ export interface RootRouteChildren {
   Char91DotwellKnownChar93OauthProtectedResourceRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   AdminSectionRoute: typeof AdminSectionRoute
   AdminDeliveriesRoute: typeof AdminDeliveriesRoute
+  AdminLateDeliveriesRoute: typeof AdminLateDeliveriesRoute
   AdminOrdersRoute: typeof AdminOrdersRoute
   AdminPaymentsRoute: typeof AdminPaymentsRoute
   AdminPayoutsRoute: typeof AdminPayoutsRoute
@@ -1028,6 +1041,13 @@ declare module '@tanstack/react-router' {
       path: '/admin/deliveries'
       fullPath: '/admin/deliveries'
       preLoaderRoute: typeof AdminDeliveriesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin_/late-deliveries': {
+      id: '/admin_/late-deliveries'
+      path: '/admin/late-deliveries'
+      fullPath: '/admin/late-deliveries'
+      preLoaderRoute: typeof AdminLateDeliveriesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin_/orders': {
@@ -1326,6 +1346,7 @@ const rootRouteChildren: RootRouteChildren = {
     Char91DotwellKnownChar93OauthProtectedResourceRoute,
   AdminSectionRoute: AdminSectionRoute,
   AdminDeliveriesRoute: AdminDeliveriesRoute,
+  AdminLateDeliveriesRoute: AdminLateDeliveriesRoute,
   AdminOrdersRoute: AdminOrdersRoute,
   AdminPaymentsRoute: AdminPaymentsRoute,
   AdminPayoutsRoute: AdminPayoutsRoute,
