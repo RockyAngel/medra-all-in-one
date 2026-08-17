@@ -11,7 +11,8 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { supabase } from "@/integrations/supabase/client";
 import { useCategories, useMyStore } from "@/lib/hooks";
-import { formatNaira, imageUrl } from "@/lib/medra";
+import { formatNaira } from "@/lib/medra";
+import { StoredImage } from "@/components/medra/CustomerChrome";
 import { stockStatus } from "@/lib/dashboard";
 import { useSellerProducts } from "@/lib/ops";
 import { customerPriceFromSellerPrice, workflowError } from "@/lib/workflow";
@@ -99,7 +100,11 @@ function SellerProductsPage() {
         const { error } = await supabase.from("products").update(payload).eq("id", values.id);
         if (error) throw error;
       } else {
-        const { error } = await supabase.from("products").insert({ ...payload, status: "active" });
+        const { error } = await supabase.from("products").insert({
+          ...payload,
+          price: customerPriceFromSellerPrice(sellerPrice),
+          status: "active",
+        });
         if (error) throw error;
       }
     },
@@ -260,16 +265,11 @@ function SellerProductsPage() {
                 <tr key={p.id}>
                   <td className="py-3 pr-4">
                     <div className="flex items-center gap-3">
-                      {p.image_path ? (
-                        <img
-                          src={imageUrl(p.image_path)}
-                          alt={p.name}
-                          loading="lazy"
-                          className="size-10 rounded-xl object-cover"
-                        />
-                      ) : (
-                        <span className="grid size-10 place-items-center rounded-xl bg-muted text-xs">—</span>
-                      )}
+                      <StoredImage
+                        path={p.image_path}
+                        alt={p.name}
+                        className="size-10 rounded-xl"
+                      />
                       <div>
                         <p className="font-semibold">{p.name}</p>
                         <p className="text-xs text-muted-foreground">{p.sku ?? "No SKU"}</p>
