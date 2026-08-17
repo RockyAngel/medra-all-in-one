@@ -96,7 +96,7 @@ function CheckoutPage() {
   });
   const deliveryFee = quote.data?.configured ? quote.data.fee : null;
   const total = Math.max(0, subtotal - discount) + (deliveryFee ?? 0);
-  const pointsEarned = Math.floor(total * POINTS_PER_NAIRA);
+  
 
   const rxRows = prescriptionStatus.data ?? [];
   const rxBlocking = rxRows.filter(
