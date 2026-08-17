@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AccountRouteImport } from './routes/account'
 import { Route as AdminRouteImport } from './routes/admin'
+import { Route as AppearanceRouteImport } from './routes/appearance'
 import { Route as BecomeARiderRouteImport } from './routes/become-a-rider'
 import { Route as BecomeASellerRouteImport } from './routes/become-a-seller'
 import { Route as CartRouteImport } from './routes/cart'
@@ -102,6 +103,11 @@ const AccountRoute = AccountRouteImport.update({
 const AdminRoute = AdminRouteImport.update({
   id: '/admin',
   path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AppearanceRoute = AppearanceRouteImport.update({
+  id: '/appearance',
+  path: '/appearance',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BecomeARiderRoute = BecomeARiderRouteImport.update({
@@ -493,6 +499,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/account': typeof AccountRoute
   '/admin': typeof AdminRoute
+  '/appearance': typeof AppearanceRoute
   '/become-a-rider': typeof BecomeARiderRoute
   '/become-a-seller': typeof BecomeASellerRoute
   '/cart': typeof CartRoute
@@ -574,6 +581,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/account': typeof AccountRoute
   '/admin': typeof AdminRoute
+  '/appearance': typeof AppearanceRoute
   '/become-a-rider': typeof BecomeARiderRoute
   '/become-a-seller': typeof BecomeASellerRoute
   '/cart': typeof CartRoute
@@ -656,6 +664,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/account': typeof AccountRoute
   '/admin': typeof AdminRoute
+  '/appearance': typeof AppearanceRoute
   '/become-a-rider': typeof BecomeARiderRoute
   '/become-a-seller': typeof BecomeASellerRoute
   '/cart': typeof CartRoute
@@ -739,6 +748,7 @@ export interface FileRouteTypes {
     | '/'
     | '/account'
     | '/admin'
+    | '/appearance'
     | '/become-a-rider'
     | '/become-a-seller'
     | '/cart'
@@ -820,6 +830,7 @@ export interface FileRouteTypes {
     | '/'
     | '/account'
     | '/admin'
+    | '/appearance'
     | '/become-a-rider'
     | '/become-a-seller'
     | '/cart'
@@ -901,6 +912,7 @@ export interface FileRouteTypes {
     | '/'
     | '/account'
     | '/admin'
+    | '/appearance'
     | '/become-a-rider'
     | '/become-a-seller'
     | '/cart'
@@ -983,6 +995,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AccountRoute: typeof AccountRoute
   AdminRoute: typeof AdminRoute
+  AppearanceRoute: typeof AppearanceRoute
   BecomeARiderRoute: typeof BecomeARiderRoute
   BecomeASellerRoute: typeof BecomeASellerRoute
   CartRoute: typeof CartRoute
@@ -1082,6 +1095,13 @@ declare module '@tanstack/react-router' {
       path: '/admin'
       fullPath: '/admin'
       preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/appearance': {
+      id: '/appearance'
+      path: '/appearance'
+      fullPath: '/appearance'
+      preLoaderRoute: typeof AppearanceRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/become-a-rider': {
@@ -1623,6 +1643,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AccountRoute: AccountRoute,
   AdminRoute: AdminRoute,
+  AppearanceRoute: AppearanceRoute,
   BecomeARiderRoute: BecomeARiderRoute,
   BecomeASellerRoute: BecomeASellerRoute,
   CartRoute: CartRoute,
