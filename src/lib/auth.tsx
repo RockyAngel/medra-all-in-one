@@ -45,16 +45,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     let active = true;
+    // Once a real auth event has been handled, the initial getSession() result
+    // is stale and must not overwrite the fresh session/roles.
+    let handledEvent = false;
 
     supabase.auth.getSession().then(async ({ data }) => {
-      if (!active) return;
+      if (!active || handledEvent) return;
       setSession(data.session);
       await loadRoles(data.session?.user.id);
+      if (!active || handledEvent) return;
       setLoading(false);
     });
 
     const { data: sub } = supabase.auth.onAuthStateChange((event, nextSession) => {
       if (event !== "SIGNED_IN" && event !== "SIGNED_OUT" && event !== "USER_UPDATED") return;
+      handledEvent = true;
       setSession(nextSession);
       // Keep consumers in a loading state until roles are known, otherwise
       // post-login redirects run with an empty role list and land on "/".
