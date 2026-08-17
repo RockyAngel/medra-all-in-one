@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { Banknote, Package, ShoppingBag, Star, Users } from "lucide-react";
 import { DashboardShell, Panel, StatCard } from "@/components/medra/DashboardShell";
 import { BarChart, LineChart } from "@/components/medra/Charts";
@@ -24,20 +24,9 @@ export const Route = createFileRoute("/seller")({
 });
 
 const groups = [
-  {
-    items: [
-      { label: "Overview", active: true },
-      { label: "Orders", badge: 12 },
-      { label: "Products" },
-      { label: "Inventory" },
-      { label: "Promotions" },
-    ],
-  },
-  {
-    title: "Finance",
-    items: [{ label: "Earnings" }, { label: "Payouts" }, { label: "Invoices" }],
-  },
-  { title: "Store", items: [{ label: "Store Profile" }, { label: "Reviews" }, { label: "Settings" }] },
+  { items: [{ label: "Overview", to: "/seller" }, { label: "Orders", to: "/seller/orders" }, { label: "Products", to: "/seller/products" }, { label: "Inventory", to: "/seller/inventory" }, { label: "Prescriptions", to: "/seller/prescriptions" }] },
+  { title: "Finance", items: [{ label: "Earnings", to: "/seller/earnings" }, { label: "Payouts", to: "/seller/payouts" }, { label: "Transactions", to: "/seller/transactions" }] },
+  { title: "Store", items: [{ label: "Store Profile", to: "/seller/store" }, { label: "Reviews", to: "/seller/reviews" }, { label: "Support", to: "/support" }] },
 ];
 
 const orders = [
@@ -70,12 +59,8 @@ function SellerDashboard() {
       subtitle="Verified vendor · Ikeja, Lagos"
       topRight={
         <>
-          <Button size="sm" variant="outline" className="rounded-full">
-            View store
-          </Button>
-          <Button size="sm" className="rounded-full">
-            Add product
-          </Button>
+          <Button asChild size="sm" variant="outline" className="rounded-full"><Link to="/seller/store">View store</Link></Button>
+          <Button asChild size="sm" className="rounded-full"><Link to="/seller/products">Add product</Link></Button>
         </>
       }
     >
