@@ -12,16 +12,20 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AccountRouteImport } from './routes/account'
 import { Route as AdminRouteImport } from './routes/admin'
+import { Route as AppearanceRouteImport } from './routes/appearance'
 import { Route as BecomeARiderRouteImport } from './routes/become-a-rider'
 import { Route as BecomeASellerRouteImport } from './routes/become-a-seller'
 import { Route as CartRouteImport } from './routes/cart'
 import { Route as CatalogRouteImport } from './routes/catalog'
 import { Route as CheckoutRouteImport } from './routes/checkout'
+import { Route as CommunityRouteImport } from './routes/community'
 import { Route as FavoritesRouteImport } from './routes/favorites'
+import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as McpRouteImport } from './routes/mcp'
 import { Route as MembershipRouteImport } from './routes/membership'
 import { Route as NotificationsRouteImport } from './routes/notifications'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as RiderRouteImport } from './routes/rider'
 import { Route as SellerRouteImport } from './routes/seller'
 import { Route as SignupRouteImport } from './routes/signup'
@@ -51,6 +55,7 @@ import { Route as HealthAppointmentsRouteImport } from './routes/health.appointm
 import { Route as HealthEmergencyRouteImport } from './routes/health.emergency'
 import { Route as HealthPrescriptionsRouteImport } from './routes/health.prescriptions'
 import { Route as HealthTelehealthRouteImport } from './routes/health.telehealth'
+import { Route as LegalDocRouteImport } from './routes/legal.$doc'
 import { Route as OrdersIndexRouteImport } from './routes/orders.index'
 import { Route as OrdersOrderIdRouteImport } from './routes/orders.$orderId'
 import { Route as ProductProductIdRouteImport } from './routes/product.$productId'
@@ -77,7 +82,9 @@ import { Route as SuperAdminAdminsRouteImport } from './routes/super-admin_.admi
 import { Route as SuperAdminAuditRouteImport } from './routes/super-admin_.audit'
 import { Route as SuperAdminCategoriesRouteImport } from './routes/super-admin_.categories'
 import { Route as SuperAdminCommissionRouteImport } from './routes/super-admin_.commission'
+import { Route as SuperAdminDeliveryRouteImport } from './routes/super-admin_.delivery'
 import { Route as SuperAdminFeaturesRouteImport } from './routes/super-admin_.features'
+import { Route as SuperAdminMembershipsRouteImport } from './routes/super-admin_.memberships'
 import { Route as SuperAdminPermissionsRouteImport } from './routes/super-admin_.permissions'
 import { Route as SuperAdminStaffRouteImport } from './routes/super-admin_.staff'
 import { Route as DotlovableOauthConsentRouteImport } from './routes/[.]lovable.oauth.consent'
@@ -96,6 +103,11 @@ const AccountRoute = AccountRouteImport.update({
 const AdminRoute = AdminRouteImport.update({
   id: '/admin',
   path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AppearanceRoute = AppearanceRouteImport.update({
+  id: '/appearance',
+  path: '/appearance',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BecomeARiderRoute = BecomeARiderRouteImport.update({
@@ -123,9 +135,19 @@ const CheckoutRoute = CheckoutRouteImport.update({
   path: '/checkout',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CommunityRoute = CommunityRouteImport.update({
+  id: '/community',
+  path: '/community',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const FavoritesRoute = FavoritesRouteImport.update({
   id: '/favorites',
   path: '/favorites',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ForgotPasswordRoute = ForgotPasswordRouteImport.update({
+  id: '/forgot-password',
+  path: '/forgot-password',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LoginRoute = LoginRouteImport.update({
@@ -146,6 +168,11 @@ const MembershipRoute = MembershipRouteImport.update({
 const NotificationsRoute = NotificationsRouteImport.update({
   id: '/notifications',
   path: '/notifications',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RiderRoute = RiderRouteImport.update({
@@ -296,6 +323,11 @@ const HealthTelehealthRoute = HealthTelehealthRouteImport.update({
   path: '/health/telehealth',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LegalDocRoute = LegalDocRouteImport.update({
+  id: '/legal/$doc',
+  path: '/legal/$doc',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const OrdersIndexRoute = OrdersIndexRouteImport.update({
   id: '/orders/',
   path: '/orders/',
@@ -426,9 +458,19 @@ const SuperAdminCommissionRoute = SuperAdminCommissionRouteImport.update({
   path: '/super-admin/commission',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SuperAdminDeliveryRoute = SuperAdminDeliveryRouteImport.update({
+  id: '/super-admin_/delivery',
+  path: '/super-admin/delivery',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SuperAdminFeaturesRoute = SuperAdminFeaturesRouteImport.update({
   id: '/super-admin_/features',
   path: '/super-admin/features',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SuperAdminMembershipsRoute = SuperAdminMembershipsRouteImport.update({
+  id: '/super-admin_/memberships',
+  path: '/super-admin/memberships',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SuperAdminPermissionsRoute = SuperAdminPermissionsRouteImport.update({
@@ -457,16 +499,20 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/account': typeof AccountRoute
   '/admin': typeof AdminRoute
+  '/appearance': typeof AppearanceRoute
   '/become-a-rider': typeof BecomeARiderRoute
   '/become-a-seller': typeof BecomeASellerRoute
   '/cart': typeof CartRoute
   '/catalog': typeof CatalogRoute
   '/checkout': typeof CheckoutRoute
+  '/community': typeof CommunityRoute
   '/favorites': typeof FavoritesRoute
+  '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
   '/mcp': typeof McpRoute
   '/membership': typeof MembershipRoute
   '/notifications': typeof NotificationsRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/rider': typeof RiderRoute
   '/seller': typeof SellerRoute
   '/signup': typeof SignupRoute
@@ -496,6 +542,7 @@ export interface FileRoutesByFullPath {
   '/health/emergency': typeof HealthEmergencyRoute
   '/health/prescriptions': typeof HealthPrescriptionsRoute
   '/health/telehealth': typeof HealthTelehealthRoute
+  '/legal/$doc': typeof LegalDocRoute
   '/orders/$orderId': typeof OrdersOrderIdRoute
   '/product/$productId': typeof ProductProductIdRoute
   '/rider/$section': typeof RiderSectionRoute
@@ -521,7 +568,9 @@ export interface FileRoutesByFullPath {
   '/super-admin/audit': typeof SuperAdminAuditRoute
   '/super-admin/categories': typeof SuperAdminCategoriesRoute
   '/super-admin/commission': typeof SuperAdminCommissionRoute
+  '/super-admin/delivery': typeof SuperAdminDeliveryRoute
   '/super-admin/features': typeof SuperAdminFeaturesRoute
+  '/super-admin/memberships': typeof SuperAdminMembershipsRoute
   '/super-admin/permissions': typeof SuperAdminPermissionsRoute
   '/super-admin/staff': typeof SuperAdminStaffRoute
   '/orders/': typeof OrdersIndexRoute
@@ -532,16 +581,20 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/account': typeof AccountRoute
   '/admin': typeof AdminRoute
+  '/appearance': typeof AppearanceRoute
   '/become-a-rider': typeof BecomeARiderRoute
   '/become-a-seller': typeof BecomeASellerRoute
   '/cart': typeof CartRoute
   '/catalog': typeof CatalogRoute
   '/checkout': typeof CheckoutRoute
+  '/community': typeof CommunityRoute
   '/favorites': typeof FavoritesRoute
+  '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
   '/mcp': typeof McpRoute
   '/membership': typeof MembershipRoute
   '/notifications': typeof NotificationsRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/rider': typeof RiderRoute
   '/seller': typeof SellerRoute
   '/signup': typeof SignupRoute
@@ -571,6 +624,7 @@ export interface FileRoutesByTo {
   '/health/emergency': typeof HealthEmergencyRoute
   '/health/prescriptions': typeof HealthPrescriptionsRoute
   '/health/telehealth': typeof HealthTelehealthRoute
+  '/legal/$doc': typeof LegalDocRoute
   '/orders/$orderId': typeof OrdersOrderIdRoute
   '/product/$productId': typeof ProductProductIdRoute
   '/rider/$section': typeof RiderSectionRoute
@@ -596,7 +650,9 @@ export interface FileRoutesByTo {
   '/super-admin/audit': typeof SuperAdminAuditRoute
   '/super-admin/categories': typeof SuperAdminCategoriesRoute
   '/super-admin/commission': typeof SuperAdminCommissionRoute
+  '/super-admin/delivery': typeof SuperAdminDeliveryRoute
   '/super-admin/features': typeof SuperAdminFeaturesRoute
+  '/super-admin/memberships': typeof SuperAdminMembershipsRoute
   '/super-admin/permissions': typeof SuperAdminPermissionsRoute
   '/super-admin/staff': typeof SuperAdminStaffRoute
   '/orders': typeof OrdersIndexRoute
@@ -608,16 +664,20 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/account': typeof AccountRoute
   '/admin': typeof AdminRoute
+  '/appearance': typeof AppearanceRoute
   '/become-a-rider': typeof BecomeARiderRoute
   '/become-a-seller': typeof BecomeASellerRoute
   '/cart': typeof CartRoute
   '/catalog': typeof CatalogRoute
   '/checkout': typeof CheckoutRoute
+  '/community': typeof CommunityRoute
   '/favorites': typeof FavoritesRoute
+  '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
   '/mcp': typeof McpRoute
   '/membership': typeof MembershipRoute
   '/notifications': typeof NotificationsRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/rider': typeof RiderRoute
   '/seller': typeof SellerRoute
   '/signup': typeof SignupRoute
@@ -647,6 +707,7 @@ export interface FileRoutesById {
   '/health/emergency': typeof HealthEmergencyRoute
   '/health/prescriptions': typeof HealthPrescriptionsRoute
   '/health/telehealth': typeof HealthTelehealthRoute
+  '/legal/$doc': typeof LegalDocRoute
   '/orders/$orderId': typeof OrdersOrderIdRoute
   '/product/$productId': typeof ProductProductIdRoute
   '/rider_/$section': typeof RiderSectionRoute
@@ -672,7 +733,9 @@ export interface FileRoutesById {
   '/super-admin_/audit': typeof SuperAdminAuditRoute
   '/super-admin_/categories': typeof SuperAdminCategoriesRoute
   '/super-admin_/commission': typeof SuperAdminCommissionRoute
+  '/super-admin_/delivery': typeof SuperAdminDeliveryRoute
   '/super-admin_/features': typeof SuperAdminFeaturesRoute
+  '/super-admin_/memberships': typeof SuperAdminMembershipsRoute
   '/super-admin_/permissions': typeof SuperAdminPermissionsRoute
   '/super-admin_/staff': typeof SuperAdminStaffRoute
   '/orders/': typeof OrdersIndexRoute
@@ -685,16 +748,20 @@ export interface FileRouteTypes {
     | '/'
     | '/account'
     | '/admin'
+    | '/appearance'
     | '/become-a-rider'
     | '/become-a-seller'
     | '/cart'
     | '/catalog'
     | '/checkout'
+    | '/community'
     | '/favorites'
+    | '/forgot-password'
     | '/login'
     | '/mcp'
     | '/membership'
     | '/notifications'
+    | '/reset-password'
     | '/rider'
     | '/seller'
     | '/signup'
@@ -724,6 +791,7 @@ export interface FileRouteTypes {
     | '/health/emergency'
     | '/health/prescriptions'
     | '/health/telehealth'
+    | '/legal/$doc'
     | '/orders/$orderId'
     | '/product/$productId'
     | '/rider/$section'
@@ -749,7 +817,9 @@ export interface FileRouteTypes {
     | '/super-admin/audit'
     | '/super-admin/categories'
     | '/super-admin/commission'
+    | '/super-admin/delivery'
     | '/super-admin/features'
+    | '/super-admin/memberships'
     | '/super-admin/permissions'
     | '/super-admin/staff'
     | '/orders/'
@@ -760,16 +830,20 @@ export interface FileRouteTypes {
     | '/'
     | '/account'
     | '/admin'
+    | '/appearance'
     | '/become-a-rider'
     | '/become-a-seller'
     | '/cart'
     | '/catalog'
     | '/checkout'
+    | '/community'
     | '/favorites'
+    | '/forgot-password'
     | '/login'
     | '/mcp'
     | '/membership'
     | '/notifications'
+    | '/reset-password'
     | '/rider'
     | '/seller'
     | '/signup'
@@ -799,6 +873,7 @@ export interface FileRouteTypes {
     | '/health/emergency'
     | '/health/prescriptions'
     | '/health/telehealth'
+    | '/legal/$doc'
     | '/orders/$orderId'
     | '/product/$productId'
     | '/rider/$section'
@@ -824,7 +899,9 @@ export interface FileRouteTypes {
     | '/super-admin/audit'
     | '/super-admin/categories'
     | '/super-admin/commission'
+    | '/super-admin/delivery'
     | '/super-admin/features'
+    | '/super-admin/memberships'
     | '/super-admin/permissions'
     | '/super-admin/staff'
     | '/orders'
@@ -835,16 +912,20 @@ export interface FileRouteTypes {
     | '/'
     | '/account'
     | '/admin'
+    | '/appearance'
     | '/become-a-rider'
     | '/become-a-seller'
     | '/cart'
     | '/catalog'
     | '/checkout'
+    | '/community'
     | '/favorites'
+    | '/forgot-password'
     | '/login'
     | '/mcp'
     | '/membership'
     | '/notifications'
+    | '/reset-password'
     | '/rider'
     | '/seller'
     | '/signup'
@@ -874,6 +955,7 @@ export interface FileRouteTypes {
     | '/health/emergency'
     | '/health/prescriptions'
     | '/health/telehealth'
+    | '/legal/$doc'
     | '/orders/$orderId'
     | '/product/$productId'
     | '/rider_/$section'
@@ -899,7 +981,9 @@ export interface FileRouteTypes {
     | '/super-admin_/audit'
     | '/super-admin_/categories'
     | '/super-admin_/commission'
+    | '/super-admin_/delivery'
     | '/super-admin_/features'
+    | '/super-admin_/memberships'
     | '/super-admin_/permissions'
     | '/super-admin_/staff'
     | '/orders/'
@@ -911,16 +995,20 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AccountRoute: typeof AccountRoute
   AdminRoute: typeof AdminRoute
+  AppearanceRoute: typeof AppearanceRoute
   BecomeARiderRoute: typeof BecomeARiderRoute
   BecomeASellerRoute: typeof BecomeASellerRoute
   CartRoute: typeof CartRoute
   CatalogRoute: typeof CatalogRoute
   CheckoutRoute: typeof CheckoutRoute
+  CommunityRoute: typeof CommunityRoute
   FavoritesRoute: typeof FavoritesRoute
+  ForgotPasswordRoute: typeof ForgotPasswordRoute
   LoginRoute: typeof LoginRoute
   McpRoute: typeof McpRoute
   MembershipRoute: typeof MembershipRoute
   NotificationsRoute: typeof NotificationsRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
   RiderRoute: typeof RiderRoute
   SellerRoute: typeof SellerRoute
   SignupRoute: typeof SignupRoute
@@ -950,6 +1038,7 @@ export interface RootRouteChildren {
   HealthEmergencyRoute: typeof HealthEmergencyRoute
   HealthPrescriptionsRoute: typeof HealthPrescriptionsRoute
   HealthTelehealthRoute: typeof HealthTelehealthRoute
+  LegalDocRoute: typeof LegalDocRoute
   OrdersOrderIdRoute: typeof OrdersOrderIdRoute
   ProductProductIdRoute: typeof ProductProductIdRoute
   RiderSectionRoute: typeof RiderSectionRoute
@@ -975,7 +1064,9 @@ export interface RootRouteChildren {
   SuperAdminAuditRoute: typeof SuperAdminAuditRoute
   SuperAdminCategoriesRoute: typeof SuperAdminCategoriesRoute
   SuperAdminCommissionRoute: typeof SuperAdminCommissionRoute
+  SuperAdminDeliveryRoute: typeof SuperAdminDeliveryRoute
   SuperAdminFeaturesRoute: typeof SuperAdminFeaturesRoute
+  SuperAdminMembershipsRoute: typeof SuperAdminMembershipsRoute
   SuperAdminPermissionsRoute: typeof SuperAdminPermissionsRoute
   SuperAdminStaffRoute: typeof SuperAdminStaffRoute
   OrdersIndexRoute: typeof OrdersIndexRoute
@@ -1004,6 +1095,13 @@ declare module '@tanstack/react-router' {
       path: '/admin'
       fullPath: '/admin'
       preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/appearance': {
+      id: '/appearance'
+      path: '/appearance'
+      fullPath: '/appearance'
+      preLoaderRoute: typeof AppearanceRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/become-a-rider': {
@@ -1041,11 +1139,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CheckoutRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/community': {
+      id: '/community'
+      path: '/community'
+      fullPath: '/community'
+      preLoaderRoute: typeof CommunityRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/favorites': {
       id: '/favorites'
       path: '/favorites'
       fullPath: '/favorites'
       preLoaderRoute: typeof FavoritesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/forgot-password': {
+      id: '/forgot-password'
+      path: '/forgot-password'
+      fullPath: '/forgot-password'
+      preLoaderRoute: typeof ForgotPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/login': {
@@ -1074,6 +1186,13 @@ declare module '@tanstack/react-router' {
       path: '/notifications'
       fullPath: '/notifications'
       preLoaderRoute: typeof NotificationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/rider': {
@@ -1279,6 +1398,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HealthTelehealthRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/legal/$doc': {
+      id: '/legal/$doc'
+      path: '/legal/$doc'
+      fullPath: '/legal/$doc'
+      preLoaderRoute: typeof LegalDocRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/orders/': {
       id: '/orders/'
       path: '/orders'
@@ -1461,11 +1587,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SuperAdminCommissionRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/super-admin_/delivery': {
+      id: '/super-admin_/delivery'
+      path: '/super-admin/delivery'
+      fullPath: '/super-admin/delivery'
+      preLoaderRoute: typeof SuperAdminDeliveryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/super-admin_/features': {
       id: '/super-admin_/features'
       path: '/super-admin/features'
       fullPath: '/super-admin/features'
       preLoaderRoute: typeof SuperAdminFeaturesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/super-admin_/memberships': {
+      id: '/super-admin_/memberships'
+      path: '/super-admin/memberships'
+      fullPath: '/super-admin/memberships'
+      preLoaderRoute: typeof SuperAdminMembershipsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/super-admin_/permissions': {
@@ -1503,16 +1643,20 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AccountRoute: AccountRoute,
   AdminRoute: AdminRoute,
+  AppearanceRoute: AppearanceRoute,
   BecomeARiderRoute: BecomeARiderRoute,
   BecomeASellerRoute: BecomeASellerRoute,
   CartRoute: CartRoute,
   CatalogRoute: CatalogRoute,
   CheckoutRoute: CheckoutRoute,
+  CommunityRoute: CommunityRoute,
   FavoritesRoute: FavoritesRoute,
+  ForgotPasswordRoute: ForgotPasswordRoute,
   LoginRoute: LoginRoute,
   McpRoute: McpRoute,
   MembershipRoute: MembershipRoute,
   NotificationsRoute: NotificationsRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
   RiderRoute: RiderRoute,
   SellerRoute: SellerRoute,
   SignupRoute: SignupRoute,
@@ -1543,6 +1687,7 @@ const rootRouteChildren: RootRouteChildren = {
   HealthEmergencyRoute: HealthEmergencyRoute,
   HealthPrescriptionsRoute: HealthPrescriptionsRoute,
   HealthTelehealthRoute: HealthTelehealthRoute,
+  LegalDocRoute: LegalDocRoute,
   OrdersOrderIdRoute: OrdersOrderIdRoute,
   ProductProductIdRoute: ProductProductIdRoute,
   RiderSectionRoute: RiderSectionRoute,
@@ -1568,7 +1713,9 @@ const rootRouteChildren: RootRouteChildren = {
   SuperAdminAuditRoute: SuperAdminAuditRoute,
   SuperAdminCategoriesRoute: SuperAdminCategoriesRoute,
   SuperAdminCommissionRoute: SuperAdminCommissionRoute,
+  SuperAdminDeliveryRoute: SuperAdminDeliveryRoute,
   SuperAdminFeaturesRoute: SuperAdminFeaturesRoute,
+  SuperAdminMembershipsRoute: SuperAdminMembershipsRoute,
   SuperAdminPermissionsRoute: SuperAdminPermissionsRoute,
   SuperAdminStaffRoute: SuperAdminStaffRoute,
   OrdersIndexRoute: OrdersIndexRoute,

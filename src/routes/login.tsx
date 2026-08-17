@@ -137,11 +137,12 @@ function LoginPage() {
             <input type="checkbox" className="accent-primary" defaultChecked /> Remember me
           </label>
           <Link
-            to="/signup"
+            to="/forgot-password"
             className="font-semibold text-primary hover:underline"
           >
-            Need an account?
+            Forgot password?
           </Link>
+
         </div>
 
         <Button

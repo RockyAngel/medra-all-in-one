@@ -11,6 +11,7 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { AuthProvider } from "@/lib/auth";
+import { applyAppearance, useAppearance } from "@/lib/platform";
 import { Toaster } from "@/components/ui/sonner";
 import { SupportMascot } from "@/components/medra/SupportMascot";
 import { reportLovableError } from "../lib/lovable-error-reporting";
@@ -121,12 +122,22 @@ function RootShell({ children }: { children: ReactNode }) {
   );
 }
 
+/** Applies the signed-in member's purchased theme + light/dark mode. */
+function AppearanceSync() {
+  const appearance = useAppearance();
+  useEffect(() => {
+    if (appearance.data) applyAppearance(appearance.data.theme, appearance.data.mode);
+  }, [appearance.data]);
+  return null;
+}
+
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
 
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
+        <AppearanceSync />
         {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
         <Outlet />
         <SupportMascot />

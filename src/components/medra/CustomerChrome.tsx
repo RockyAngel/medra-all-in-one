@@ -16,8 +16,17 @@ export function CustomerHeader({
   initialQuery?: string;
 }) {
   const navigate = useNavigate();
-  const { session } = useAuth();
+  const { session, roles } = useAuth();
   const [q, setQ] = useState(initialQuery);
+  const staffDashboard = roles.includes("super_admin")
+    ? "/super-admin"
+    : roles.includes("admin")
+      ? "/admin"
+      : roles.includes("seller")
+        ? "/seller"
+        : roles.includes("rider")
+          ? "/rider"
+          : null;
   const cartCount = useCartCount();
   const unread = useUnreadNotifications();
 
@@ -45,9 +54,16 @@ export function CustomerHeader({
           <Link to="/health/telehealth" className="hover:text-ink-foreground">
             Health
           </Link>
+          <Link to="/community" className="hover:text-ink-foreground">
+            Community
+          </Link>
+          <Link to="/appearance" className="hover:text-ink-foreground">
+            Themes
+          </Link>
           <Link to="/support" search={{ ticket: undefined }} className="hover:text-ink-foreground">
             Support
           </Link>
+
           <Link to="/become-a-rider" className="text-leaf hover:underline">
             Become a Rider
           </Link>
@@ -82,6 +98,14 @@ export function CustomerHeader({
               </span>
             )}
           </Link>
+          {session && staffDashboard && (
+            <Link
+              to={staffDashboard}
+              className="hidden rounded-lg bg-ink-foreground/15 px-3 py-1.5 text-sm font-semibold sm:block"
+            >
+              My dashboard
+            </Link>
+          )}
           {session ? (
             <Link
               to="/account"

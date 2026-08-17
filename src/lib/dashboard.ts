@@ -30,6 +30,8 @@ export const SELLER_NAV: NavGroup[] = [
       { label: "Reviews", to: "/seller/reviews" },
       { label: "Notifications", to: "/notifications" },
       { label: "Support", to: "/support" },
+      { label: "Community chat", to: "/community" },
+      { label: "Themes", to: "/appearance" },
     ],
   },
 ];
@@ -56,6 +58,8 @@ export const RIDER_NAV: NavGroup[] = [
       { label: "Performance", to: "/rider/performance" },
       { label: "Notifications", to: "/notifications" },
       { label: "Support", to: "/support" },
+      { label: "Community chat", to: "/community" },
+      { label: "Themes", to: "/appearance" },
     ],
   },
 ];
@@ -91,6 +95,8 @@ export const ADMIN_NAV: NavGroup[] = [
       { label: "Late deliveries", to: "/admin/late-deliveries" },
       { label: "Support inbox", to: "/admin/support" },
       { label: "My time clock", to: "/admin/timeclock" },
+      { label: "Community chat", to: "/community" },
+      { label: "Themes", to: "/appearance" },
     ],
   },
 ];
@@ -118,6 +124,8 @@ export const SUPER_ADMIN_NAV: NavGroup[] = [
     title: "Operations",
     items: [
       { label: "Admin console", to: "/admin" },
+      { label: "Community chat", to: "/community" },
+      { label: "Themes", to: "/appearance" },
       { label: "Notifications", to: "/notifications" },
     ],
   },
