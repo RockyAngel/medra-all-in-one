@@ -79,15 +79,15 @@ function AdminDashboard() {
             <ul className="space-y-2 text-sm">
               <QueueRow label="Seller applications" count={stats?.sellerApps ?? 0} to="/admin/seller-approvals" />
               <QueueRow label="Rider applications" count={stats?.riderApps ?? 0} to="/admin/rider-approvals" />
-              <QueueRow label="Refund requests" count={stats?.refunds ?? 0} to="/admin/refunds" />
-              <QueueRow label="Payout requests" count={stats?.payouts ?? 0} to="/admin/payouts" />
+              <QueueRow label="Refund requests" count={stats?.refunds ?? 0} to="/admin/$section" params={{ section: "refunds" }} />
+              <QueueRow label="Payout requests" count={stats?.payouts ?? 0} to="/admin/$section" params={{ section: "payouts" }} />
             </ul>
           </Panel>
 
           <Panel title="Safety & logistics">
             <ul className="space-y-2 text-sm">
-              <QueueRow label="SOS incidents" count={stats?.sos ?? 0} to="/admin/sos" />
-              <QueueRow label="Deliveries" count={stats?.deliveries ?? 0} to="/admin/deliveries" />
+              <QueueRow label="SOS incidents" count={stats?.sos ?? 0} to="/admin/$section" params={{ section: "sos" }} />
+              <QueueRow label="Deliveries" count={stats?.deliveries ?? 0} to="/admin/$section" params={{ section: "deliveries" }} />
             </ul>
             {(stats?.sos ?? 0) > 0 && (
               <p className="mt-4 flex items-center gap-2 rounded-xl bg-destructive/10 p-3 text-xs font-semibold text-destructive">
@@ -101,7 +101,7 @@ function AdminDashboard() {
               Handle customer, seller and rider conversations from the shared support inbox.
             </p>
             <Button asChild size="sm" className="mt-4 rounded-full">
-              <Link to="/admin/support">Open support inbox</Link>
+              <Link to="/admin/$section" params={{ section: "support" }}>Open support inbox</Link>
             </Button>
           </Panel>
         </div>
