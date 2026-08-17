@@ -45,6 +45,7 @@ import { Route as OrdersOrderIdRouteImport } from './routes/orders.$orderId'
 import { Route as ProductProductIdRouteImport } from './routes/product.$productId'
 import { Route as RiderSectionRouteImport } from './routes/rider_.$section'
 import { Route as SellerSectionRouteImport } from './routes/seller_.$section'
+import { Route as SellerInventoryRouteImport } from './routes/seller_.inventory'
 import { Route as SellerOrdersRouteImport } from './routes/seller_.orders'
 import { Route as SellerPrescriptionsRouteImport } from './routes/seller_.prescriptions'
 import { Route as SellerProductsRouteImport } from './routes/seller_.products'
@@ -236,6 +237,11 @@ const SellerSectionRoute = SellerSectionRouteImport.update({
   path: '/seller/$section',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SellerInventoryRoute = SellerInventoryRouteImport.update({
+  id: '/seller_/inventory',
+  path: '/seller/inventory',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SellerOrdersRoute = SellerOrdersRouteImport.update({
   id: '/seller_/orders',
   path: '/seller/orders',
@@ -309,6 +315,7 @@ export interface FileRoutesByFullPath {
   '/product/$productId': typeof ProductProductIdRoute
   '/rider/$section': typeof RiderSectionRoute
   '/seller/$section': typeof SellerSectionRoute
+  '/seller/inventory': typeof SellerInventoryRoute
   '/seller/orders': typeof SellerOrdersRoute
   '/seller/prescriptions': typeof SellerPrescriptionsRoute
   '/seller/products': typeof SellerProductsRoute
@@ -354,6 +361,7 @@ export interface FileRoutesByTo {
   '/product/$productId': typeof ProductProductIdRoute
   '/rider/$section': typeof RiderSectionRoute
   '/seller/$section': typeof SellerSectionRoute
+  '/seller/inventory': typeof SellerInventoryRoute
   '/seller/orders': typeof SellerOrdersRoute
   '/seller/prescriptions': typeof SellerPrescriptionsRoute
   '/seller/products': typeof SellerProductsRoute
@@ -400,6 +408,7 @@ export interface FileRoutesById {
   '/product/$productId': typeof ProductProductIdRoute
   '/rider_/$section': typeof RiderSectionRoute
   '/seller_/$section': typeof SellerSectionRoute
+  '/seller_/inventory': typeof SellerInventoryRoute
   '/seller_/orders': typeof SellerOrdersRoute
   '/seller_/prescriptions': typeof SellerPrescriptionsRoute
   '/seller_/products': typeof SellerProductsRoute
@@ -447,6 +456,7 @@ export interface FileRouteTypes {
     | '/product/$productId'
     | '/rider/$section'
     | '/seller/$section'
+    | '/seller/inventory'
     | '/seller/orders'
     | '/seller/prescriptions'
     | '/seller/products'
@@ -492,6 +502,7 @@ export interface FileRouteTypes {
     | '/product/$productId'
     | '/rider/$section'
     | '/seller/$section'
+    | '/seller/inventory'
     | '/seller/orders'
     | '/seller/prescriptions'
     | '/seller/products'
@@ -537,6 +548,7 @@ export interface FileRouteTypes {
     | '/product/$productId'
     | '/rider_/$section'
     | '/seller_/$section'
+    | '/seller_/inventory'
     | '/seller_/orders'
     | '/seller_/prescriptions'
     | '/seller_/products'
@@ -583,6 +595,7 @@ export interface RootRouteChildren {
   ProductProductIdRoute: typeof ProductProductIdRoute
   RiderSectionRoute: typeof RiderSectionRoute
   SellerSectionRoute: typeof SellerSectionRoute
+  SellerInventoryRoute: typeof SellerInventoryRoute
   SellerOrdersRoute: typeof SellerOrdersRoute
   SellerPrescriptionsRoute: typeof SellerPrescriptionsRoute
   SellerProductsRoute: typeof SellerProductsRoute
@@ -847,6 +860,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SellerSectionRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/seller_/inventory': {
+      id: '/seller_/inventory'
+      path: '/seller/inventory'
+      fullPath: '/seller/inventory'
+      preLoaderRoute: typeof SellerInventoryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/seller_/orders': {
       id: '/seller_/orders'
       path: '/seller/orders'
@@ -936,6 +956,7 @@ const rootRouteChildren: RootRouteChildren = {
   ProductProductIdRoute: ProductProductIdRoute,
   RiderSectionRoute: RiderSectionRoute,
   SellerSectionRoute: SellerSectionRoute,
+  SellerInventoryRoute: SellerInventoryRoute,
   SellerOrdersRoute: SellerOrdersRoute,
   SellerPrescriptionsRoute: SellerPrescriptionsRoute,
   SellerProductsRoute: SellerProductsRoute,
