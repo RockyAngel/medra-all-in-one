@@ -3,7 +3,7 @@ import { ClipboardList } from "lucide-react";
 import { AdminPage } from "@/components/medra/RoleDashboard";
 import { EmptyState } from "@/components/medra/States";
 
-export const Route = createFileRoute("/admin/$section")({
+export const Route = createFileRoute("/admin_/$section")({
   head: ({ params }) => ({
     meta: [
       { title: `${sectionTitle(params.section)} — Admin — Medra` },

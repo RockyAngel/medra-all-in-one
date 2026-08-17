@@ -3,7 +3,7 @@ import { Bike } from "lucide-react";
 import { RiderPage } from "@/components/medra/RoleDashboard";
 import { EmptyState } from "@/components/medra/States";
 
-export const Route = createFileRoute("/rider/$section")({
+export const Route = createFileRoute("/rider_/$section")({
   head: ({ params }) => ({
     meta: [
       { title: `${sectionTitle(params.section)} — Rider — Medra` },

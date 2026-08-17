@@ -4,7 +4,7 @@ import { SellerPage } from "@/components/medra/RoleDashboard";
 import { EmptyState } from "@/components/medra/States";
 import { Button } from "@/components/ui/button";
 
-export const Route = createFileRoute("/seller/$section")({
+export const Route = createFileRoute("/seller_/$section")({
   head: ({ params }) => ({
     meta: [
       { title: `${sectionTitle(params.section)} — Seller — Medra` },

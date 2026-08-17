@@ -3,7 +3,7 @@ import { ShieldCheck } from "lucide-react";
 import { SuperAdminPage } from "@/components/medra/RoleDashboard";
 import { EmptyState } from "@/components/medra/States";
 
-export const Route = createFileRoute("/super-admin/$section")({
+export const Route = createFileRoute("/super-admin_/$section")({
   head: ({ params }) => ({
     meta: [
       { title: `${sectionTitle(params.section)} — Super Admin — Medra` },

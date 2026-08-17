@@ -23,7 +23,7 @@ import {
   downloadReviewHistory,
 } from "@/lib/health";
 
-export const Route = createFileRoute("/seller/prescriptions")({
+export const Route = createFileRoute("/seller_/prescriptions")({
   head: () => ({
     meta: [
       { title: "Prescription review — Medra pharmacy" },
