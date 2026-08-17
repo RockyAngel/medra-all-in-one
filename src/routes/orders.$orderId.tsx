@@ -111,17 +111,29 @@ function OrderDetailPage() {
                   <p className="flex items-center gap-2 font-semibold">
                     <MapPin className="size-4 text-amberish" /> Rider location
                   </p>
+                  <div className="mt-3">
+                    <TrackingMap
+                      destination={{ lat: address?.latitude, lng: address?.longitude }}
+                      rider={{ lat: delivery?.rider_latitude, lng: delivery?.rider_longitude }}
+                      caption={
+                        delivery?.rider_latitude && delivery?.rider_longitude
+                          ? "Rider marker updates as new location pings arrive."
+                          : "Your delivery address is shown. The rider marker appears once they start the trip."
+                      }
+                    />
+                  </div>
                   {delivery?.rider_latitude && delivery?.rider_longitude ? (
-                    <p className="mt-1 text-muted-foreground">
+                    <p className="mt-2 text-muted-foreground">
                       Last ping: {Number(delivery.rider_latitude).toFixed(4)},{" "}
                       {Number(delivery.rider_longitude).toFixed(4)} — updates automatically.
                     </p>
                   ) : (
-                    <p className="mt-1 text-muted-foreground">
+                    <p className="mt-2 text-muted-foreground">
                       Live location appears here once a rider accepts and starts this delivery.
                     </p>
                   )}
                 </div>
+
               </section>
 
               <div className="mt-6 grid gap-5 md:grid-cols-2">
