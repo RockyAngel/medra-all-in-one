@@ -3863,27 +3863,6 @@ export type Database = {
           },
         ]
       }
-      qa_log: {
-        Row: {
-          at: string | null
-          detail: Json | null
-          id: number
-          step: string | null
-        }
-        Insert: {
-          at?: string | null
-          detail?: Json | null
-          id?: number
-          step?: string | null
-        }
-        Update: {
-          at?: string | null
-          detail?: Json | null
-          id?: number
-          step?: string | null
-        }
-        Relationships: []
-      }
       refund_events: {
         Row: {
           actor_id: string | null
