@@ -5,6 +5,36 @@ import { useAuth } from "@/lib/auth";
 
 /* ------------------------------ community chat ---------------------------- */
 
+/** Labels shown next to a chat message, in the words each audience uses. */
+export const CHAT_ROLE_LABELS: Record<string, string> = {
+  customer: "Customer",
+  rider: "Rider",
+  seller: "Vendor",
+  admin: "Admin",
+  super_admin: "Super admin",
+  health_professional: "Health pro",
+};
+
+/** Most senior role first — that is the badge a sender is shown with. */
+const ROLE_SENIORITY = [
+  "super_admin",
+  "admin",
+  "health_professional",
+  "seller",
+  "rider",
+  "customer",
+] as const;
+
+export function chatRoleLabel(role: string | null | undefined): string {
+  if (!role) return "Member";
+  return CHAT_ROLE_LABELS[role] ?? role.replace(/_/g, " ");
+}
+
+function senderRole(roles: readonly string[]): (typeof ROLE_SENIORITY)[number] {
+  return ROLE_SENIORITY.find((role) => roles.includes(role)) ?? "customer";
+}
+
+
 export function useChatChannels() {
   const { user } = useAuth();
   return useQuery({
@@ -84,7 +114,7 @@ export function useSendChannelMessage() {
       const { error } = await supabase.from("chat_channel_messages").insert({
         channel_id: input.channelId,
         sender_id: user.id,
-        sender_role: roles[0] ?? "customer",
+        sender_role: senderRole(roles),
         body,
       });
       if (error) throw error;

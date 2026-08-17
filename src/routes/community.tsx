@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import { formatDate } from "@/lib/medra";
 import { useAuth } from "@/lib/auth";
 import {
+  chatRoleLabel,
   useChannelMessages,
   useChatChannels,
   useModerateChatMessage,
@@ -183,8 +184,8 @@ function CommunityPage() {
                       <span className="font-bold text-foreground">
                         {[m.sender?.first_name, m.sender?.last_name].filter(Boolean).join(" ") || "Member"}
                       </span>
-                      <span className="rounded-full bg-muted px-2 py-0.5 font-semibold capitalize">
-                        {String(m.sender_role).replace("_", " ")}
+                      <span className="rounded-full bg-muted px-2 py-0.5 font-semibold">
+                        {chatRoleLabel(m.sender_role)}
                       </span>
                       <span>{formatDate(m.created_at)}</span>
                     </div>

@@ -99,6 +99,13 @@ function LoginPage() {
           Create an account
         </Link>
       </p>
+      <p className="mt-1 text-sm text-muted-foreground">
+        Just testing?{" "}
+        <Link to="/demo" className="font-semibold text-primary hover:underline">
+          Use a demo login
+        </Link>
+      </p>
+
 
       <form className="mt-6 space-y-4" onSubmit={handleSubmit}>
         <div className="space-y-1.5">
