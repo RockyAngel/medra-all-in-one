@@ -158,6 +158,21 @@ function RiderActivePage() {
                 </div>
               </div>
 
+              <div className="mt-4">
+                <TrackingMap
+                  height={200}
+                  destination={{
+                    lat: dropLatLng(d.orders?.address_snapshot).lat,
+                    lng: dropLatLng(d.orders?.address_snapshot).lng,
+                  }}
+                  rider={{ lat: d.rider_latitude, lng: d.rider_longitude }}
+                  store={{ lat: d.stores?.latitude, lng: d.stores?.longitude }}
+                  caption="Green marker is the store, blue is the customer, amber is your last shared location."
+                />
+              </div>
+
+
+
               <div className="mt-4 flex flex-wrap gap-2">
                 {STAGES.map((stage) => (
                   <Button
