@@ -14,7 +14,7 @@ import { useWallet } from "@/lib/hooks";
 import { useFeatureEnabled } from "@/lib/permissions";
 
 import {
-  POINTS_PER_NAIRA,
+  
   POINT_VALUE_NAIRA,
   formatNaira,
 } from "@/lib/medra";
@@ -96,7 +96,7 @@ function CheckoutPage() {
   });
   const deliveryFee = quote.data?.configured ? quote.data.fee : null;
   const total = Math.max(0, subtotal - discount) + (deliveryFee ?? 0);
-  const pointsEarned = Math.floor(total * POINTS_PER_NAIRA);
+  
 
   const rxRows = prescriptionStatus.data ?? [];
   const rxBlocking = rxRows.filter(
@@ -389,7 +389,8 @@ function CheckoutPage() {
                     </div>
                   </dl>
                   <p className="mt-3 text-xs text-muted-foreground">
-                    You'll earn {pointsEarned.toLocaleString()} reward points on this order.
+                    Reward points are earned from games, birthdays and rewards in your dashboard — not
+                    from purchases. You can still spend points here.
                   </p>
                   {quote.data && !quote.data.configured && (
                     <p className="mt-3 text-xs text-destructive">{quote.data.reason}</p>
