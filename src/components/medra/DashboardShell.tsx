@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 import { LogOut, Menu } from "lucide-react";
 import { Logo } from "./Logo";
 import { cn } from "@/lib/utils";
-import { useAuth } from "@/lib/auth";
+import { useAuth, type AppRole } from "@/lib/auth";
 import {
   Sheet,
   SheetContent,
@@ -69,6 +69,43 @@ function NavLinks({ groups, onNavigate }: { groups: NavGroup[]; onNavigate?: () 
   );
 }
 
+const DASHBOARDS: { role: AppRole; label: string; to: string }[] = [
+  { role: "customer", label: "Customer", to: "/" },
+  { role: "seller", label: "Vendor", to: "/seller" },
+  { role: "rider", label: "Rider", to: "/rider" },
+  { role: "admin", label: "Admin", to: "/admin" },
+  { role: "super_admin", label: "Super admin", to: "/super-admin" },
+];
+
+/** Lets a member with more than one linked role jump between their dashboards. */
+export function DashboardSwitcher() {
+  const { roles } = useAuth();
+  const isSuper = roles.includes("super_admin");
+  const available = DASHBOARDS.filter(
+    (d) => isSuper || roles.includes(d.role) || d.role === "customer",
+  );
+  if (available.length < 2) return null;
+
+  return (
+    <div className="space-y-1">
+      <p className="px-3 text-[10px] font-bold uppercase tracking-widest text-sidebar-foreground/50">
+        Switch dashboard
+      </p>
+      <div className="flex flex-wrap gap-1.5 px-1">
+        {available.map((d) => (
+          <Link
+            key={d.role}
+            to={d.to}
+            className="rounded-lg bg-sidebar-accent px-2.5 py-1.5 text-xs font-bold text-sidebar-accent-foreground hover:opacity-90"
+          >
+            {d.label}
+          </Link>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export function DashboardShell({
   groups,
   title,
@@ -123,6 +160,9 @@ export function DashboardShell({
                   <SheetHeader>
                     <SheetTitle className="text-sidebar-foreground">Menu</SheetTitle>
                   </SheetHeader>
+                  <div className="mt-4">
+                    <DashboardSwitcher />
+                  </div>
                   <nav className="mt-4 flex flex-col gap-6 overflow-y-auto">
                     <NavLinks groups={groups} />
                   </nav>
