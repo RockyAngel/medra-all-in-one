@@ -12,6 +12,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
 import { formatDate, formatNaira } from "@/lib/medra";
 import { workflowError } from "@/lib/workflow";
+import { useFeatureEnabled } from "@/lib/permissions";
+
 import {
   useHealthProfessionals,
   useProfessionalSlots,
