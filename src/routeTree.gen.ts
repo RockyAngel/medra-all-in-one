@@ -49,6 +49,7 @@ import { Route as RiderAvailableRouteImport } from './routes/rider_.available'
 import { Route as RiderEarningsRouteImport } from './routes/rider_.earnings'
 import { Route as RiderHistoryRouteImport } from './routes/rider_.history'
 import { Route as RiderPayoutsRouteImport } from './routes/rider_.payouts'
+import { Route as RiderPerformanceRouteImport } from './routes/rider_.performance'
 import { Route as SellerSectionRouteImport } from './routes/seller_.$section'
 import { Route as SellerEarningsRouteImport } from './routes/seller_.earnings'
 import { Route as SellerInventoryRouteImport } from './routes/seller_.inventory'
@@ -267,6 +268,11 @@ const RiderPayoutsRoute = RiderPayoutsRouteImport.update({
   path: '/rider/payouts',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RiderPerformanceRoute = RiderPerformanceRouteImport.update({
+  id: '/rider_/performance',
+  path: '/rider/performance',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SellerSectionRoute = SellerSectionRouteImport.update({
   id: '/seller_/$section',
   path: '/seller/$section',
@@ -379,6 +385,7 @@ export interface FileRoutesByFullPath {
   '/rider/earnings': typeof RiderEarningsRoute
   '/rider/history': typeof RiderHistoryRoute
   '/rider/payouts': typeof RiderPayoutsRoute
+  '/rider/performance': typeof RiderPerformanceRoute
   '/seller/$section': typeof SellerSectionRoute
   '/seller/earnings': typeof SellerEarningsRoute
   '/seller/inventory': typeof SellerInventoryRoute
@@ -435,6 +442,7 @@ export interface FileRoutesByTo {
   '/rider/earnings': typeof RiderEarningsRoute
   '/rider/history': typeof RiderHistoryRoute
   '/rider/payouts': typeof RiderPayoutsRoute
+  '/rider/performance': typeof RiderPerformanceRoute
   '/seller/$section': typeof SellerSectionRoute
   '/seller/earnings': typeof SellerEarningsRoute
   '/seller/inventory': typeof SellerInventoryRoute
@@ -492,6 +500,7 @@ export interface FileRoutesById {
   '/rider_/earnings': typeof RiderEarningsRoute
   '/rider_/history': typeof RiderHistoryRoute
   '/rider_/payouts': typeof RiderPayoutsRoute
+  '/rider_/performance': typeof RiderPerformanceRoute
   '/seller_/$section': typeof SellerSectionRoute
   '/seller_/earnings': typeof SellerEarningsRoute
   '/seller_/inventory': typeof SellerInventoryRoute
@@ -550,6 +559,7 @@ export interface FileRouteTypes {
     | '/rider/earnings'
     | '/rider/history'
     | '/rider/payouts'
+    | '/rider/performance'
     | '/seller/$section'
     | '/seller/earnings'
     | '/seller/inventory'
@@ -606,6 +616,7 @@ export interface FileRouteTypes {
     | '/rider/earnings'
     | '/rider/history'
     | '/rider/payouts'
+    | '/rider/performance'
     | '/seller/$section'
     | '/seller/earnings'
     | '/seller/inventory'
@@ -662,6 +673,7 @@ export interface FileRouteTypes {
     | '/rider_/earnings'
     | '/rider_/history'
     | '/rider_/payouts'
+    | '/rider_/performance'
     | '/seller_/$section'
     | '/seller_/earnings'
     | '/seller_/inventory'
@@ -719,6 +731,7 @@ export interface RootRouteChildren {
   RiderEarningsRoute: typeof RiderEarningsRoute
   RiderHistoryRoute: typeof RiderHistoryRoute
   RiderPayoutsRoute: typeof RiderPayoutsRoute
+  RiderPerformanceRoute: typeof RiderPerformanceRoute
   SellerSectionRoute: typeof SellerSectionRoute
   SellerEarningsRoute: typeof SellerEarningsRoute
   SellerInventoryRoute: typeof SellerInventoryRoute
@@ -1018,6 +1031,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RiderPayoutsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/rider_/performance': {
+      id: '/rider_/performance'
+      path: '/rider/performance'
+      fullPath: '/rider/performance'
+      preLoaderRoute: typeof RiderPerformanceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/seller_/$section': {
       id: '/seller_/$section'
       path: '/seller/$section'
@@ -1160,6 +1180,7 @@ const rootRouteChildren: RootRouteChildren = {
   RiderEarningsRoute: RiderEarningsRoute,
   RiderHistoryRoute: RiderHistoryRoute,
   RiderPayoutsRoute: RiderPayoutsRoute,
+  RiderPerformanceRoute: RiderPerformanceRoute,
   SellerSectionRoute: SellerSectionRoute,
   SellerEarningsRoute: SellerEarningsRoute,
   SellerInventoryRoute: SellerInventoryRoute,
