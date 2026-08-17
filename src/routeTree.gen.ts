@@ -35,6 +35,7 @@ import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } fr
 import { Route as AdminSectionRouteImport } from './routes/admin_.$section'
 import { Route as AdminOrdersRouteImport } from './routes/admin_.orders'
 import { Route as AdminPharmacyApplicationsRouteImport } from './routes/admin_.pharmacy-applications'
+import { Route as AdminSellerApprovalsRouteImport } from './routes/admin_.seller-approvals'
 import { Route as ApplyRiderRouteImport } from './routes/apply.rider'
 import { Route as ApplySellerRouteImport } from './routes/apply.seller'
 import { Route as HealthAppointmentsRouteImport } from './routes/health.appointments'
@@ -199,6 +200,11 @@ const AdminPharmacyApplicationsRoute =
     path: '/admin/pharmacy-applications',
     getParentRoute: () => rootRouteImport,
   } as any)
+const AdminSellerApprovalsRoute = AdminSellerApprovalsRouteImport.update({
+  id: '/admin_/seller-approvals',
+  path: '/admin/seller-approvals',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApplyRiderRoute = ApplyRiderRouteImport.update({
   id: '/apply/rider',
   path: '/apply/rider',
@@ -378,6 +384,7 @@ export interface FileRoutesByFullPath {
   '/admin/$section': typeof AdminSectionRoute
   '/admin/orders': typeof AdminOrdersRoute
   '/admin/pharmacy-applications': typeof AdminPharmacyApplicationsRoute
+  '/admin/seller-approvals': typeof AdminSellerApprovalsRoute
   '/apply/rider': typeof ApplyRiderRoute
   '/apply/seller': typeof ApplySellerRoute
   '/health/appointments': typeof HealthAppointmentsRoute
@@ -436,6 +443,7 @@ export interface FileRoutesByTo {
   '/admin/$section': typeof AdminSectionRoute
   '/admin/orders': typeof AdminOrdersRoute
   '/admin/pharmacy-applications': typeof AdminPharmacyApplicationsRoute
+  '/admin/seller-approvals': typeof AdminSellerApprovalsRoute
   '/apply/rider': typeof ApplyRiderRoute
   '/apply/seller': typeof ApplySellerRoute
   '/health/appointments': typeof HealthAppointmentsRoute
@@ -495,6 +503,7 @@ export interface FileRoutesById {
   '/admin_/$section': typeof AdminSectionRoute
   '/admin_/orders': typeof AdminOrdersRoute
   '/admin_/pharmacy-applications': typeof AdminPharmacyApplicationsRoute
+  '/admin_/seller-approvals': typeof AdminSellerApprovalsRoute
   '/apply/rider': typeof ApplyRiderRoute
   '/apply/seller': typeof ApplySellerRoute
   '/health/appointments': typeof HealthAppointmentsRoute
@@ -555,6 +564,7 @@ export interface FileRouteTypes {
     | '/admin/$section'
     | '/admin/orders'
     | '/admin/pharmacy-applications'
+    | '/admin/seller-approvals'
     | '/apply/rider'
     | '/apply/seller'
     | '/health/appointments'
@@ -613,6 +623,7 @@ export interface FileRouteTypes {
     | '/admin/$section'
     | '/admin/orders'
     | '/admin/pharmacy-applications'
+    | '/admin/seller-approvals'
     | '/apply/rider'
     | '/apply/seller'
     | '/health/appointments'
@@ -671,6 +682,7 @@ export interface FileRouteTypes {
     | '/admin_/$section'
     | '/admin_/orders'
     | '/admin_/pharmacy-applications'
+    | '/admin_/seller-approvals'
     | '/apply/rider'
     | '/apply/seller'
     | '/health/appointments'
@@ -730,6 +742,7 @@ export interface RootRouteChildren {
   AdminSectionRoute: typeof AdminSectionRoute
   AdminOrdersRoute: typeof AdminOrdersRoute
   AdminPharmacyApplicationsRoute: typeof AdminPharmacyApplicationsRoute
+  AdminSellerApprovalsRoute: typeof AdminSellerApprovalsRoute
   ApplyRiderRoute: typeof ApplyRiderRoute
   ApplySellerRoute: typeof ApplySellerRoute
   HealthAppointmentsRoute: typeof HealthAppointmentsRoute
@@ -944,6 +957,13 @@ declare module '@tanstack/react-router' {
       path: '/admin/pharmacy-applications'
       fullPath: '/admin/pharmacy-applications'
       preLoaderRoute: typeof AdminPharmacyApplicationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin_/seller-approvals': {
+      id: '/admin_/seller-approvals'
+      path: '/admin/seller-approvals'
+      fullPath: '/admin/seller-approvals'
+      preLoaderRoute: typeof AdminSellerApprovalsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/apply/rider': {
@@ -1187,6 +1207,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminSectionRoute: AdminSectionRoute,
   AdminOrdersRoute: AdminOrdersRoute,
   AdminPharmacyApplicationsRoute: AdminPharmacyApplicationsRoute,
+  AdminSellerApprovalsRoute: AdminSellerApprovalsRoute,
   ApplyRiderRoute: ApplyRiderRoute,
   ApplySellerRoute: ApplySellerRoute,
   HealthAppointmentsRoute: HealthAppointmentsRoute,
