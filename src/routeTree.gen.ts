@@ -33,8 +33,12 @@ import { Route as WalletRouteImport } from './routes/wallet'
 import { Route as Char91DotmcpChar93ListToolsRouteImport } from './routes/[.mcp]/list-tools'
 import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
 import { Route as AdminSectionRouteImport } from './routes/admin_.$section'
+import { Route as AdminDeliveriesRouteImport } from './routes/admin_.deliveries'
 import { Route as AdminOrdersRouteImport } from './routes/admin_.orders'
+import { Route as AdminPaymentsRouteImport } from './routes/admin_.payments'
+import { Route as AdminPayoutsRouteImport } from './routes/admin_.payouts'
 import { Route as AdminPharmacyApplicationsRouteImport } from './routes/admin_.pharmacy-applications'
+import { Route as AdminRefundsRouteImport } from './routes/admin_.refunds'
 import { Route as AdminRiderApprovalsRouteImport } from './routes/admin_.rider-approvals'
 import { Route as AdminSellerApprovalsRouteImport } from './routes/admin_.seller-approvals'
 import { Route as ApplyRiderRouteImport } from './routes/apply.rider'
@@ -190,9 +194,24 @@ const AdminSectionRoute = AdminSectionRouteImport.update({
   path: '/admin/$section',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminDeliveriesRoute = AdminDeliveriesRouteImport.update({
+  id: '/admin_/deliveries',
+  path: '/admin/deliveries',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminOrdersRoute = AdminOrdersRouteImport.update({
   id: '/admin_/orders',
   path: '/admin/orders',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminPaymentsRoute = AdminPaymentsRouteImport.update({
+  id: '/admin_/payments',
+  path: '/admin/payments',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminPayoutsRoute = AdminPayoutsRouteImport.update({
+  id: '/admin_/payouts',
+  path: '/admin/payouts',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminPharmacyApplicationsRoute =
@@ -201,6 +220,11 @@ const AdminPharmacyApplicationsRoute =
     path: '/admin/pharmacy-applications',
     getParentRoute: () => rootRouteImport,
   } as any)
+const AdminRefundsRoute = AdminRefundsRouteImport.update({
+  id: '/admin_/refunds',
+  path: '/admin/refunds',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminRiderApprovalsRoute = AdminRiderApprovalsRouteImport.update({
   id: '/admin_/rider-approvals',
   path: '/admin/rider-approvals',
@@ -388,8 +412,12 @@ export interface FileRoutesByFullPath {
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/admin/$section': typeof AdminSectionRoute
+  '/admin/deliveries': typeof AdminDeliveriesRoute
   '/admin/orders': typeof AdminOrdersRoute
+  '/admin/payments': typeof AdminPaymentsRoute
+  '/admin/payouts': typeof AdminPayoutsRoute
   '/admin/pharmacy-applications': typeof AdminPharmacyApplicationsRoute
+  '/admin/refunds': typeof AdminRefundsRoute
   '/admin/rider-approvals': typeof AdminRiderApprovalsRoute
   '/admin/seller-approvals': typeof AdminSellerApprovalsRoute
   '/apply/rider': typeof ApplyRiderRoute
@@ -448,8 +476,12 @@ export interface FileRoutesByTo {
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/admin/$section': typeof AdminSectionRoute
+  '/admin/deliveries': typeof AdminDeliveriesRoute
   '/admin/orders': typeof AdminOrdersRoute
+  '/admin/payments': typeof AdminPaymentsRoute
+  '/admin/payouts': typeof AdminPayoutsRoute
   '/admin/pharmacy-applications': typeof AdminPharmacyApplicationsRoute
+  '/admin/refunds': typeof AdminRefundsRoute
   '/admin/rider-approvals': typeof AdminRiderApprovalsRoute
   '/admin/seller-approvals': typeof AdminSellerApprovalsRoute
   '/apply/rider': typeof ApplyRiderRoute
@@ -509,8 +541,12 @@ export interface FileRoutesById {
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/admin_/$section': typeof AdminSectionRoute
+  '/admin_/deliveries': typeof AdminDeliveriesRoute
   '/admin_/orders': typeof AdminOrdersRoute
+  '/admin_/payments': typeof AdminPaymentsRoute
+  '/admin_/payouts': typeof AdminPayoutsRoute
   '/admin_/pharmacy-applications': typeof AdminPharmacyApplicationsRoute
+  '/admin_/refunds': typeof AdminRefundsRoute
   '/admin_/rider-approvals': typeof AdminRiderApprovalsRoute
   '/admin_/seller-approvals': typeof AdminSellerApprovalsRoute
   '/apply/rider': typeof ApplyRiderRoute
@@ -571,8 +607,12 @@ export interface FileRouteTypes {
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
     | '/admin/$section'
+    | '/admin/deliveries'
     | '/admin/orders'
+    | '/admin/payments'
+    | '/admin/payouts'
     | '/admin/pharmacy-applications'
+    | '/admin/refunds'
     | '/admin/rider-approvals'
     | '/admin/seller-approvals'
     | '/apply/rider'
@@ -631,8 +671,12 @@ export interface FileRouteTypes {
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
     | '/admin/$section'
+    | '/admin/deliveries'
     | '/admin/orders'
+    | '/admin/payments'
+    | '/admin/payouts'
     | '/admin/pharmacy-applications'
+    | '/admin/refunds'
     | '/admin/rider-approvals'
     | '/admin/seller-approvals'
     | '/apply/rider'
@@ -691,8 +735,12 @@ export interface FileRouteTypes {
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
     | '/admin_/$section'
+    | '/admin_/deliveries'
     | '/admin_/orders'
+    | '/admin_/payments'
+    | '/admin_/payouts'
     | '/admin_/pharmacy-applications'
+    | '/admin_/refunds'
     | '/admin_/rider-approvals'
     | '/admin_/seller-approvals'
     | '/apply/rider'
@@ -752,8 +800,12 @@ export interface RootRouteChildren {
   Char91DotmcpChar93ListToolsRoute: typeof Char91DotmcpChar93ListToolsRoute
   Char91DotwellKnownChar93OauthProtectedResourceRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   AdminSectionRoute: typeof AdminSectionRoute
+  AdminDeliveriesRoute: typeof AdminDeliveriesRoute
   AdminOrdersRoute: typeof AdminOrdersRoute
+  AdminPaymentsRoute: typeof AdminPaymentsRoute
+  AdminPayoutsRoute: typeof AdminPayoutsRoute
   AdminPharmacyApplicationsRoute: typeof AdminPharmacyApplicationsRoute
+  AdminRefundsRoute: typeof AdminRefundsRoute
   AdminRiderApprovalsRoute: typeof AdminRiderApprovalsRoute
   AdminSellerApprovalsRoute: typeof AdminSellerApprovalsRoute
   ApplyRiderRoute: typeof ApplyRiderRoute
@@ -958,6 +1010,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminSectionRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin_/deliveries': {
+      id: '/admin_/deliveries'
+      path: '/admin/deliveries'
+      fullPath: '/admin/deliveries'
+      preLoaderRoute: typeof AdminDeliveriesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin_/orders': {
       id: '/admin_/orders'
       path: '/admin/orders'
@@ -965,11 +1024,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminOrdersRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin_/payments': {
+      id: '/admin_/payments'
+      path: '/admin/payments'
+      fullPath: '/admin/payments'
+      preLoaderRoute: typeof AdminPaymentsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin_/payouts': {
+      id: '/admin_/payouts'
+      path: '/admin/payouts'
+      fullPath: '/admin/payouts'
+      preLoaderRoute: typeof AdminPayoutsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin_/pharmacy-applications': {
       id: '/admin_/pharmacy-applications'
       path: '/admin/pharmacy-applications'
       fullPath: '/admin/pharmacy-applications'
       preLoaderRoute: typeof AdminPharmacyApplicationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin_/refunds': {
+      id: '/admin_/refunds'
+      path: '/admin/refunds'
+      fullPath: '/admin/refunds'
+      preLoaderRoute: typeof AdminRefundsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin_/rider-approvals': {
@@ -1225,8 +1305,12 @@ const rootRouteChildren: RootRouteChildren = {
   Char91DotwellKnownChar93OauthProtectedResourceRoute:
     Char91DotwellKnownChar93OauthProtectedResourceRoute,
   AdminSectionRoute: AdminSectionRoute,
+  AdminDeliveriesRoute: AdminDeliveriesRoute,
   AdminOrdersRoute: AdminOrdersRoute,
+  AdminPaymentsRoute: AdminPaymentsRoute,
+  AdminPayoutsRoute: AdminPayoutsRoute,
   AdminPharmacyApplicationsRoute: AdminPharmacyApplicationsRoute,
+  AdminRefundsRoute: AdminRefundsRoute,
   AdminRiderApprovalsRoute: AdminRiderApprovalsRoute,
   AdminSellerApprovalsRoute: AdminSellerApprovalsRoute,
   ApplyRiderRoute: ApplyRiderRoute,
