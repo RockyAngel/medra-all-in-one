@@ -44,6 +44,7 @@ import { Route as AdminRiderApprovalsRouteImport } from './routes/admin_.rider-a
 import { Route as AdminSellerApprovalsRouteImport } from './routes/admin_.seller-approvals'
 import { Route as AdminSosRouteImport } from './routes/admin_.sos'
 import { Route as AdminSupportRouteImport } from './routes/admin_.support'
+import { Route as AdminTimeclockRouteImport } from './routes/admin_.timeclock'
 import { Route as ApplyRiderRouteImport } from './routes/apply.rider'
 import { Route as ApplySellerRouteImport } from './routes/apply.seller'
 import { Route as HealthAppointmentsRouteImport } from './routes/health.appointments'
@@ -258,6 +259,11 @@ const AdminSosRoute = AdminSosRouteImport.update({
 const AdminSupportRoute = AdminSupportRouteImport.update({
   id: '/admin_/support',
   path: '/admin/support',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminTimeclockRoute = AdminTimeclockRouteImport.update({
+  id: '/admin_/timeclock',
+  path: '/admin/timeclock',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApplyRiderRoute = ApplyRiderRouteImport.update({
@@ -483,6 +489,7 @@ export interface FileRoutesByFullPath {
   '/admin/seller-approvals': typeof AdminSellerApprovalsRoute
   '/admin/sos': typeof AdminSosRoute
   '/admin/support': typeof AdminSupportRoute
+  '/admin/timeclock': typeof AdminTimeclockRoute
   '/apply/rider': typeof ApplyRiderRoute
   '/apply/seller': typeof ApplySellerRoute
   '/health/appointments': typeof HealthAppointmentsRoute
@@ -557,6 +564,7 @@ export interface FileRoutesByTo {
   '/admin/seller-approvals': typeof AdminSellerApprovalsRoute
   '/admin/sos': typeof AdminSosRoute
   '/admin/support': typeof AdminSupportRoute
+  '/admin/timeclock': typeof AdminTimeclockRoute
   '/apply/rider': typeof ApplyRiderRoute
   '/apply/seller': typeof ApplySellerRoute
   '/health/appointments': typeof HealthAppointmentsRoute
@@ -632,6 +640,7 @@ export interface FileRoutesById {
   '/admin_/seller-approvals': typeof AdminSellerApprovalsRoute
   '/admin_/sos': typeof AdminSosRoute
   '/admin_/support': typeof AdminSupportRoute
+  '/admin_/timeclock': typeof AdminTimeclockRoute
   '/apply/rider': typeof ApplyRiderRoute
   '/apply/seller': typeof ApplySellerRoute
   '/health/appointments': typeof HealthAppointmentsRoute
@@ -708,6 +717,7 @@ export interface FileRouteTypes {
     | '/admin/seller-approvals'
     | '/admin/sos'
     | '/admin/support'
+    | '/admin/timeclock'
     | '/apply/rider'
     | '/apply/seller'
     | '/health/appointments'
@@ -782,6 +792,7 @@ export interface FileRouteTypes {
     | '/admin/seller-approvals'
     | '/admin/sos'
     | '/admin/support'
+    | '/admin/timeclock'
     | '/apply/rider'
     | '/apply/seller'
     | '/health/appointments'
@@ -856,6 +867,7 @@ export interface FileRouteTypes {
     | '/admin_/seller-approvals'
     | '/admin_/sos'
     | '/admin_/support'
+    | '/admin_/timeclock'
     | '/apply/rider'
     | '/apply/seller'
     | '/health/appointments'
@@ -931,6 +943,7 @@ export interface RootRouteChildren {
   AdminSellerApprovalsRoute: typeof AdminSellerApprovalsRoute
   AdminSosRoute: typeof AdminSosRoute
   AdminSupportRoute: typeof AdminSupportRoute
+  AdminTimeclockRoute: typeof AdminTimeclockRoute
   ApplyRiderRoute: typeof ApplyRiderRoute
   ApplySellerRoute: typeof ApplySellerRoute
   HealthAppointmentsRoute: typeof HealthAppointmentsRoute
@@ -1215,6 +1228,13 @@ declare module '@tanstack/react-router' {
       path: '/admin/support'
       fullPath: '/admin/support'
       preLoaderRoute: typeof AdminSupportRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin_/timeclock': {
+      id: '/admin_/timeclock'
+      path: '/admin/timeclock'
+      fullPath: '/admin/timeclock'
+      preLoaderRoute: typeof AdminTimeclockRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/apply/rider': {
@@ -1516,6 +1536,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminSellerApprovalsRoute: AdminSellerApprovalsRoute,
   AdminSosRoute: AdminSosRoute,
   AdminSupportRoute: AdminSupportRoute,
+  AdminTimeclockRoute: AdminTimeclockRoute,
   ApplyRiderRoute: ApplyRiderRoute,
   ApplySellerRoute: ApplySellerRoute,
   HealthAppointmentsRoute: HealthAppointmentsRoute,
