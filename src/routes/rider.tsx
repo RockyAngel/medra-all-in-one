@@ -1,7 +1,12 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { Bike, Clock, MapPin, Navigation, Package, Star, Wallet } from "lucide-react";
-import { DashboardShell, Panel, StatCard } from "@/components/medra/DashboardShell";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { Bike, Package, Wallet } from "lucide-react";
+import { Panel, StatCard } from "@/components/medra/DashboardShell";
+import { DataTable, Pill, RiderPage } from "@/components/medra/RoleDashboard";
+import { EmptyState, QueryBoundary } from "@/components/medra/States";
 import { Button } from "@/components/ui/button";
+import { statusLabel, useMyBalance } from "@/lib/dashboard";
+import { useRiderDeliveries, useRiderOverview, useRiderProfile } from "@/lib/ops";
+import { formatDate, formatNaira } from "@/lib/medra";
 
 export const Route = createFileRoute("/rider")({
   head: () => ({
@@ -22,200 +27,128 @@ export const Route = createFileRoute("/rider")({
   component: RiderDashboard,
 });
 
-const groups = [
-  {
-    items: [
-      { label: "Dashboard", to: "/rider" },
-      { label: "Delivery Requests", to: "/rider/available" },
-      { label: "Active Delivery", to: "/rider/active" },
-      { label: "History", to: "/rider/history" },
-      { label: "Earnings", to: "/rider/earnings" },
-      { label: "Payouts", to: "/rider/payouts" },
-    ],
-  },
-  {
-    title: "Account",
-    items: [{ label: "Performance", to: "/rider/performance" }, { label: "Support", to: "/support" }, { label: "Notifications", to: "/notifications" }],
-  },
-];
-
-const requests = [
-  { id: "MD-90211", from: "Dee Pharmacy, Ikeja", to: "12 Allen Ave", pay: "₦1,850", km: "3.2 km" },
-  { id: "MD-90214", from: "FreshMart Grocery", to: "7 Opebi Road", pay: "₦2,400", km: "5.1 km" },
-  { id: "MD-90219", from: "Spice Kitchen", to: "44 Awolowo Way", pay: "₦1,200", km: "1.9 km" },
-];
-
-const schedule = [
-  { time: "08:00 – 12:00", label: "Morning shift", state: "Completed" },
-  { time: "12:00 – 16:00", label: "Afternoon shift", state: "Active" },
-  { time: "16:00 – 21:00", label: "Evening shift", state: "Upcoming" },
-];
-
 function RiderDashboard() {
+  const profile = useRiderProfile();
+  const overview = useRiderOverview();
+  const active = useRiderDeliveries("active");
+  const balance = useMyBalance();
+  const stats = overview.data;
+
+  const statusText = profile.isLoading
+    ? "Loading your rider status…"
+    : !profile.data
+      ? "Rider profile not set up yet"
+      : profile.data.is_suspended
+        ? "Account suspended · contact support"
+        : profile.data.is_online
+          ? `You're online${profile.data.service_city ? ` · ${profile.data.service_city}` : ""}`
+          : "You're offline";
+
   return (
-    <DashboardShell
-      dark
-      groups={groups}
-      title="Good afternoon, Tunde"
-      subtitle="You're online · Ikeja zone"
+    <RiderPage
+      title="Rider dashboard"
+      subtitle={statusText}
       topRight={
-        <>
-          <span className="flex items-center gap-2 rounded-full bg-leaf/15 px-3 py-1.5 text-xs font-bold text-leaf">
-            <span className="size-2 rounded-full bg-leaf" /> Online
-          </span>
-          <Button size="sm" variant="outline" className="rounded-full">
-            Go offline
-          </Button>
-        </>
+        <Button asChild size="sm" className="rounded-full">
+          <Link to="/rider/$section" params={{ section: "performance" }}>Manage availability</Link>
+        </Button>
       }
     >
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         <StatCard
-          label="Today's earnings"
-          value="₦18,750"
-          delta="+12.4% vs yesterday"
+          label="Earned today"
+          value={formatNaira(stats?.todayEarnings ?? 0)}
           tone="leaf"
           icon={<Wallet className="size-4" />}
         />
         <StatCard
-          label="Deliveries completed"
-          value="14"
-          delta="2 in progress"
-          deltaTone="neutral"
+          label="Active deliveries"
+          value={String(stats?.active ?? 0)}
           tone="sky"
-          icon={<Package className="size-4" />}
+          icon={<Bike className="size-4" />}
         />
-        <StatCard
-          label="Online time"
-          value="6h 20m"
-          delta="Target 8h"
-          deltaTone="neutral"
-          tone="amber"
-          icon={<Clock className="size-4" />}
-        />
-        <StatCard
-          label="Rider rating"
-          value="4.9"
-          delta="Top 5% in Lagos"
-          tone="grape"
-          icon={<Star className="size-4" />}
-        />
+        <StatCard label="Completed" value={String(stats?.completed ?? 0)} tone="grape" />
+        <StatCard label="Lifetime earnings" value={formatNaira(stats?.lifetime ?? 0)} tone="amber" />
       </div>
 
       <div className="grid gap-4 xl:grid-cols-3">
-        <Panel
-          title="Current delivery"
-          className="xl:col-span-2"
-          action={
-            <span className="rounded-full bg-sky/15 px-3 py-1 text-xs font-bold text-sky">
-              In transit
-            </span>
-          }
-        >
-          <div className="relative h-56 overflow-hidden rounded-xl bg-gradient-to-br from-muted to-accent">
-            <div className="absolute inset-0 opacity-60 [background-image:linear-gradient(var(--border)_1px,transparent_1px),linear-gradient(90deg,var(--border)_1px,transparent_1px)] [background-size:32px_32px]" />
-            <span className="absolute left-10 top-10 grid size-9 place-items-center rounded-full bg-leaf text-leaf-foreground">
-              <MapPin className="size-4" />
-            </span>
-            <span className="absolute bottom-12 right-14 grid size-9 place-items-center rounded-full bg-grape text-grape-foreground">
-              <Navigation className="size-4" />
-            </span>
-          </div>
-          <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
-            <div>
-              <p className="text-sm font-bold">Order #MD-90188 · FreshMart → 15 Toyin St</p>
-              <p className="text-xs text-muted-foreground">
-                2.4 km away · ETA 9 mins · Customer: Chidi A.
+        <Panel title="Active deliveries" className="xl:col-span-2">
+          <QueryBoundary
+            isLoading={active.isLoading}
+            error={active.error}
+            isEmpty={(active.data ?? []).length === 0}
+            onRetry={() => void active.refetch()}
+            empty={
+              <EmptyState
+                icon={<Package className="size-5" />}
+                title="No active delivery"
+                body="Go online and accept an offer from the delivery requests queue to start earning."
+                action={
+                  <Button asChild size="sm" className="rounded-full">
+                    <Link to="/rider/$section" params={{ section: "available" }}>See delivery requests</Link>
+                  </Button>
+                }
+              />
+            }
+          >
+            <DataTable columns={["Order", "Pickup", "Status", "Your fee"]}>
+              {(active.data ?? []).map((row) => (
+                <tr key={row.id}>
+                  <td className="py-3 pr-4 font-semibold">
+                    {row.orders?.order_number ?? row.order_id.slice(0, 8)}
+                  </td>
+                  <td className="py-3 pr-4 text-muted-foreground">{row.stores?.name ?? "—"}</td>
+                  <td className="py-3 pr-4">
+                    <Pill>{statusLabel(row.status)}</Pill>
+                  </td>
+                  <td className="py-3 pr-4 font-semibold">{formatNaira(row.rider_amount)}</td>
+                </tr>
+              ))}
+            </DataTable>
+            <div className="mt-4">
+              <Button asChild size="sm" variant="outline" className="rounded-full">
+                <Link to="/rider/$section" params={{ section: "active" }}>Open active delivery</Link>
+              </Button>
+            </div>
+          </QueryBoundary>
+        </Panel>
+
+        <Panel title="Wallet">
+          <QueryBoundary
+            isLoading={balance.isLoading}
+            error={balance.error}
+            onRetry={() => void balance.refetch()}
+          >
+            <dl className="space-y-3 text-sm">
+              <Row label="Available" value={formatNaira(balance.data?.available ?? 0)} />
+              <Row label="Pending" value={formatNaira(balance.data?.pending ?? 0)} />
+              <Row label="Requested" value={formatNaira(balance.data?.requested ?? 0)} />
+            </dl>
+            <div className="mt-4 flex flex-wrap gap-2">
+              <Button asChild size="sm" className="rounded-full">
+                <Link to="/rider/$section" params={{ section: "payouts" }}>Withdraw</Link>
+              </Button>
+              <Button asChild size="sm" variant="outline" className="rounded-full">
+                <Link to="/rider/$section" params={{ section: "history" }}>Delivery history</Link>
+              </Button>
+            </div>
+            {profile.data?.location_updated_at && (
+              <p className="mt-4 text-xs text-muted-foreground">
+                Location last shared {formatDate(profile.data.location_updated_at)}
               </p>
-            </div>
-            <div className="flex gap-2">
-              <Button size="sm" variant="outline" className="rounded-full">
-                Call customer
-              </Button>
-              <Button size="sm" className="rounded-full bg-leaf text-leaf-foreground hover:bg-leaf/90">
-                Mark delivered
-              </Button>
-            </div>
-          </div>
-        </Panel>
-
-        <Panel title="New requests" action={<span className="text-xs font-bold text-amber">4 waiting</span>}>
-          <ul className="space-y-3">
-            {requests.map((r) => (
-              <li key={r.id} className="rounded-xl border border-border p-3">
-                <div className="flex items-center justify-between">
-                  <p className="text-sm font-bold">{r.pay}</p>
-                  <span className="text-xs text-muted-foreground">{r.km}</span>
-                </div>
-                <p className="mt-1 text-xs text-muted-foreground">
-                  {r.from} → {r.to}
-                </p>
-                <div className="mt-3 flex gap-2">
-                  <Button size="sm" className="h-8 flex-1 rounded-lg text-xs">
-                    Accept
-                  </Button>
-                  <Button size="sm" variant="outline" className="h-8 flex-1 rounded-lg text-xs">
-                    Decline
-                  </Button>
-                </div>
-              </li>
-            ))}
-          </ul>
+            )}
+          </QueryBoundary>
         </Panel>
       </div>
+    </RiderPage>
+  );
+}
 
-      <div className="grid gap-4 xl:grid-cols-3">
-        <Panel title="Today's schedule" className="xl:col-span-2">
-          <ul className="divide-y divide-border">
-            {schedule.map((s) => (
-              <li key={s.time} className="flex items-center justify-between py-3">
-                <div>
-                  <p className="text-sm font-semibold">{s.label}</p>
-                  <p className="text-xs text-muted-foreground">{s.time}</p>
-                </div>
-                <span
-                  className={
-                    s.state === "Active"
-                      ? "rounded-full bg-leaf/15 px-3 py-1 text-xs font-bold text-leaf"
-                      : s.state === "Completed"
-                        ? "rounded-full bg-muted px-3 py-1 text-xs font-bold text-muted-foreground"
-                        : "rounded-full bg-sky/15 px-3 py-1 text-xs font-bold text-sky"
-                  }
-                >
-                  {s.state}
-                </span>
-              </li>
-            ))}
-          </ul>
-        </Panel>
-        <Panel title="Delivery summary">
-          <div className="space-y-3">
-            {[
-              { label: "Completed", value: 142, tone: "bg-leaf", pct: "92%" },
-              { label: "Cancelled", value: 7, tone: "bg-destructive", pct: "5%" },
-              { label: "Returned", value: 4, tone: "bg-amber", pct: "3%" },
-            ].map((row) => (
-              <div key={row.label}>
-                <div className="flex items-center justify-between text-sm">
-                  <span className="font-semibold">{row.label}</span>
-                  <span className="text-muted-foreground">
-                    {row.value} · {row.pct}
-                  </span>
-                </div>
-                <div className="mt-1 h-2 overflow-hidden rounded-full bg-muted">
-                  <div className={`h-full ${row.tone}`} style={{ width: row.pct }} />
-                </div>
-              </div>
-            ))}
-          </div>
-          <div className="mt-5 flex items-center gap-3 rounded-xl bg-muted p-3">
-            <Bike className="size-5 text-sky" />
-            <p className="text-xs text-muted-foreground">
-              Weekly bonus unlocked at 160 deliveries — 18 to go.
-            </p>
-          </div>
-        </Panel>
-      </div>
-    </DashboardShell>
+function Row({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="flex items-center justify-between gap-3">
+      <dt className="text-muted-foreground">{label}</dt>
+      <dd className="font-bold">{value}</dd>
+    </div>
   );
 }
