@@ -88,8 +88,8 @@ function RiderActivePage() {
       );
       const { error } = await supabase.rpc("rider_share_location", {
         _delivery_id: deliveryId,
-        _latitude: position.coords.latitude,
-        _longitude: position.coords.longitude,
+        _lat: position.coords.latitude,
+        _lng: position.coords.longitude,
         _accuracy: position.coords.accuracy,
       });
       if (error) throw error;
