@@ -59,8 +59,8 @@ function SellerDashboard() {
       subtitle="Verified vendor · Ikeja, Lagos"
       topRight={
         <>
-          <Button asChild size="sm" variant="outline" className="rounded-full"><Link to="/seller/store">View store</Link></Button>
-          <Button asChild size="sm" className="rounded-full"><Link to="/seller/products">Add product</Link></Button>
+          <Button asChild size="sm" variant="outline" className="rounded-full"><Link to="/seller/$section" params={{ section: "store" }}>View store</Link></Button>
+          <Button asChild size="sm" className="rounded-full"><Link to="/seller/$section" params={{ section: "products" }}>Add product</Link></Button>
         </>
       }
     >
