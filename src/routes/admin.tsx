@@ -158,13 +158,12 @@ function AdminDashboard() {
   );
 }
 
-function QueueRow({ label, count, to }: { label: string; count: number; to: string }) {
+function QueueRow({ count, children }: { count: number; children: ReactNode }) {
   return (
     <li className="flex items-center justify-between gap-3 border-b border-border pb-2 last:border-0">
-      <Link to={to} className="font-semibold hover:text-primary">
-        {label}
-      </Link>
+      {children}
       <Pill tone={count > 0 ? "bg-amber/20 text-amber" : undefined}>{count}</Pill>
     </li>
+
   );
 }
