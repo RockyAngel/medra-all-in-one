@@ -48,6 +48,7 @@ import { Route as SellerSectionRouteImport } from './routes/seller_.$section'
 import { Route as SellerEarningsRouteImport } from './routes/seller_.earnings'
 import { Route as SellerInventoryRouteImport } from './routes/seller_.inventory'
 import { Route as SellerOrdersRouteImport } from './routes/seller_.orders'
+import { Route as SellerPayoutsRouteImport } from './routes/seller_.payouts'
 import { Route as SellerPrescriptionsRouteImport } from './routes/seller_.prescriptions'
 import { Route as SellerProductsRouteImport } from './routes/seller_.products'
 import { Route as SellerTransactionsRouteImport } from './routes/seller_.transactions'
@@ -254,6 +255,11 @@ const SellerOrdersRoute = SellerOrdersRouteImport.update({
   path: '/seller/orders',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SellerPayoutsRoute = SellerPayoutsRouteImport.update({
+  id: '/seller_/payouts',
+  path: '/seller/payouts',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SellerPrescriptionsRoute = SellerPrescriptionsRouteImport.update({
   id: '/seller_/prescriptions',
   path: '/seller/prescriptions',
@@ -330,6 +336,7 @@ export interface FileRoutesByFullPath {
   '/seller/earnings': typeof SellerEarningsRoute
   '/seller/inventory': typeof SellerInventoryRoute
   '/seller/orders': typeof SellerOrdersRoute
+  '/seller/payouts': typeof SellerPayoutsRoute
   '/seller/prescriptions': typeof SellerPrescriptionsRoute
   '/seller/products': typeof SellerProductsRoute
   '/seller/transactions': typeof SellerTransactionsRoute
@@ -378,6 +385,7 @@ export interface FileRoutesByTo {
   '/seller/earnings': typeof SellerEarningsRoute
   '/seller/inventory': typeof SellerInventoryRoute
   '/seller/orders': typeof SellerOrdersRoute
+  '/seller/payouts': typeof SellerPayoutsRoute
   '/seller/prescriptions': typeof SellerPrescriptionsRoute
   '/seller/products': typeof SellerProductsRoute
   '/seller/transactions': typeof SellerTransactionsRoute
@@ -427,6 +435,7 @@ export interface FileRoutesById {
   '/seller_/earnings': typeof SellerEarningsRoute
   '/seller_/inventory': typeof SellerInventoryRoute
   '/seller_/orders': typeof SellerOrdersRoute
+  '/seller_/payouts': typeof SellerPayoutsRoute
   '/seller_/prescriptions': typeof SellerPrescriptionsRoute
   '/seller_/products': typeof SellerProductsRoute
   '/seller_/transactions': typeof SellerTransactionsRoute
@@ -477,6 +486,7 @@ export interface FileRouteTypes {
     | '/seller/earnings'
     | '/seller/inventory'
     | '/seller/orders'
+    | '/seller/payouts'
     | '/seller/prescriptions'
     | '/seller/products'
     | '/seller/transactions'
@@ -525,6 +535,7 @@ export interface FileRouteTypes {
     | '/seller/earnings'
     | '/seller/inventory'
     | '/seller/orders'
+    | '/seller/payouts'
     | '/seller/prescriptions'
     | '/seller/products'
     | '/seller/transactions'
@@ -573,6 +584,7 @@ export interface FileRouteTypes {
     | '/seller_/earnings'
     | '/seller_/inventory'
     | '/seller_/orders'
+    | '/seller_/payouts'
     | '/seller_/prescriptions'
     | '/seller_/products'
     | '/seller_/transactions'
@@ -622,6 +634,7 @@ export interface RootRouteChildren {
   SellerEarningsRoute: typeof SellerEarningsRoute
   SellerInventoryRoute: typeof SellerInventoryRoute
   SellerOrdersRoute: typeof SellerOrdersRoute
+  SellerPayoutsRoute: typeof SellerPayoutsRoute
   SellerPrescriptionsRoute: typeof SellerPrescriptionsRoute
   SellerProductsRoute: typeof SellerProductsRoute
   SellerTransactionsRoute: typeof SellerTransactionsRoute
@@ -907,6 +920,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SellerOrdersRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/seller_/payouts': {
+      id: '/seller_/payouts'
+      path: '/seller/payouts'
+      fullPath: '/seller/payouts'
+      preLoaderRoute: typeof SellerPayoutsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/seller_/prescriptions': {
       id: '/seller_/prescriptions'
       path: '/seller/prescriptions'
@@ -999,6 +1019,7 @@ const rootRouteChildren: RootRouteChildren = {
   SellerEarningsRoute: SellerEarningsRoute,
   SellerInventoryRoute: SellerInventoryRoute,
   SellerOrdersRoute: SellerOrdersRoute,
+  SellerPayoutsRoute: SellerPayoutsRoute,
   SellerPrescriptionsRoute: SellerPrescriptionsRoute,
   SellerProductsRoute: SellerProductsRoute,
   SellerTransactionsRoute: SellerTransactionsRoute,
