@@ -21,6 +21,8 @@ import {
   useMyPrescriptions,
   usePharmacies,
   usePrescriptionEvents,
+  useHealthRealtime,
+  downloadReviewHistory,
   uploadPrescriptionFile,
 } from "@/lib/health";
 
@@ -51,6 +53,7 @@ function PrescriptionsPage() {
   const pharmacies = usePharmacies();
   const prescriptions = useMyPrescriptions();
   const cartStatus = useCartPrescriptionStatus();
+  useHealthRealtime();
   const [openEvents, setOpenEvents] = useState<string | null>(null);
   const [file, setFile] = useState<File | null>(null);
   const [form, setForm] = useState({
@@ -374,6 +377,19 @@ function EventTrail({ prescriptionId }: { prescriptionId: string }) {
     return <p className="mt-3 text-xs text-muted-foreground">No review activity yet.</p>;
   }
   return (
+    <>
+      <button
+        type="button"
+        onClick={() =>
+          downloadReviewHistory(`prescription-${prescriptionId.slice(0, 8)}-history`, events.data ?? [], {
+            Prescription: prescriptionId,
+            Exported: new Date().toISOString(),
+          })
+        }
+        className="mt-3 text-xs font-bold text-primary hover:underline"
+      >
+        Download review history (CSV)
+      </button>
     <ol className="mt-3 space-y-2 border-l border-border pl-4">
       {(events.data ?? []).map((event) => (
         <li key={event.id} className="text-xs">
@@ -386,5 +402,6 @@ function EventTrail({ prescriptionId }: { prescriptionId: string }) {
         </li>
       ))}
     </ol>
+    </>
   );
 }
