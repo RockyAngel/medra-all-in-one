@@ -33,6 +33,7 @@ import { Route as WalletRouteImport } from './routes/wallet'
 import { Route as Char91DotmcpChar93ListToolsRouteImport } from './routes/[.mcp]/list-tools'
 import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
 import { Route as AdminSectionRouteImport } from './routes/admin_.$section'
+import { Route as AdminOrdersRouteImport } from './routes/admin_.orders'
 import { Route as AdminPharmacyApplicationsRouteImport } from './routes/admin_.pharmacy-applications'
 import { Route as ApplyRiderRouteImport } from './routes/apply.rider'
 import { Route as ApplySellerRouteImport } from './routes/apply.seller'
@@ -185,6 +186,11 @@ const Char91DotwellKnownChar93OauthProtectedResourceRoute =
 const AdminSectionRoute = AdminSectionRouteImport.update({
   id: '/admin_/$section',
   path: '/admin/$section',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminOrdersRoute = AdminOrdersRouteImport.update({
+  id: '/admin_/orders',
+  path: '/admin/orders',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminPharmacyApplicationsRoute =
@@ -370,6 +376,7 @@ export interface FileRoutesByFullPath {
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/admin/$section': typeof AdminSectionRoute
+  '/admin/orders': typeof AdminOrdersRoute
   '/admin/pharmacy-applications': typeof AdminPharmacyApplicationsRoute
   '/apply/rider': typeof ApplyRiderRoute
   '/apply/seller': typeof ApplySellerRoute
@@ -427,6 +434,7 @@ export interface FileRoutesByTo {
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/admin/$section': typeof AdminSectionRoute
+  '/admin/orders': typeof AdminOrdersRoute
   '/admin/pharmacy-applications': typeof AdminPharmacyApplicationsRoute
   '/apply/rider': typeof ApplyRiderRoute
   '/apply/seller': typeof ApplySellerRoute
@@ -485,6 +493,7 @@ export interface FileRoutesById {
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/admin_/$section': typeof AdminSectionRoute
+  '/admin_/orders': typeof AdminOrdersRoute
   '/admin_/pharmacy-applications': typeof AdminPharmacyApplicationsRoute
   '/apply/rider': typeof ApplyRiderRoute
   '/apply/seller': typeof ApplySellerRoute
@@ -544,6 +553,7 @@ export interface FileRouteTypes {
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
     | '/admin/$section'
+    | '/admin/orders'
     | '/admin/pharmacy-applications'
     | '/apply/rider'
     | '/apply/seller'
@@ -601,6 +611,7 @@ export interface FileRouteTypes {
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
     | '/admin/$section'
+    | '/admin/orders'
     | '/admin/pharmacy-applications'
     | '/apply/rider'
     | '/apply/seller'
@@ -658,6 +669,7 @@ export interface FileRouteTypes {
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
     | '/admin_/$section'
+    | '/admin_/orders'
     | '/admin_/pharmacy-applications'
     | '/apply/rider'
     | '/apply/seller'
@@ -716,6 +728,7 @@ export interface RootRouteChildren {
   Char91DotmcpChar93ListToolsRoute: typeof Char91DotmcpChar93ListToolsRoute
   Char91DotwellKnownChar93OauthProtectedResourceRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   AdminSectionRoute: typeof AdminSectionRoute
+  AdminOrdersRoute: typeof AdminOrdersRoute
   AdminPharmacyApplicationsRoute: typeof AdminPharmacyApplicationsRoute
   ApplyRiderRoute: typeof ApplyRiderRoute
   ApplySellerRoute: typeof ApplySellerRoute
@@ -917,6 +930,13 @@ declare module '@tanstack/react-router' {
       path: '/admin/$section'
       fullPath: '/admin/$section'
       preLoaderRoute: typeof AdminSectionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin_/orders': {
+      id: '/admin_/orders'
+      path: '/admin/orders'
+      fullPath: '/admin/orders'
+      preLoaderRoute: typeof AdminOrdersRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin_/pharmacy-applications': {
@@ -1165,6 +1185,7 @@ const rootRouteChildren: RootRouteChildren = {
   Char91DotwellKnownChar93OauthProtectedResourceRoute:
     Char91DotwellKnownChar93OauthProtectedResourceRoute,
   AdminSectionRoute: AdminSectionRoute,
+  AdminOrdersRoute: AdminOrdersRoute,
   AdminPharmacyApplicationsRoute: AdminPharmacyApplicationsRoute,
   ApplyRiderRoute: ApplyRiderRoute,
   ApplySellerRoute: ApplySellerRoute,
