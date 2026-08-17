@@ -23,6 +23,7 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as McpRouteImport } from './routes/mcp'
 import { Route as MembershipRouteImport } from './routes/membership'
 import { Route as NotificationsRouteImport } from './routes/notifications'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as RiderRouteImport } from './routes/rider'
 import { Route as SellerRouteImport } from './routes/seller'
 import { Route as SignupRouteImport } from './routes/signup'
@@ -155,6 +156,11 @@ const MembershipRoute = MembershipRouteImport.update({
 const NotificationsRoute = NotificationsRouteImport.update({
   id: '/notifications',
   path: '/notifications',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RiderRoute = RiderRouteImport.update({
@@ -492,6 +498,7 @@ export interface FileRoutesByFullPath {
   '/mcp': typeof McpRoute
   '/membership': typeof MembershipRoute
   '/notifications': typeof NotificationsRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/rider': typeof RiderRoute
   '/seller': typeof SellerRoute
   '/signup': typeof SignupRoute
@@ -571,6 +578,7 @@ export interface FileRoutesByTo {
   '/mcp': typeof McpRoute
   '/membership': typeof MembershipRoute
   '/notifications': typeof NotificationsRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/rider': typeof RiderRoute
   '/seller': typeof SellerRoute
   '/signup': typeof SignupRoute
@@ -651,6 +659,7 @@ export interface FileRoutesById {
   '/mcp': typeof McpRoute
   '/membership': typeof MembershipRoute
   '/notifications': typeof NotificationsRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/rider': typeof RiderRoute
   '/seller': typeof SellerRoute
   '/signup': typeof SignupRoute
@@ -732,6 +741,7 @@ export interface FileRouteTypes {
     | '/mcp'
     | '/membership'
     | '/notifications'
+    | '/reset-password'
     | '/rider'
     | '/seller'
     | '/signup'
@@ -811,6 +821,7 @@ export interface FileRouteTypes {
     | '/mcp'
     | '/membership'
     | '/notifications'
+    | '/reset-password'
     | '/rider'
     | '/seller'
     | '/signup'
@@ -890,6 +901,7 @@ export interface FileRouteTypes {
     | '/mcp'
     | '/membership'
     | '/notifications'
+    | '/reset-password'
     | '/rider'
     | '/seller'
     | '/signup'
@@ -970,6 +982,7 @@ export interface RootRouteChildren {
   McpRoute: typeof McpRoute
   MembershipRoute: typeof MembershipRoute
   NotificationsRoute: typeof NotificationsRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
   RiderRoute: typeof RiderRoute
   SellerRoute: typeof SellerRoute
   SignupRoute: typeof SignupRoute
@@ -1133,6 +1146,13 @@ declare module '@tanstack/react-router' {
       path: '/notifications'
       fullPath: '/notifications'
       preLoaderRoute: typeof NotificationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/rider': {
@@ -1594,6 +1614,7 @@ const rootRouteChildren: RootRouteChildren = {
   McpRoute: McpRoute,
   MembershipRoute: MembershipRoute,
   NotificationsRoute: NotificationsRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
   RiderRoute: RiderRoute,
   SellerRoute: SellerRoute,
   SignupRoute: SignupRoute,
