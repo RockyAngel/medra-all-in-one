@@ -90,6 +90,7 @@ export const ADMIN_NAV: NavGroup[] = [
       { label: "SOS incidents", to: "/admin/sos" },
       { label: "Late deliveries", to: "/admin/late-deliveries" },
       { label: "Support inbox", to: "/admin/support" },
+      { label: "My time clock", to: "/admin/timeclock" },
     ],
   },
 ];
