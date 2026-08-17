@@ -29,7 +29,7 @@ export const SELLER_NAV: NavGroup[] = [
       { label: "Store profile", to: "/seller/store" },
       { label: "Reviews", to: "/seller/reviews" },
       { label: "Notifications", to: "/notifications" },
-      { label: "Support", to: "/team" },
+      { label: "Support", to: "/support" },
     ],
   },
 ];
@@ -55,7 +55,7 @@ export const RIDER_NAV: NavGroup[] = [
     items: [
       { label: "Performance", to: "/rider/performance" },
       { label: "Notifications", to: "/notifications" },
-      { label: "Support", to: "/team" },
+      { label: "Support", to: "/support" },
     ],
   },
 ];

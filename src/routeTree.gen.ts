@@ -32,6 +32,7 @@ import { Route as TeamRouteImport } from './routes/team'
 import { Route as WalletRouteImport } from './routes/wallet'
 import { Route as Char91DotmcpChar93ListToolsRouteImport } from './routes/[.mcp]/list-tools'
 import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
+import { Route as AdminSectionRouteImport } from './routes/admin.$section'
 import { Route as AdminPharmacyApplicationsRouteImport } from './routes/admin.pharmacy-applications'
 import { Route as ApplyRiderRouteImport } from './routes/apply.rider'
 import { Route as ApplySellerRouteImport } from './routes/apply.seller'
@@ -42,8 +43,11 @@ import { Route as HealthTelehealthRouteImport } from './routes/health.telehealth
 import { Route as OrdersIndexRouteImport } from './routes/orders.index'
 import { Route as OrdersOrderIdRouteImport } from './routes/orders.$orderId'
 import { Route as ProductProductIdRouteImport } from './routes/product.$productId'
+import { Route as RiderSectionRouteImport } from './routes/rider.$section'
+import { Route as SellerSectionRouteImport } from './routes/seller.$section'
 import { Route as SellerPrescriptionsRouteImport } from './routes/seller.prescriptions'
 import { Route as StoreStoreSlugRouteImport } from './routes/store.$storeSlug'
+import { Route as SuperAdminSectionRouteImport } from './routes/super-admin.$section'
 import { Route as DotlovableOauthConsentRouteImport } from './routes/[.]lovable.oauth.consent'
 import { Route as Char91DotmcpChar93InvokeToolToolRouteImport } from './routes/[.mcp]/invoke-tool/$tool'
 
@@ -164,6 +168,11 @@ const Char91DotwellKnownChar93OauthProtectedResourceRoute =
     path: '/.well-known/oauth-protected-resource',
     getParentRoute: () => rootRouteImport,
   } as any)
+const AdminSectionRoute = AdminSectionRouteImport.update({
+  id: '/$section',
+  path: '/$section',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminPharmacyApplicationsRoute =
   AdminPharmacyApplicationsRouteImport.update({
     id: '/pharmacy-applications',
@@ -215,6 +224,16 @@ const ProductProductIdRoute = ProductProductIdRouteImport.update({
   path: '/product/$productId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RiderSectionRoute = RiderSectionRouteImport.update({
+  id: '/$section',
+  path: '/$section',
+  getParentRoute: () => RiderRoute,
+} as any)
+const SellerSectionRoute = SellerSectionRouteImport.update({
+  id: '/$section',
+  path: '/$section',
+  getParentRoute: () => SellerRoute,
+} as any)
 const SellerPrescriptionsRoute = SellerPrescriptionsRouteImport.update({
   id: '/prescriptions',
   path: '/prescriptions',
@@ -224,6 +243,11 @@ const StoreStoreSlugRoute = StoreStoreSlugRouteImport.update({
   id: '/store/$storeSlug',
   path: '/store/$storeSlug',
   getParentRoute: () => rootRouteImport,
+} as any)
+const SuperAdminSectionRoute = SuperAdminSectionRouteImport.update({
+  id: '/$section',
+  path: '/$section',
+  getParentRoute: () => SuperAdminRoute,
 } as any)
 const DotlovableOauthConsentRoute = DotlovableOauthConsentRouteImport.update({
   id: '/.lovable/oauth/consent',
@@ -251,16 +275,17 @@ export interface FileRoutesByFullPath {
   '/mcp': typeof McpRoute
   '/membership': typeof MembershipRoute
   '/notifications': typeof NotificationsRoute
-  '/rider': typeof RiderRoute
+  '/rider': typeof RiderRouteWithChildren
   '/seller': typeof SellerRouteWithChildren
   '/signup': typeof SignupRoute
   '/stores': typeof StoresRoute
-  '/super-admin': typeof SuperAdminRoute
+  '/super-admin': typeof SuperAdminRouteWithChildren
   '/support': typeof SupportRoute
   '/team': typeof TeamRoute
   '/wallet': typeof WalletRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
+  '/admin/$section': typeof AdminSectionRoute
   '/admin/pharmacy-applications': typeof AdminPharmacyApplicationsRoute
   '/apply/rider': typeof ApplyRiderRoute
   '/apply/seller': typeof ApplySellerRoute
@@ -270,8 +295,11 @@ export interface FileRoutesByFullPath {
   '/health/telehealth': typeof HealthTelehealthRoute
   '/orders/$orderId': typeof OrdersOrderIdRoute
   '/product/$productId': typeof ProductProductIdRoute
+  '/rider/$section': typeof RiderSectionRoute
+  '/seller/$section': typeof SellerSectionRoute
   '/seller/prescriptions': typeof SellerPrescriptionsRoute
   '/store/$storeSlug': typeof StoreStoreSlugRoute
+  '/super-admin/$section': typeof SuperAdminSectionRoute
   '/orders/': typeof OrdersIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
@@ -290,16 +318,17 @@ export interface FileRoutesByTo {
   '/mcp': typeof McpRoute
   '/membership': typeof MembershipRoute
   '/notifications': typeof NotificationsRoute
-  '/rider': typeof RiderRoute
+  '/rider': typeof RiderRouteWithChildren
   '/seller': typeof SellerRouteWithChildren
   '/signup': typeof SignupRoute
   '/stores': typeof StoresRoute
-  '/super-admin': typeof SuperAdminRoute
+  '/super-admin': typeof SuperAdminRouteWithChildren
   '/support': typeof SupportRoute
   '/team': typeof TeamRoute
   '/wallet': typeof WalletRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
+  '/admin/$section': typeof AdminSectionRoute
   '/admin/pharmacy-applications': typeof AdminPharmacyApplicationsRoute
   '/apply/rider': typeof ApplyRiderRoute
   '/apply/seller': typeof ApplySellerRoute
@@ -309,8 +338,11 @@ export interface FileRoutesByTo {
   '/health/telehealth': typeof HealthTelehealthRoute
   '/orders/$orderId': typeof OrdersOrderIdRoute
   '/product/$productId': typeof ProductProductIdRoute
+  '/rider/$section': typeof RiderSectionRoute
+  '/seller/$section': typeof SellerSectionRoute
   '/seller/prescriptions': typeof SellerPrescriptionsRoute
   '/store/$storeSlug': typeof StoreStoreSlugRoute
+  '/super-admin/$section': typeof SuperAdminSectionRoute
   '/orders': typeof OrdersIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
@@ -330,16 +362,17 @@ export interface FileRoutesById {
   '/mcp': typeof McpRoute
   '/membership': typeof MembershipRoute
   '/notifications': typeof NotificationsRoute
-  '/rider': typeof RiderRoute
+  '/rider': typeof RiderRouteWithChildren
   '/seller': typeof SellerRouteWithChildren
   '/signup': typeof SignupRoute
   '/stores': typeof StoresRoute
-  '/super-admin': typeof SuperAdminRoute
+  '/super-admin': typeof SuperAdminRouteWithChildren
   '/support': typeof SupportRoute
   '/team': typeof TeamRoute
   '/wallet': typeof WalletRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
+  '/admin/$section': typeof AdminSectionRoute
   '/admin/pharmacy-applications': typeof AdminPharmacyApplicationsRoute
   '/apply/rider': typeof ApplyRiderRoute
   '/apply/seller': typeof ApplySellerRoute
@@ -349,8 +382,11 @@ export interface FileRoutesById {
   '/health/telehealth': typeof HealthTelehealthRoute
   '/orders/$orderId': typeof OrdersOrderIdRoute
   '/product/$productId': typeof ProductProductIdRoute
+  '/rider/$section': typeof RiderSectionRoute
+  '/seller/$section': typeof SellerSectionRoute
   '/seller/prescriptions': typeof SellerPrescriptionsRoute
   '/store/$storeSlug': typeof StoreStoreSlugRoute
+  '/super-admin/$section': typeof SuperAdminSectionRoute
   '/orders/': typeof OrdersIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
@@ -381,6 +417,7 @@ export interface FileRouteTypes {
     | '/wallet'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
+    | '/admin/$section'
     | '/admin/pharmacy-applications'
     | '/apply/rider'
     | '/apply/seller'
@@ -390,8 +427,11 @@ export interface FileRouteTypes {
     | '/health/telehealth'
     | '/orders/$orderId'
     | '/product/$productId'
+    | '/rider/$section'
+    | '/seller/$section'
     | '/seller/prescriptions'
     | '/store/$storeSlug'
+    | '/super-admin/$section'
     | '/orders/'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
@@ -420,6 +460,7 @@ export interface FileRouteTypes {
     | '/wallet'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
+    | '/admin/$section'
     | '/admin/pharmacy-applications'
     | '/apply/rider'
     | '/apply/seller'
@@ -429,8 +470,11 @@ export interface FileRouteTypes {
     | '/health/telehealth'
     | '/orders/$orderId'
     | '/product/$productId'
+    | '/rider/$section'
+    | '/seller/$section'
     | '/seller/prescriptions'
     | '/store/$storeSlug'
+    | '/super-admin/$section'
     | '/orders'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
@@ -459,6 +503,7 @@ export interface FileRouteTypes {
     | '/wallet'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
+    | '/admin/$section'
     | '/admin/pharmacy-applications'
     | '/apply/rider'
     | '/apply/seller'
@@ -468,8 +513,11 @@ export interface FileRouteTypes {
     | '/health/telehealth'
     | '/orders/$orderId'
     | '/product/$productId'
+    | '/rider/$section'
+    | '/seller/$section'
     | '/seller/prescriptions'
     | '/store/$storeSlug'
+    | '/super-admin/$section'
     | '/orders/'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
@@ -489,11 +537,11 @@ export interface RootRouteChildren {
   McpRoute: typeof McpRoute
   MembershipRoute: typeof MembershipRoute
   NotificationsRoute: typeof NotificationsRoute
-  RiderRoute: typeof RiderRoute
+  RiderRoute: typeof RiderRouteWithChildren
   SellerRoute: typeof SellerRouteWithChildren
   SignupRoute: typeof SignupRoute
   StoresRoute: typeof StoresRoute
-  SuperAdminRoute: typeof SuperAdminRoute
+  SuperAdminRoute: typeof SuperAdminRouteWithChildren
   SupportRoute: typeof SupportRoute
   TeamRoute: typeof TeamRoute
   WalletRoute: typeof WalletRoute
@@ -676,6 +724,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/$section': {
+      id: '/admin/$section'
+      path: '/$section'
+      fullPath: '/admin/$section'
+      preLoaderRoute: typeof AdminSectionRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/pharmacy-applications': {
       id: '/admin/pharmacy-applications'
       path: '/pharmacy-applications'
@@ -746,6 +801,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProductProductIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/rider/$section': {
+      id: '/rider/$section'
+      path: '/$section'
+      fullPath: '/rider/$section'
+      preLoaderRoute: typeof RiderSectionRouteImport
+      parentRoute: typeof RiderRoute
+    }
+    '/seller/$section': {
+      id: '/seller/$section'
+      path: '/$section'
+      fullPath: '/seller/$section'
+      preLoaderRoute: typeof SellerSectionRouteImport
+      parentRoute: typeof SellerRoute
+    }
     '/seller/prescriptions': {
       id: '/seller/prescriptions'
       path: '/prescriptions'
@@ -759,6 +828,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/store/$storeSlug'
       preLoaderRoute: typeof StoreStoreSlugRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/super-admin/$section': {
+      id: '/super-admin/$section'
+      path: '/$section'
+      fullPath: '/super-admin/$section'
+      preLoaderRoute: typeof SuperAdminSectionRouteImport
+      parentRoute: typeof SuperAdminRoute
     }
     '/.lovable/oauth/consent': {
       id: '/.lovable/oauth/consent'
@@ -778,25 +854,51 @@ declare module '@tanstack/react-router' {
 }
 
 interface AdminRouteChildren {
+  AdminSectionRoute: typeof AdminSectionRoute
   AdminPharmacyApplicationsRoute: typeof AdminPharmacyApplicationsRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
+  AdminSectionRoute: AdminSectionRoute,
   AdminPharmacyApplicationsRoute: AdminPharmacyApplicationsRoute,
 }
 
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
+interface RiderRouteChildren {
+  RiderSectionRoute: typeof RiderSectionRoute
+}
+
+const RiderRouteChildren: RiderRouteChildren = {
+  RiderSectionRoute: RiderSectionRoute,
+}
+
+const RiderRouteWithChildren = RiderRoute._addFileChildren(RiderRouteChildren)
+
 interface SellerRouteChildren {
+  SellerSectionRoute: typeof SellerSectionRoute
   SellerPrescriptionsRoute: typeof SellerPrescriptionsRoute
 }
 
 const SellerRouteChildren: SellerRouteChildren = {
+  SellerSectionRoute: SellerSectionRoute,
   SellerPrescriptionsRoute: SellerPrescriptionsRoute,
 }
 
 const SellerRouteWithChildren =
   SellerRoute._addFileChildren(SellerRouteChildren)
+
+interface SuperAdminRouteChildren {
+  SuperAdminSectionRoute: typeof SuperAdminSectionRoute
+}
+
+const SuperAdminRouteChildren: SuperAdminRouteChildren = {
+  SuperAdminSectionRoute: SuperAdminSectionRoute,
+}
+
+const SuperAdminRouteWithChildren = SuperAdminRoute._addFileChildren(
+  SuperAdminRouteChildren,
+)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
@@ -812,11 +914,11 @@ const rootRouteChildren: RootRouteChildren = {
   McpRoute: McpRoute,
   MembershipRoute: MembershipRoute,
   NotificationsRoute: NotificationsRoute,
-  RiderRoute: RiderRoute,
+  RiderRoute: RiderRouteWithChildren,
   SellerRoute: SellerRouteWithChildren,
   SignupRoute: SignupRoute,
   StoresRoute: StoresRoute,
-  SuperAdminRoute: SuperAdminRoute,
+  SuperAdminRoute: SuperAdminRouteWithChildren,
   SupportRoute: SupportRoute,
   TeamRoute: TeamRoute,
   WalletRoute: WalletRoute,
