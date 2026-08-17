@@ -56,10 +56,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const { data: sub } = supabase.auth.onAuthStateChange((event, nextSession) => {
       if (event !== "SIGNED_IN" && event !== "SIGNED_OUT" && event !== "USER_UPDATED") return;
       setSession(nextSession);
-      void loadRoles(nextSession?.user.id).then(() => {
-        router.invalidate();
-        if (event !== "SIGNED_OUT") queryClient.invalidateQueries();
-      });
+      // Keep consumers in a loading state until roles are known, otherwise
+      // post-login redirects run with an empty role list and land on "/".
+      if (nextSession?.user.id) setLoading(true);
+      void loadRoles(nextSession?.user.id)
+        .then(() => {
+          setLoading(false);
+          router.invalidate();
+          if (event !== "SIGNED_OUT") queryClient.invalidateQueries();
+        })
+        .catch(() => setLoading(false));
     });
 
     return () => {
