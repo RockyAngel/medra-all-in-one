@@ -1,4 +1,5 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { useState } from "react";
 import {
   ArrowRight,
   Bell,
@@ -46,16 +47,16 @@ export const Route = createFileRoute("/")({
 });
 
 const categories = [
-  { label: "Restaurants", Icon: UtensilsCrossed, tone: "bg-sky/15 text-sky" },
-  { label: "Pharmacies", Icon: Pill, tone: "bg-leaf/15 text-leaf" },
-  { label: "Groceries", Icon: ShoppingBasket, tone: "bg-amber/20 text-amber" },
-  { label: "Fashion", Icon: Shirt, tone: "bg-grape/15 text-grape" },
-  { label: "Electronics", Icon: Smartphone, tone: "bg-sky/15 text-sky" },
-  { label: "Home & Living", Icon: Home, tone: "bg-amber/20 text-amber" },
-  { label: "Beauty", Icon: Sparkles, tone: "bg-grape/15 text-grape" },
-  { label: "Automotive", Icon: Car, tone: "bg-destructive/15 text-destructive" },
-  { label: "Pets", Icon: PawPrint, tone: "bg-leaf/15 text-leaf" },
-  { label: "All Categories", Icon: LayoutGrid, tone: "bg-muted text-muted-foreground" },
+  { label: "Restaurants", slug: "restaurants", Icon: UtensilsCrossed, tone: "bg-sky/15 text-sky" },
+  { label: "Pharmacies", slug: "pharmacy-health", Icon: Pill, tone: "bg-leaf/15 text-leaf" },
+  { label: "Groceries", slug: "groceries", Icon: ShoppingBasket, tone: "bg-amber/20 text-amber" },
+  { label: "Fashion", slug: "fashion", Icon: Shirt, tone: "bg-grape/15 text-grape" },
+  { label: "Electronics", slug: "electronics", Icon: Smartphone, tone: "bg-sky/15 text-sky" },
+  { label: "Home & Living", slug: "home-living", Icon: Home, tone: "bg-amber/20 text-amber" },
+  { label: "Beauty", slug: "beauty", Icon: Sparkles, tone: "bg-grape/15 text-grape" },
+  { label: "Automotive", slug: "automotive", Icon: Car, tone: "bg-destructive/15 text-destructive" },
+  { label: "Pets", slug: "pets", Icon: PawPrint, tone: "bg-leaf/15 text-leaf" },
+  { label: "All Categories", slug: undefined, Icon: LayoutGrid, tone: "bg-muted text-muted-foreground" },
 ];
 
 const trust = [
@@ -105,17 +106,19 @@ const topCategories = [
 ];
 
 function CustomerHome() {
+  const navigate = useNavigate();
+  const [query, setQuery] = useState("");
+
   return (
     <div className="min-h-screen bg-background">
       <header className="hero-surface">
         <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-4 px-5 py-4">
           <Logo tone="dark" size={44} />
           <nav className="hidden items-center gap-5 text-sm font-semibold text-ink-foreground/85 xl:flex">
-            <span className="rounded-lg bg-ink-foreground/10 px-3 py-2">Categories</span>
-            <span className="cursor-pointer hover:text-ink-foreground">Deals</span>
-            <span className="cursor-pointer hover:text-ink-foreground">Stores</span>
-            <span className="cursor-pointer hover:text-ink-foreground">Pharmacies</span>
-            <span className="cursor-pointer hover:text-ink-foreground">Gift Cards</span>
+            <Link to="/catalog" search={{}} className="rounded-lg bg-ink-foreground/10 px-3 py-2">Categories</Link>
+            <Link to="/catalog" search={{ q: "deal" }} className="hover:text-ink-foreground">Deals</Link>
+            <Link to="/stores" className="hover:text-ink-foreground">Stores</Link>
+            <Link to="/catalog" search={{ category: "pharmacy-health" }} className="hover:text-ink-foreground">Pharmacies</Link>
             <Link to="/become-a-rider" className="text-leaf hover:underline">
               Become a Rider
             </Link>
@@ -132,19 +135,13 @@ function CustomerHome() {
                 Lagos, Nigeria
               </span>
             </span>
-            <Heart className="size-5 cursor-pointer text-ink-foreground/80" />
-            <span className="relative cursor-pointer">
+            <Link to="/favorites" aria-label="Saved items"><Heart className="size-5 text-ink-foreground/80" /></Link>
+            <Link to="/notifications" className="relative" aria-label="Notifications">
               <Bell className="size-5 text-ink-foreground/80" />
-              <span className="absolute -right-2 -top-2 grid size-4 place-items-center rounded-full bg-destructive text-[10px] font-bold text-destructive-foreground">
-                3
-              </span>
-            </span>
-            <span className="relative cursor-pointer">
+            </Link>
+            <Link to="/cart" className="relative" aria-label="Cart">
               <ShoppingCart className="size-5 text-ink-foreground/80" />
-              <span className="absolute -right-2 -top-2 grid size-4 place-items-center rounded-full bg-leaf text-[10px] font-bold text-leaf-foreground">
-                2
-              </span>
-            </span>
+            </Link>
             <Link
               to="/login"
               className="rounded-lg border border-ink-foreground/25 px-3 py-1.5 text-sm font-semibold"
@@ -155,17 +152,19 @@ function CustomerHome() {
         </div>
 
         <div className="mx-auto max-w-3xl px-5 pb-6">
-          <label className="flex items-center gap-3 rounded-full bg-card px-4 py-2 shadow-lg">
+          <form onSubmit={(event) => { event.preventDefault(); void navigate({ to: "/catalog", search: { q: query.trim() || undefined } }); }} className="flex items-center gap-3 rounded-full bg-card px-4 py-2 shadow-lg">
             <Search className="size-4 text-muted-foreground" />
             <input
               className="w-full bg-transparent py-1.5 text-sm outline-none placeholder:text-muted-foreground"
               placeholder="Search for products, stores and more..."
               aria-label="Search Medra"
+              value={query}
+              onChange={(event) => setQuery(event.target.value)}
             />
-            <Button size="sm" className="rounded-full bg-sky text-sky-foreground hover:bg-sky/90">
+            <Button type="submit" size="sm" className="rounded-full bg-sky text-sky-foreground hover:bg-sky/90">
               <Search className="size-4" />
             </Button>
-          </label>
+          </form>
         </div>
 
         <div className="mx-auto grid max-w-7xl items-center gap-8 px-5 pb-14 lg:grid-cols-2">
@@ -179,14 +178,14 @@ function CustomerHome() {
               Shop from trusted local businesses and get it delivered fast, safe and reliable.
             </p>
             <div className="mt-7 flex flex-wrap gap-3">
-              <Button className="rounded-full bg-sky px-6 text-sky-foreground hover:bg-sky/90">
-                Shop Now <ArrowRight className="ml-1 size-4" />
+              <Button asChild className="rounded-full bg-sky px-6 text-sky-foreground hover:bg-sky/90">
+                <Link to="/catalog" search={{}}>Shop Now <ArrowRight className="ml-1 size-4" /></Link>
               </Button>
-              <Button
+              <Button asChild
                 variant="outline"
                 className="rounded-full border-ink-foreground/25 bg-transparent px-6 text-ink-foreground hover:bg-ink-foreground/10 hover:text-ink-foreground"
               >
-                <MapPin className="mr-1 size-4" /> Track My Order
+                <Link to="/orders"><MapPin className="mr-1 size-4" /> Track My Order</Link>
               </Button>
             </div>
             <dl className="mt-10 grid grid-cols-2 gap-5 sm:grid-cols-4">
@@ -214,16 +213,18 @@ function CustomerHome() {
 
       <div className="mx-auto max-w-7xl px-5">
         <div className="surface-card -mt-8 grid grid-cols-3 gap-2 p-4 sm:grid-cols-5 lg:grid-cols-10">
-          {categories.map(({ label, Icon, tone }) => (
-            <button
+          {categories.map(({ label, slug, Icon, tone }) => (
+            <Link
               key={label}
+              to="/catalog"
+              search={slug ? { category: slug } : {}}
               className="flex flex-col items-center gap-2 rounded-xl p-2 text-center transition-colors hover:bg-muted"
             >
               <span className={`grid size-12 place-items-center rounded-full ${tone}`}>
                 <Icon className="size-5" />
               </span>
               <span className="text-xs font-semibold">{label}</span>
-            </button>
+            </Link>
           ))}
         </div>
 
@@ -233,15 +234,15 @@ function CustomerHome() {
               <p className="text-sm font-semibold opacity-85">{p.kicker}</p>
               <h3 className="mt-1 text-xl font-extrabold">{p.title}</h3>
               <p className="mt-2 text-sm opacity-85">{p.body}</p>
-              <button className="mt-5 inline-flex items-center gap-1 rounded-full bg-card px-4 py-2 text-sm font-semibold text-foreground">
+              <Link to={p.cta === "Track Order" ? "/orders" : "/catalog"} search={p.cta === "Order Now" ? { category: "pharmacy-health" } : {}} className="mt-5 inline-flex items-center gap-1 rounded-full bg-card px-4 py-2 text-sm font-semibold text-foreground">
                 {p.cta} <ArrowRight className="size-4" />
-              </button>
+              </Link>
             </article>
           ))}
           <section className="surface-card p-4">
             <div className="flex items-center justify-between">
               <h3 className="font-bold">Today's Picks</h3>
-              <span className="cursor-pointer text-sm font-semibold text-sky">View All</span>
+              <Link to="/catalog" search={{}} className="text-sm font-semibold text-sky">View All</Link>
             </div>
             <ul className="mt-3 space-y-3">
               {picks.map((item) => (
@@ -260,15 +261,15 @@ function CustomerHome() {
         <section className="mt-10">
           <div className="flex items-center justify-between">
             <h2 className="text-2xl font-extrabold">Top Categories</h2>
-            <span className="cursor-pointer text-sm font-semibold text-sky">View All</span>
+            <Link to="/catalog" search={{}} className="text-sm font-semibold text-sky">View All</Link>
           </div>
           <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
             {topCategories.map((c) => (
-              <article key={c.label} className="lift-hover surface-card p-4">
+              <Link key={c.label} to="/catalog" search={{ q: c.label }} className="lift-hover surface-card p-4">
                 <div className="mb-3 h-24 rounded-lg bg-gradient-to-br from-muted to-accent" />
                 <h3 className="text-sm font-bold">{c.label}</h3>
                 <p className="text-xs text-muted-foreground">{c.count}</p>
-              </article>
+              </Link>
             ))}
           </div>
         </section>
