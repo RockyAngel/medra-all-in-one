@@ -50,7 +50,7 @@ function RiderDashboard() {
       subtitle={statusText}
       topRight={
         <Button asChild size="sm" className="rounded-full">
-          <Link to="/rider/$section" params={{ section: "performance" }}>Manage availability</Link>
+          <Link to="/rider/performance">Manage availability</Link>
         </Button>
       }
     >
@@ -85,7 +85,7 @@ function RiderDashboard() {
                 body="Go online and accept an offer from the delivery requests queue to start earning."
                 action={
                   <Button asChild size="sm" className="rounded-full">
-                    <Link to="/rider/$section" params={{ section: "available" }}>See delivery requests</Link>
+                    <Link to="/rider/available">See delivery requests</Link>
                   </Button>
                 }
               />
@@ -107,7 +107,7 @@ function RiderDashboard() {
             </DataTable>
             <div className="mt-4">
               <Button asChild size="sm" variant="outline" className="rounded-full">
-                <Link to="/rider/$section" params={{ section: "active" }}>Open active delivery</Link>
+                <Link to="/rider/active">Open active delivery</Link>
               </Button>
             </div>
           </QueryBoundary>
@@ -126,10 +126,10 @@ function RiderDashboard() {
             </dl>
             <div className="mt-4 flex flex-wrap gap-2">
               <Button asChild size="sm" className="rounded-full">
-                <Link to="/rider/$section" params={{ section: "payouts" }}>Withdraw</Link>
+                <Link to="/rider/payouts">Withdraw</Link>
               </Button>
               <Button asChild size="sm" variant="outline" className="rounded-full">
-                <Link to="/rider/$section" params={{ section: "history" }}>Delivery history</Link>
+                <Link to="/rider/history">Delivery history</Link>
               </Button>
             </div>
             {profile.data?.location_updated_at && (

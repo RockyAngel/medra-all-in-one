@@ -40,10 +40,10 @@ function SellerDashboard() {
       topRight={
         <>
           <Button asChild size="sm" variant="outline" className="rounded-full">
-            <Link to="/seller/$section" params={{ section: "store" }}>Store profile</Link>
+            <Link to="/seller/store">Store profile</Link>
           </Button>
           <Button asChild size="sm" className="rounded-full">
-            <Link to="/seller/$section" params={{ section: "products" }}>Add product</Link>
+            <Link to="/seller/products">Add product</Link>
           </Button>
         </>
       }
@@ -102,7 +102,7 @@ function SellerDashboard() {
             </DataTable>
             <div className="mt-4">
               <Button asChild size="sm" variant="outline" className="rounded-full">
-                <Link to="/seller/$section" params={{ section: "orders" }}>Open order queue</Link>
+                <Link to="/seller/orders">Open order queue</Link>
               </Button>
             </div>
           </QueryBoundary>
@@ -122,10 +122,10 @@ function SellerDashboard() {
             </dl>
             <div className="mt-4 flex flex-wrap gap-2">
               <Button asChild size="sm" className="rounded-full">
-                <Link to="/seller/$section" params={{ section: "payouts" }}>Request payout</Link>
+                <Link to="/seller/payouts">Request payout</Link>
               </Button>
               <Button asChild size="sm" variant="outline" className="rounded-full">
-                <Link to="/seller/$section" params={{ section: "earnings" }}>View ledger</Link>
+                <Link to="/seller/earnings">View ledger</Link>
               </Button>
             </div>
           </QueryBoundary>
