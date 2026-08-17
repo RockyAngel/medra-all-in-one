@@ -3,6 +3,8 @@ import { useQuery } from "@tanstack/react-query";
 import { CheckCircle2, MapPin, Truck } from "lucide-react";
 import { CustomerFooter, CustomerHeader } from "@/components/medra/CustomerChrome";
 import { EmptyState, QueryBoundary } from "@/components/medra/States";
+import { TrackingMap } from "@/components/medra/TrackingMap";
+
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { ORDER_STATUS_LABEL, formatDate, formatNaira } from "@/lib/medra";
