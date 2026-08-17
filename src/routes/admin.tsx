@@ -77,18 +77,31 @@ function AdminDashboard() {
         <div className="grid gap-4 xl:grid-cols-3">
           <Panel title="Queues needing attention">
             <ul className="space-y-2 text-sm">
-              <QueueRow label="Seller applications" count={stats?.sellerApps ?? 0} to="/admin/seller-approvals" />
-              <QueueRow label="Rider applications" count={stats?.riderApps ?? 0} to="/admin/rider-approvals" />
-              <QueueRow label="Refund requests" count={stats?.refunds ?? 0} to="/admin/$section" params={{ section: "refunds" }} />
-              <QueueRow label="Payout requests" count={stats?.payouts ?? 0} to="/admin/$section" params={{ section: "payouts" }} />
+              <QueueRow count={stats?.sellerApps ?? 0}>
+                <Link to="/admin/seller-approvals" className="font-semibold hover:text-primary">Seller applications</Link>
+              </QueueRow>
+              <QueueRow count={stats?.riderApps ?? 0}>
+                <Link to="/admin/rider-approvals" className="font-semibold hover:text-primary">Rider applications</Link>
+              </QueueRow>
+              <QueueRow count={stats?.refunds ?? 0}>
+                <Link to="/admin/$section" params={{ section: "refunds" }} className="font-semibold hover:text-primary">Refund requests</Link>
+              </QueueRow>
+              <QueueRow count={stats?.payouts ?? 0}>
+                <Link to="/admin/$section" params={{ section: "payouts" }} className="font-semibold hover:text-primary">Payout requests</Link>
+              </QueueRow>
             </ul>
           </Panel>
 
           <Panel title="Safety & logistics">
             <ul className="space-y-2 text-sm">
-              <QueueRow label="SOS incidents" count={stats?.sos ?? 0} to="/admin/$section" params={{ section: "sos" }} />
-              <QueueRow label="Deliveries" count={stats?.deliveries ?? 0} to="/admin/$section" params={{ section: "deliveries" }} />
+              <QueueRow count={stats?.sos ?? 0}>
+                <Link to="/admin/$section" params={{ section: "sos" }} className="font-semibold hover:text-primary">SOS incidents</Link>
+              </QueueRow>
+              <QueueRow count={stats?.deliveries ?? 0}>
+                <Link to="/admin/$section" params={{ section: "deliveries" }} className="font-semibold hover:text-primary">Deliveries</Link>
+              </QueueRow>
             </ul>
+
             {(stats?.sos ?? 0) > 0 && (
               <p className="mt-4 flex items-center gap-2 rounded-xl bg-destructive/10 p-3 text-xs font-semibold text-destructive">
                 <AlertTriangle className="size-4" /> Safety reports are open — review them first.
