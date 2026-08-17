@@ -317,21 +317,28 @@ function TelehealthPage() {
               ) : (
                 <Button
                   disabled={
-                    book.isPending || (!slotId && !professional?.is_available_now)
+                    book.isPending ||
+                    !paymentsEnabled ||
+                    (!slotId && !professional?.is_available_now)
                   }
                   onClick={() => book.mutate()}
                   className="mt-4 w-full rounded-full py-6 font-bold"
                 >
                   {book.isPending ? (
                     <Loader2 className="size-4 animate-spin" />
-                  ) : (
+                  ) : paymentsEnabled ? (
                     `Pay ${formatNaira(service.price)} & confirm`
+                  ) : (
+                    "Payments unavailable"
                   )}
                 </Button>
               )}
               <p className="mt-2 text-xs text-muted-foreground">
-                Card payment only. Your appointment is confirmed the moment payment succeeds.
+                {paymentsEnabled
+                  ? "Card payment only. Your appointment is confirmed the moment payment succeeds."
+                  : "Consultation bookings are paused until a payment provider is connected. Nothing has been charged."}
               </p>
+
             </aside>
           </section>
         )}
