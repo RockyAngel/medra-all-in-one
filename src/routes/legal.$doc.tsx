@@ -271,7 +271,12 @@ function LegalDocPage() {
 
         <p className="mt-12 text-sm text-muted-foreground">
           Questions about this policy? Reach us through the{" "}
-          <Link to="/support" search={{}} className="font-semibold text-primary hover:underline">
+          <Link
+            to="/support"
+            search={{ ticket: undefined }}
+            className="font-semibold text-primary hover:underline"
+          >
+
             support inbox
           </Link>
           .
