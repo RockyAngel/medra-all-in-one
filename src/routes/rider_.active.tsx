@@ -31,6 +31,17 @@ export const Route = createFileRoute("/rider_/active")({
   component: RiderActivePage,
 });
 
+function dropLatLng(snapshot: unknown): { lat: number | null; lng: number | null } {
+  if (!snapshot || typeof snapshot !== "object") return { lat: null, lng: null };
+  const raw = snapshot as Record<string, unknown>;
+  const lat = Number(raw["latitude"]);
+  const lng = Number(raw["longitude"]);
+  return {
+    lat: Number.isFinite(lat) ? lat : null,
+    lng: Number.isFinite(lng) ? lng : null,
+  };
+}
+
 const STAGES: { key: string; label: string }[] = [
   { key: "en_route_to_seller", label: "En route to store" },
   { key: "arrived_at_seller", label: "Arrived at store" },

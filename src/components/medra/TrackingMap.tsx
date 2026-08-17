@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 
-type Point = { lat?: number | null; lng?: number | null };
+type Point = { lat?: number | null | undefined; lng?: number | null | undefined };
 
 type TrackingMapProps = {
   destination: Point;
