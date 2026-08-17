@@ -16,8 +16,17 @@ export function CustomerHeader({
   initialQuery?: string;
 }) {
   const navigate = useNavigate();
-  const { session } = useAuth();
+  const { session, roles } = useAuth();
   const [q, setQ] = useState(initialQuery);
+  const staffDashboard = roles.includes("super_admin")
+    ? "/super-admin"
+    : roles.includes("admin")
+      ? "/admin"
+      : roles.includes("seller")
+        ? "/seller"
+        : roles.includes("rider")
+          ? "/rider"
+          : null;
   const cartCount = useCartCount();
   const unread = useUnreadNotifications();
 
@@ -89,6 +98,14 @@ export function CustomerHeader({
               </span>
             )}
           </Link>
+          {session && staffDashboard && (
+            <Link
+              to={staffDashboard}
+              className="hidden rounded-lg bg-ink-foreground/15 px-3 py-1.5 text-sm font-semibold sm:block"
+            >
+              My dashboard
+            </Link>
+          )}
           {session ? (
             <Link
               to="/account"
