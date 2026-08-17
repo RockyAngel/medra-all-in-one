@@ -18,6 +18,7 @@ import { Route as CartRouteImport } from './routes/cart'
 import { Route as CatalogRouteImport } from './routes/catalog'
 import { Route as CheckoutRouteImport } from './routes/checkout'
 import { Route as FavoritesRouteImport } from './routes/favorites'
+import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as McpRouteImport } from './routes/mcp'
 import { Route as MembershipRouteImport } from './routes/membership'
@@ -129,6 +130,11 @@ const CheckoutRoute = CheckoutRouteImport.update({
 const FavoritesRoute = FavoritesRouteImport.update({
   id: '/favorites',
   path: '/favorites',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ForgotPasswordRoute = ForgotPasswordRouteImport.update({
+  id: '/forgot-password',
+  path: '/forgot-password',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LoginRoute = LoginRouteImport.update({
@@ -481,6 +487,7 @@ export interface FileRoutesByFullPath {
   '/catalog': typeof CatalogRoute
   '/checkout': typeof CheckoutRoute
   '/favorites': typeof FavoritesRoute
+  '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
   '/mcp': typeof McpRoute
   '/membership': typeof MembershipRoute
@@ -559,6 +566,7 @@ export interface FileRoutesByTo {
   '/catalog': typeof CatalogRoute
   '/checkout': typeof CheckoutRoute
   '/favorites': typeof FavoritesRoute
+  '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
   '/mcp': typeof McpRoute
   '/membership': typeof MembershipRoute
@@ -638,6 +646,7 @@ export interface FileRoutesById {
   '/catalog': typeof CatalogRoute
   '/checkout': typeof CheckoutRoute
   '/favorites': typeof FavoritesRoute
+  '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
   '/mcp': typeof McpRoute
   '/membership': typeof MembershipRoute
@@ -718,6 +727,7 @@ export interface FileRouteTypes {
     | '/catalog'
     | '/checkout'
     | '/favorites'
+    | '/forgot-password'
     | '/login'
     | '/mcp'
     | '/membership'
@@ -796,6 +806,7 @@ export interface FileRouteTypes {
     | '/catalog'
     | '/checkout'
     | '/favorites'
+    | '/forgot-password'
     | '/login'
     | '/mcp'
     | '/membership'
@@ -874,6 +885,7 @@ export interface FileRouteTypes {
     | '/catalog'
     | '/checkout'
     | '/favorites'
+    | '/forgot-password'
     | '/login'
     | '/mcp'
     | '/membership'
@@ -953,6 +965,7 @@ export interface RootRouteChildren {
   CatalogRoute: typeof CatalogRoute
   CheckoutRoute: typeof CheckoutRoute
   FavoritesRoute: typeof FavoritesRoute
+  ForgotPasswordRoute: typeof ForgotPasswordRoute
   LoginRoute: typeof LoginRoute
   McpRoute: typeof McpRoute
   MembershipRoute: typeof MembershipRoute
@@ -1085,6 +1098,13 @@ declare module '@tanstack/react-router' {
       path: '/favorites'
       fullPath: '/favorites'
       preLoaderRoute: typeof FavoritesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/forgot-password': {
+      id: '/forgot-password'
+      path: '/forgot-password'
+      fullPath: '/forgot-password'
+      preLoaderRoute: typeof ForgotPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/login': {
@@ -1569,6 +1589,7 @@ const rootRouteChildren: RootRouteChildren = {
   CatalogRoute: CatalogRoute,
   CheckoutRoute: CheckoutRoute,
   FavoritesRoute: FavoritesRoute,
+  ForgotPasswordRoute: ForgotPasswordRoute,
   LoginRoute: LoginRoute,
   McpRoute: McpRoute,
   MembershipRoute: MembershipRoute,
