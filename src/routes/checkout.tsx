@@ -389,7 +389,8 @@ function CheckoutPage() {
                     </div>
                   </dl>
                   <p className="mt-3 text-xs text-muted-foreground">
-                    You'll earn {pointsEarned.toLocaleString()} reward points on this order.
+                    Reward points are earned from games, birthdays and rewards in your dashboard — not
+                    from purchases. You can still spend points here.
                   </p>
                   {quote.data && !quote.data.configured && (
                     <p className="mt-3 text-xs text-destructive">{quote.data.reason}</p>
