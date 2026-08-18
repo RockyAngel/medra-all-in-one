@@ -35,7 +35,7 @@ function ProductPage() {
       const { data, error } = await supabase
         .from("products")
         .select(
-          "id, name, description, price, image_path, stock_quantity, seller_id, store_id, prescription_required, is_medication, generic_name, brand_name, strength, nafdac_number, emergency_eligible, stores(name, slug, city, rating_average)",
+          "id, name, description, price, delivery_fee, image_path, stock_quantity, seller_id, store_id, prescription_required, is_medication, generic_name, brand_name, strength, nafdac_number, emergency_eligible, stores(name, slug, city, rating_average)",
         )
         .eq("id", productId)
         .eq("status", "active")
@@ -143,6 +143,11 @@ function ProductPage() {
                 )}
                 <p className="mt-4 text-3xl font-extrabold text-grape">
                   {formatNaira(product.data.price)}
+                </p>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  {Number(product.data.delivery_fee ?? 0) > 0
+                    ? `+ ${formatNaira(Number(product.data.delivery_fee))} delivery per unit, added at checkout`
+                    : "Delivery calculated at checkout"}
                 </p>
                 <p className="mt-1 text-sm text-muted-foreground">
                   {product.data.stock_quantity > 0
