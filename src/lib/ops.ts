@@ -40,7 +40,7 @@ export function useSellerProducts() {
       const { data, error } = await supabase
         .from("products")
         .select(
-          "id, name, status, price, seller_price, stock_quantity, low_stock_threshold, reserved_quantity, sku, image_path, is_medication, prescription_required, created_at",
+          "id, name, status, price, seller_price, delivery_fee, stock_quantity, low_stock_threshold, reserved_quantity, sku, image_path, is_medication, prescription_required, created_at",
         )
         .eq("seller_id", user!.id)
         .order("created_at", { ascending: false })

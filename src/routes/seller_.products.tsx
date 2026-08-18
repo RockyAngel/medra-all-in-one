@@ -38,6 +38,7 @@ type Draft = {
   name: string;
   description: string;
   seller_price: string;
+  delivery_fee: string;
   stock_quantity: string;
   low_stock_threshold: string;
   sku: string;
@@ -48,6 +49,7 @@ const EMPTY: Draft = {
   name: "",
   description: "",
   seller_price: "",
+  delivery_fee: "0",
   stock_quantity: "0",
   low_stock_threshold: "5",
   sku: "",
@@ -89,6 +91,7 @@ function SellerProductsPage() {
         name: values.name.trim(),
         description: values.description.trim() || null,
         seller_price: sellerPrice,
+        delivery_fee: Math.max(0, Number(values.delivery_fee) || 0),
         stock_quantity: Number(values.stock_quantity) || 0,
         low_stock_threshold: Number(values.low_stock_threshold) || 0,
         sku: values.sku.trim() || null,
@@ -168,6 +171,17 @@ function SellerProductsPage() {
                   Customer pays {formatNaira(customerPriceFromSellerPrice(Number(draft.seller_price)))}
                 </p>
               )}
+            </Field>
+            <Field label="Delivery cost (₦ per unit)">
+              <Input
+                type="number"
+                value={draft.delivery_fee}
+                onChange={(e) => setDraft({ ...draft, delivery_fee: e.target.value })}
+                className="h-11 rounded-xl"
+              />
+              <p className="mt-1 text-xs text-muted-foreground">
+                Added to the customer's delivery total at checkout for each unit ordered.
+              </p>
             </Field>
             <Field label="Category">
               <select
@@ -295,6 +309,7 @@ function SellerProductsPage() {
                             name: p.name,
                             description: "",
                             seller_price: String(p.seller_price ?? ""),
+                          delivery_fee: String(p.delivery_fee ?? "0"),
                             stock_quantity: String(p.stock_quantity ?? 0),
                             low_stock_threshold: String(p.low_stock_threshold ?? 0),
                             sku: p.sku ?? "",

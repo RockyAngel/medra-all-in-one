@@ -2991,8 +2991,10 @@ export type Database = {
           created_at: string
           currency: string
           customer_id: string
+          delivery_base_fee: number
           delivery_fee: number
           delivery_is_peak: boolean
+          delivery_items_fee: number
           delivery_platform_amount: number
           delivery_rider_amount: number
           delivery_rule: string | null
@@ -3026,8 +3028,10 @@ export type Database = {
           created_at?: string
           currency?: string
           customer_id: string
+          delivery_base_fee?: number
           delivery_fee?: number
           delivery_is_peak?: boolean
+          delivery_items_fee?: number
           delivery_platform_amount?: number
           delivery_rider_amount?: number
           delivery_rule?: string | null
@@ -3061,8 +3065,10 @@ export type Database = {
           created_at?: string
           currency?: string
           customer_id?: string
+          delivery_base_fee?: number
           delivery_fee?: number
           delivery_is_peak?: boolean
+          delivery_items_fee?: number
           delivery_platform_amount?: number
           delivery_rider_amount?: number
           delivery_rule?: string | null
@@ -3440,6 +3446,7 @@ export type Database = {
           brand_name: string | null
           category_id: string | null
           created_at: string
+          delivery_fee: number
           description: string | null
           dimensions: string | null
           dosage_form: string | null
@@ -3479,6 +3486,7 @@ export type Database = {
           brand_name?: string | null
           category_id?: string | null
           created_at?: string
+          delivery_fee?: number
           description?: string | null
           dimensions?: string | null
           dosage_form?: string | null
@@ -3518,6 +3526,7 @@ export type Database = {
           brand_name?: string | null
           category_id?: string | null
           created_at?: string
+          delivery_fee?: number
           description?: string | null
           dimensions?: string | null
           dosage_form?: string | null
@@ -5383,6 +5392,7 @@ export type Database = {
         Args: { _immediate?: boolean; _subscription_id: string }
         Returns: Json
       }
+      cart_delivery_extra: { Args: never; Returns: number }
       cart_prescription_status: {
         Args: never
         Returns: {
