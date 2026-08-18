@@ -32,7 +32,7 @@ export function useCartQuery() {
       const { data, error } = await supabase
         .from("cart_items")
         .select(
-          "id, quantity, product_id, seller_id, store_id, products(name, price, image_path, stock_quantity, prescription_required, emergency_eligible, is_medication), stores(name, slug, store_type, accepts_emergency_orders, is_open)",
+          "id, quantity, product_id, seller_id, store_id, products(name, price, delivery_fee, image_path, stock_quantity, prescription_required, emergency_eligible, is_medication), stores(name, slug, store_type, accepts_emergency_orders, is_open)",
         )
         .eq("cart_id", cart.data.id)
         .order("created_at");

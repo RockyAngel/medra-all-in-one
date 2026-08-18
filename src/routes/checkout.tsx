@@ -94,7 +94,12 @@ function CheckoutPage() {
     enabled: !!deliveryCity,
     queryFn: () => quoteDeliveryFee(deliveryCity),
   });
-  const deliveryFee = quote.data?.configured ? quote.data.fee : null;
+  const baseDeliveryFee = quote.data?.configured ? quote.data.fee : null;
+  const itemsDeliveryFee = items.reduce(
+    (sum, item) => sum + Number(item.products?.delivery_fee ?? 0) * item.quantity,
+    0,
+  );
+  const deliveryFee = baseDeliveryFee === null ? null : baseDeliveryFee + itemsDeliveryFee;
   const total = Math.max(0, subtotal - discount) + (deliveryFee ?? 0);
   
 
@@ -377,6 +382,18 @@ function CheckoutPage() {
                           : "Add an address"
                       }
                     />
+                    {baseDeliveryFee !== null && itemsDeliveryFee > 0 && (
+                      <div className="space-y-1 pl-3 text-xs text-muted-foreground">
+                        <div className="flex items-center justify-between">
+                          <span>Base delivery ({quote.data?.configured ? quote.data.zone : ""})</span>
+                          <span>{formatNaira(baseDeliveryFee)}</span>
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <span>Item delivery cost</span>
+                          <span>{formatNaira(itemsDeliveryFee)}</span>
+                        </div>
+                      </div>
+                    )}
                     {discount > 0 && (
                       <SumRow label={`Points (${redeemed})`} value={`-${formatNaira(discount)}`} />
                     )}
