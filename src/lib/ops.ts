@@ -213,10 +213,34 @@ export function useAdminDeliveries() {
       const { data, error } = await supabase
         .from("deliveries")
         .select(
-          "id, status, milestone, rider_id, fee_total, rider_amount, platform_amount, is_peak, is_priority, assigned_at, delivered_at, expected_delivery_at, created_at, rider_latitude, rider_longitude, orders(order_number), stores(name, city)",
+          "id, status, milestone, rider_id, fee_total, rider_amount, platform_amount, is_peak, is_priority, assigned_at, delivered_at, expected_delivery_at, created_at, rider_latitude, rider_longitude, payout_approval, orders(order_number), stores(name, city)",
         )
         .order("created_at", { ascending: false })
         .limit(100);
+      if (error) throw error;
+      return data ?? [];
+    },
+  });
+}
+
+/**
+ * Completed deliveries whose rider earnings are held until an admin approves
+ * them. `status` maps to the payout_approval column.
+ */
+export function useDeliveryApprovals(status: string) {
+  return useQuery({
+    queryKey: ["admin-delivery-approvals", status],
+    queryFn: async () => {
+      let query = supabase
+        .from("deliveries")
+        .select(
+          "id, status, rider_id, fee_total, rider_amount, platform_amount, rider_percent, platform_percent, is_peak, is_priority, delivered_at, delivery_verified_at, pickup_verified_at, payout_approval, payout_review_note, payout_reviewed_at, distance_meters, orders(order_number, total), stores(name, city)",
+        )
+        .neq("payout_approval", "not_required")
+        .order("delivered_at", { ascending: false })
+        .limit(100);
+      if (status !== "all") query = query.eq("payout_approval", status);
+      const { data, error } = await query;
       if (error) throw error;
       return data ?? [];
     },

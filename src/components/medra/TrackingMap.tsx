@@ -8,6 +8,8 @@ type TrackingMapProps = {
   store?: Point;
   height?: number;
   caption?: string;
+  /** Draws the full pickup → customer → pickup round trip plan. */
+  routePlan?: boolean;
 };
 
 /**
@@ -15,7 +17,14 @@ type TrackingMapProps = {
  * key never reaches the browser. Coordinates come from the delivery record,
  * so the image refreshes whenever the rider location updates.
  */
-export function TrackingMap({ destination, rider, store, height = 240, caption }: TrackingMapProps) {
+export function TrackingMap({
+  destination,
+  rider,
+  store,
+  height = 240,
+  caption,
+  routePlan = false,
+}: TrackingMapProps) {
   const [failed, setFailed] = useState(false);
 
   const src = useMemo(() => {
@@ -35,8 +44,18 @@ export function TrackingMap({ destination, rider, store, height = 240, caption }
       params.set("storeLat", String(store.lat));
       params.set("storeLng", String(store.lng));
     }
+    if (routePlan) params.set("route", "1");
     return `/api/public/map?${params.toString()}`;
-  }, [destination.lat, destination.lng, rider?.lat, rider?.lng, store?.lat, store?.lng, height]);
+  }, [
+    destination.lat,
+    destination.lng,
+    rider?.lat,
+    rider?.lng,
+    store?.lat,
+    store?.lng,
+    height,
+    routePlan,
+  ]);
 
   if (!src || failed) {
     return (
@@ -64,4 +83,17 @@ export function TrackingMap({ destination, rider, store, height = 240, caption }
       {caption ? <figcaption className="text-xs text-muted-foreground">{caption}</figcaption> : null}
     </figure>
   );
+}
+
+/** Straight-line distance in km between two points, for the route summary. */
+export function planDistanceKm(a: Point, b: Point): number | null {
+  if (a.lat == null || a.lng == null || b.lat == null || b.lng == null) return null;
+  const toRad = (v: number) => (v * Math.PI) / 180;
+  const dLat = toRad(Number(b.lat) - Number(a.lat));
+  const dLng = toRad(Number(b.lng) - Number(a.lng));
+  const lat1 = toRad(Number(a.lat));
+  const lat2 = toRad(Number(b.lat));
+  const h =
+    Math.sin(dLat / 2) ** 2 + Math.cos(lat1) * Math.cos(lat2) * Math.sin(dLng / 2) ** 2;
+  return Math.round(2 * 6371 * Math.asin(Math.sqrt(h)) * 10) / 10;
 }

@@ -70,6 +70,7 @@ export const ADMIN_NAV: NavGroup[] = [
       { label: "Overview", to: "/admin" },
       { label: "Orders", to: "/admin/orders" },
       { label: "Deliveries", to: "/admin/deliveries" },
+      { label: "Delivery approvals", to: "/admin/delivery-approvals" },
     ],
   },
   {
