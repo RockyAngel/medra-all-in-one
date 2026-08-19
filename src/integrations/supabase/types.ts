@@ -1050,6 +1050,10 @@ export type Database = {
           milestone: string | null
           offer_round: number
           order_id: string
+          payout_approval: string
+          payout_review_note: string | null
+          payout_reviewed_at: string | null
+          payout_reviewed_by: string | null
           picked_up_at: string | null
           pickup_code: string | null
           pickup_latitude: number | null
@@ -1102,6 +1106,10 @@ export type Database = {
           milestone?: string | null
           offer_round?: number
           order_id: string
+          payout_approval?: string
+          payout_review_note?: string | null
+          payout_reviewed_at?: string | null
+          payout_reviewed_by?: string | null
           picked_up_at?: string | null
           pickup_code?: string | null
           pickup_latitude?: number | null
@@ -1154,6 +1162,10 @@ export type Database = {
           milestone?: string | null
           offer_round?: number
           order_id?: string
+          payout_approval?: string
+          payout_review_note?: string | null
+          payout_reviewed_at?: string | null
+          payout_reviewed_by?: string | null
           picked_up_at?: string | null
           pickup_code?: string | null
           pickup_latitude?: number | null
@@ -5337,6 +5349,10 @@ export type Database = {
           _kind: string
           _note: string
         }
+        Returns: undefined
+      }
+      admin_review_delivery_payout: {
+        Args: { _approve: boolean; _delivery_id: string; _note?: string }
         Returns: undefined
       }
       admin_review_payout: {
