@@ -41,11 +41,20 @@ function DemoPage() {
     try {
       const creds = await prepare({ data: { role } });
       await supabase.auth.signOut();
-      const { error } = await supabase.auth.signInWithPassword({
-        email: creds.email,
-        password: creds.password,
-      });
-      if (error) throw new Error(error.message);
+      if (creds.access_token && creds.refresh_token) {
+        // Session minted server-side — avoids browsers that block the auth endpoint.
+        const { error } = await supabase.auth.setSession({
+          access_token: creds.access_token,
+          refresh_token: creds.refresh_token,
+        });
+        if (error) throw new Error(error.message);
+      } else {
+        const { error } = await supabase.auth.signInWithPassword({
+          email: creds.email,
+          password: creds.password,
+        });
+        if (error) throw new Error(error.message);
+      }
       toast.success(`Signed in as the demo ${DEMO_ACCOUNTS[role].label.toLowerCase()}`);
       await navigate({ to: creds.home });
     } catch (e) {
