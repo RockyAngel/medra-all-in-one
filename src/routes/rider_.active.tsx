@@ -6,7 +6,7 @@ import { toast } from "sonner";
 import { Panel } from "@/components/medra/DashboardShell";
 import { Pill, RiderPage } from "@/components/medra/RoleDashboard";
 import { EmptyState, QueryBoundary } from "@/components/medra/States";
-import { TrackingMap } from "@/components/medra/TrackingMap";
+import { TrackingMap, planDistanceKm } from "@/components/medra/TrackingMap";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -174,13 +174,21 @@ function RiderActivePage() {
               <div className="mt-4">
                 <TrackingMap
                   height={200}
+                  routePlan
                   destination={{
                     lat: dropLatLng(d.orders?.address_snapshot).lat,
                     lng: dropLatLng(d.orders?.address_snapshot).lng,
                   }}
                   rider={{ lat: d.rider_latitude, lng: d.rider_longitude }}
                   store={{ lat: d.stores?.latitude, lng: d.stores?.longitude }}
-                  caption="Green marker is the store, blue is the customer, amber is your last shared location."
+                  caption="Amber line: you to the store. Blue line: store to the customer. Green line: the return leg back to the store."
+                />
+                <RoutePlan
+                  rider={{ lat: d.rider_latitude, lng: d.rider_longitude }}
+                  store={{ lat: d.stores?.latitude, lng: d.stores?.longitude }}
+                  drop={dropLatLng(d.orders?.address_snapshot)}
+                  storeName={d.stores?.name ?? "Store"}
+                  dropLabel={d.orders?.order_number ?? "Customer"}
                 />
               </div>
 
@@ -268,6 +276,56 @@ function RiderActivePage() {
         </div>
       </QueryBoundary>
     </RiderPage>
+  );
+}
+
+type Coord = { lat?: number | null | undefined; lng?: number | null | undefined };
+
+/** Text summary of the pickup → customer → pickup leg plan. */
+function RoutePlan({
+  rider,
+  store,
+  drop,
+  storeName,
+  dropLabel,
+}: {
+  rider: Coord;
+  store: Coord;
+  drop: Coord;
+  storeName: string;
+  dropLabel: string;
+}) {
+  const toStore = planDistanceKm(rider, store);
+  const toDrop = planDistanceKm(store, drop);
+  const back = toDrop;
+  const total = [toStore, toDrop, back].reduce<number | null>(
+    (sum, leg) => (sum === null || leg === null ? null : Math.round((sum + leg) * 10) / 10),
+    0,
+  );
+  const legs = [
+    { label: `You → ${storeName} (pickup)`, km: toStore },
+    { label: `${storeName} → ${dropLabel} (drop-off)`, km: toDrop },
+    { label: `${dropLabel} → ${storeName} (return leg)`, km: back },
+  ];
+
+  return (
+    <ol className="mt-3 space-y-2 rounded-2xl border border-border p-3 text-sm">
+      {legs.map((leg, index) => (
+        <li key={leg.label} className="flex items-center justify-between gap-3">
+          <span className="flex items-center gap-2">
+            <span className="grid size-5 place-items-center rounded-full bg-muted text-xs font-bold">
+              {index + 1}
+            </span>
+            {leg.label}
+          </span>
+          <span className="text-muted-foreground">{leg.km === null ? "—" : `${leg.km} km`}</span>
+        </li>
+      ))}
+      <li className="flex items-center justify-between border-t border-border pt-2 font-bold">
+        <span>Round trip</span>
+        <span>{total === null ? "Awaiting locations" : `${total} km`}</span>
+      </li>
+    </ol>
   );
 }
 

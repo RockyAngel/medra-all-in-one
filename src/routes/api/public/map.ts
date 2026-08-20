@@ -40,14 +40,37 @@ export const Route = createFileRoute("/api/public/map")({
           zoom: String(zoom),
           key,
         });
+        const routePlan = url.searchParams.get("route") === "1";
         params.append("markers", `color:0x2563eb|label:D|${lat},${lng}`);
         if (storeLat !== null && storeLng !== null) {
           params.append("markers", `color:0x16a34a|label:S|${storeLat},${storeLng}`);
         }
         if (riderLat !== null && riderLng !== null) {
           params.append("markers", `color:0xf59e0b|label:R|${riderLat},${riderLng}`);
+        }
+
+        if (routePlan && storeLat !== null && storeLng !== null) {
+          // Leg 1: rider (or store) to the pickup point, leg 2: pickup to the
+          // customer, leg 3 (dashed): the return trip back to the store.
+          if (riderLat !== null && riderLng !== null) {
+            params.append(
+              "path",
+              `color:0xf59e0bcc|weight:4|${riderLat},${riderLng}|${storeLat},${storeLng}`,
+            );
+          }
+          params.append(
+            "path",
+            `color:0x2563ebcc|weight:5|${storeLat},${storeLng}|${lat},${lng}`,
+          );
+          params.append(
+            "path",
+            `color:0x16a34a88|weight:3|${lat},${lng}|${storeLat},${storeLng}`,
+          );
+        } else if (riderLat !== null && riderLng !== null) {
           params.append("path", `color:0x2563ebaa|weight:4|${riderLat},${riderLng}|${lat},${lng}`);
-        } else {
+        }
+
+        if (riderLat === null && !(routePlan && storeLat !== null)) {
           params.set("center", `${lat},${lng}`);
         }
 

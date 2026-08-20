@@ -61,7 +61,7 @@ function AdminDeliveryApprovalsPage() {
       const { error } = await supabase.rpc("admin_review_delivery_payout", {
         _delivery_id: id,
         _approve: approve,
-        _note: note || undefined,
+        ...(note ? { _note: note } : {}),
       });
       if (error) throw error;
     },
