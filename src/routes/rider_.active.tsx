@@ -174,13 +174,21 @@ function RiderActivePage() {
               <div className="mt-4">
                 <TrackingMap
                   height={200}
+                  routePlan
                   destination={{
                     lat: dropLatLng(d.orders?.address_snapshot).lat,
                     lng: dropLatLng(d.orders?.address_snapshot).lng,
                   }}
                   rider={{ lat: d.rider_latitude, lng: d.rider_longitude }}
                   store={{ lat: d.stores?.latitude, lng: d.stores?.longitude }}
-                  caption="Green marker is the store, blue is the customer, amber is your last shared location."
+                  caption="Amber line: you to the store. Blue line: store to the customer. Green line: the return leg back to the store."
+                />
+                <RoutePlan
+                  rider={{ lat: d.rider_latitude, lng: d.rider_longitude }}
+                  store={{ lat: d.stores?.latitude, lng: d.stores?.longitude }}
+                  drop={dropLatLng(d.orders?.address_snapshot)}
+                  storeName={d.stores?.name ?? "Store"}
+                  dropLabel={d.orders?.order_number ?? "Customer"}
                 />
               </div>
 
