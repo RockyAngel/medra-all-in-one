@@ -74,5 +74,24 @@ export const ensureDemoAccount = createServerFn({ method: "POST" })
       );
     if (roleError) throw new Error(roleError.message);
 
-    return { email: account.email, password: DEMO_PASSWORD, home: account.home };
+    // Some browsers/extensions block direct calls to the auth endpoint, so mint the
+    // session here and let the browser adopt it instead of signing in client-side.
+    const { createClient } = await import("@supabase/supabase-js");
+    const authClient = createClient(
+      process.env['SUPABASE_URL']!,
+      process.env['SUPABASE_PUBLISHABLE_KEY']!,
+      { auth: { storage: undefined, persistSession: false, autoRefreshToken: false } },
+    );
+    const signIn = await authClient.auth.signInWithPassword({
+      email: account.email,
+      password: DEMO_PASSWORD,
+    });
+
+    return {
+      email: account.email,
+      password: DEMO_PASSWORD,
+      home: account.home,
+      access_token: signIn.data.session?.access_token ?? null,
+      refresh_token: signIn.data.session?.refresh_token ?? null,
+    };
   });
