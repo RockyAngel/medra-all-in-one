@@ -37,7 +37,6 @@ import { Route as TeamRouteImport } from './routes/team'
 import { Route as WalletRouteImport } from './routes/wallet'
 import { Route as Char91DotmcpChar93ListToolsRouteImport } from './routes/[.mcp]/list-tools'
 import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
-import { Route as AdminSectionRouteImport } from './routes/admin_.$section'
 import { Route as AdminDeliveriesRouteImport } from './routes/admin_.deliveries'
 import { Route as AdminDeliveryApprovalsRouteImport } from './routes/admin_.delivery-approvals'
 import { Route as AdminLateDeliveriesRouteImport } from './routes/admin_.late-deliveries'
@@ -61,14 +60,12 @@ import { Route as LegalDocRouteImport } from './routes/legal.$doc'
 import { Route as OrdersIndexRouteImport } from './routes/orders.index'
 import { Route as OrdersOrderIdRouteImport } from './routes/orders.$orderId'
 import { Route as ProductProductIdRouteImport } from './routes/product.$productId'
-import { Route as RiderSectionRouteImport } from './routes/rider_.$section'
 import { Route as RiderActiveRouteImport } from './routes/rider_.active'
 import { Route as RiderAvailableRouteImport } from './routes/rider_.available'
 import { Route as RiderEarningsRouteImport } from './routes/rider_.earnings'
 import { Route as RiderHistoryRouteImport } from './routes/rider_.history'
 import { Route as RiderPayoutsRouteImport } from './routes/rider_.payouts'
 import { Route as RiderPerformanceRouteImport } from './routes/rider_.performance'
-import { Route as SellerSectionRouteImport } from './routes/seller_.$section'
 import { Route as SellerEarningsRouteImport } from './routes/seller_.earnings'
 import { Route as SellerInventoryRouteImport } from './routes/seller_.inventory'
 import { Route as SellerOrdersRouteImport } from './routes/seller_.orders'
@@ -79,7 +76,6 @@ import { Route as SellerReviewsRouteImport } from './routes/seller_.reviews'
 import { Route as SellerStoreRouteImport } from './routes/seller_.store'
 import { Route as SellerTransactionsRouteImport } from './routes/seller_.transactions'
 import { Route as StoreStoreSlugRouteImport } from './routes/store.$storeSlug'
-import { Route as SuperAdminSectionRouteImport } from './routes/super-admin_.$section'
 import { Route as SuperAdminAdminsRouteImport } from './routes/super-admin_.admins'
 import { Route as SuperAdminAuditRouteImport } from './routes/super-admin_.audit'
 import { Route as SuperAdminCategoriesRouteImport } from './routes/super-admin_.categories'
@@ -235,11 +231,6 @@ const Char91DotwellKnownChar93OauthProtectedResourceRoute =
     path: '/.well-known/oauth-protected-resource',
     getParentRoute: () => rootRouteImport,
   } as any)
-const AdminSectionRoute = AdminSectionRouteImport.update({
-  id: '/admin_/$section',
-  path: '/admin/$section',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const AdminDeliveriesRoute = AdminDeliveriesRouteImport.update({
   id: '/admin_/deliveries',
   path: '/admin/deliveries',
@@ -356,11 +347,6 @@ const ProductProductIdRoute = ProductProductIdRouteImport.update({
   path: '/product/$productId',
   getParentRoute: () => rootRouteImport,
 } as any)
-const RiderSectionRoute = RiderSectionRouteImport.update({
-  id: '/rider_/$section',
-  path: '/rider/$section',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const RiderActiveRoute = RiderActiveRouteImport.update({
   id: '/rider_/active',
   path: '/rider/active',
@@ -389,11 +375,6 @@ const RiderPayoutsRoute = RiderPayoutsRouteImport.update({
 const RiderPerformanceRoute = RiderPerformanceRouteImport.update({
   id: '/rider_/performance',
   path: '/rider/performance',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SellerSectionRoute = SellerSectionRouteImport.update({
-  id: '/seller_/$section',
-  path: '/seller/$section',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SellerEarningsRoute = SellerEarningsRouteImport.update({
@@ -444,11 +425,6 @@ const SellerTransactionsRoute = SellerTransactionsRouteImport.update({
 const StoreStoreSlugRoute = StoreStoreSlugRouteImport.update({
   id: '/store/$storeSlug',
   path: '/store/$storeSlug',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SuperAdminSectionRoute = SuperAdminSectionRouteImport.update({
-  id: '/super-admin_/$section',
-  path: '/super-admin/$section',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SuperAdminAdminsRoute = SuperAdminAdminsRouteImport.update({
@@ -542,7 +518,6 @@ export interface FileRoutesByFullPath {
   '/wallet': typeof WalletRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
-  '/admin/$section': typeof AdminSectionRoute
   '/admin/deliveries': typeof AdminDeliveriesRoute
   '/admin/delivery-approvals': typeof AdminDeliveryApprovalsRoute
   '/admin/late-deliveries': typeof AdminLateDeliveriesRoute
@@ -565,14 +540,12 @@ export interface FileRoutesByFullPath {
   '/legal/$doc': typeof LegalDocRoute
   '/orders/$orderId': typeof OrdersOrderIdRoute
   '/product/$productId': typeof ProductProductIdRoute
-  '/rider/$section': typeof RiderSectionRoute
   '/rider/active': typeof RiderActiveRoute
   '/rider/available': typeof RiderAvailableRoute
   '/rider/earnings': typeof RiderEarningsRoute
   '/rider/history': typeof RiderHistoryRoute
   '/rider/payouts': typeof RiderPayoutsRoute
   '/rider/performance': typeof RiderPerformanceRoute
-  '/seller/$section': typeof SellerSectionRoute
   '/seller/earnings': typeof SellerEarningsRoute
   '/seller/inventory': typeof SellerInventoryRoute
   '/seller/orders': typeof SellerOrdersRoute
@@ -583,7 +556,6 @@ export interface FileRoutesByFullPath {
   '/seller/store': typeof SellerStoreRoute
   '/seller/transactions': typeof SellerTransactionsRoute
   '/store/$storeSlug': typeof StoreStoreSlugRoute
-  '/super-admin/$section': typeof SuperAdminSectionRoute
   '/super-admin/admins': typeof SuperAdminAdminsRoute
   '/super-admin/audit': typeof SuperAdminAuditRoute
   '/super-admin/categories': typeof SuperAdminCategoriesRoute
@@ -627,7 +599,6 @@ export interface FileRoutesByTo {
   '/wallet': typeof WalletRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
-  '/admin/$section': typeof AdminSectionRoute
   '/admin/deliveries': typeof AdminDeliveriesRoute
   '/admin/delivery-approvals': typeof AdminDeliveryApprovalsRoute
   '/admin/late-deliveries': typeof AdminLateDeliveriesRoute
@@ -650,14 +621,12 @@ export interface FileRoutesByTo {
   '/legal/$doc': typeof LegalDocRoute
   '/orders/$orderId': typeof OrdersOrderIdRoute
   '/product/$productId': typeof ProductProductIdRoute
-  '/rider/$section': typeof RiderSectionRoute
   '/rider/active': typeof RiderActiveRoute
   '/rider/available': typeof RiderAvailableRoute
   '/rider/earnings': typeof RiderEarningsRoute
   '/rider/history': typeof RiderHistoryRoute
   '/rider/payouts': typeof RiderPayoutsRoute
   '/rider/performance': typeof RiderPerformanceRoute
-  '/seller/$section': typeof SellerSectionRoute
   '/seller/earnings': typeof SellerEarningsRoute
   '/seller/inventory': typeof SellerInventoryRoute
   '/seller/orders': typeof SellerOrdersRoute
@@ -668,7 +637,6 @@ export interface FileRoutesByTo {
   '/seller/store': typeof SellerStoreRoute
   '/seller/transactions': typeof SellerTransactionsRoute
   '/store/$storeSlug': typeof StoreStoreSlugRoute
-  '/super-admin/$section': typeof SuperAdminSectionRoute
   '/super-admin/admins': typeof SuperAdminAdminsRoute
   '/super-admin/audit': typeof SuperAdminAuditRoute
   '/super-admin/categories': typeof SuperAdminCategoriesRoute
@@ -713,7 +681,6 @@ export interface FileRoutesById {
   '/wallet': typeof WalletRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
-  '/admin_/$section': typeof AdminSectionRoute
   '/admin_/deliveries': typeof AdminDeliveriesRoute
   '/admin_/delivery-approvals': typeof AdminDeliveryApprovalsRoute
   '/admin_/late-deliveries': typeof AdminLateDeliveriesRoute
@@ -736,14 +703,12 @@ export interface FileRoutesById {
   '/legal/$doc': typeof LegalDocRoute
   '/orders/$orderId': typeof OrdersOrderIdRoute
   '/product/$productId': typeof ProductProductIdRoute
-  '/rider_/$section': typeof RiderSectionRoute
   '/rider_/active': typeof RiderActiveRoute
   '/rider_/available': typeof RiderAvailableRoute
   '/rider_/earnings': typeof RiderEarningsRoute
   '/rider_/history': typeof RiderHistoryRoute
   '/rider_/payouts': typeof RiderPayoutsRoute
   '/rider_/performance': typeof RiderPerformanceRoute
-  '/seller_/$section': typeof SellerSectionRoute
   '/seller_/earnings': typeof SellerEarningsRoute
   '/seller_/inventory': typeof SellerInventoryRoute
   '/seller_/orders': typeof SellerOrdersRoute
@@ -754,7 +719,6 @@ export interface FileRoutesById {
   '/seller_/store': typeof SellerStoreRoute
   '/seller_/transactions': typeof SellerTransactionsRoute
   '/store/$storeSlug': typeof StoreStoreSlugRoute
-  '/super-admin_/$section': typeof SuperAdminSectionRoute
   '/super-admin_/admins': typeof SuperAdminAdminsRoute
   '/super-admin_/audit': typeof SuperAdminAuditRoute
   '/super-admin_/categories': typeof SuperAdminCategoriesRoute
@@ -800,7 +764,6 @@ export interface FileRouteTypes {
     | '/wallet'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
-    | '/admin/$section'
     | '/admin/deliveries'
     | '/admin/delivery-approvals'
     | '/admin/late-deliveries'
@@ -823,14 +786,12 @@ export interface FileRouteTypes {
     | '/legal/$doc'
     | '/orders/$orderId'
     | '/product/$productId'
-    | '/rider/$section'
     | '/rider/active'
     | '/rider/available'
     | '/rider/earnings'
     | '/rider/history'
     | '/rider/payouts'
     | '/rider/performance'
-    | '/seller/$section'
     | '/seller/earnings'
     | '/seller/inventory'
     | '/seller/orders'
@@ -841,7 +802,6 @@ export interface FileRouteTypes {
     | '/seller/store'
     | '/seller/transactions'
     | '/store/$storeSlug'
-    | '/super-admin/$section'
     | '/super-admin/admins'
     | '/super-admin/audit'
     | '/super-admin/categories'
@@ -885,7 +845,6 @@ export interface FileRouteTypes {
     | '/wallet'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
-    | '/admin/$section'
     | '/admin/deliveries'
     | '/admin/delivery-approvals'
     | '/admin/late-deliveries'
@@ -908,14 +867,12 @@ export interface FileRouteTypes {
     | '/legal/$doc'
     | '/orders/$orderId'
     | '/product/$productId'
-    | '/rider/$section'
     | '/rider/active'
     | '/rider/available'
     | '/rider/earnings'
     | '/rider/history'
     | '/rider/payouts'
     | '/rider/performance'
-    | '/seller/$section'
     | '/seller/earnings'
     | '/seller/inventory'
     | '/seller/orders'
@@ -926,7 +883,6 @@ export interface FileRouteTypes {
     | '/seller/store'
     | '/seller/transactions'
     | '/store/$storeSlug'
-    | '/super-admin/$section'
     | '/super-admin/admins'
     | '/super-admin/audit'
     | '/super-admin/categories'
@@ -970,7 +926,6 @@ export interface FileRouteTypes {
     | '/wallet'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
-    | '/admin_/$section'
     | '/admin_/deliveries'
     | '/admin_/delivery-approvals'
     | '/admin_/late-deliveries'
@@ -993,14 +948,12 @@ export interface FileRouteTypes {
     | '/legal/$doc'
     | '/orders/$orderId'
     | '/product/$productId'
-    | '/rider_/$section'
     | '/rider_/active'
     | '/rider_/available'
     | '/rider_/earnings'
     | '/rider_/history'
     | '/rider_/payouts'
     | '/rider_/performance'
-    | '/seller_/$section'
     | '/seller_/earnings'
     | '/seller_/inventory'
     | '/seller_/orders'
@@ -1011,7 +964,6 @@ export interface FileRouteTypes {
     | '/seller_/store'
     | '/seller_/transactions'
     | '/store/$storeSlug'
-    | '/super-admin_/$section'
     | '/super-admin_/admins'
     | '/super-admin_/audit'
     | '/super-admin_/categories'
@@ -1056,7 +1008,6 @@ export interface RootRouteChildren {
   WalletRoute: typeof WalletRoute
   Char91DotmcpChar93ListToolsRoute: typeof Char91DotmcpChar93ListToolsRoute
   Char91DotwellKnownChar93OauthProtectedResourceRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
-  AdminSectionRoute: typeof AdminSectionRoute
   AdminDeliveriesRoute: typeof AdminDeliveriesRoute
   AdminDeliveryApprovalsRoute: typeof AdminDeliveryApprovalsRoute
   AdminLateDeliveriesRoute: typeof AdminLateDeliveriesRoute
@@ -1079,14 +1030,12 @@ export interface RootRouteChildren {
   LegalDocRoute: typeof LegalDocRoute
   OrdersOrderIdRoute: typeof OrdersOrderIdRoute
   ProductProductIdRoute: typeof ProductProductIdRoute
-  RiderSectionRoute: typeof RiderSectionRoute
   RiderActiveRoute: typeof RiderActiveRoute
   RiderAvailableRoute: typeof RiderAvailableRoute
   RiderEarningsRoute: typeof RiderEarningsRoute
   RiderHistoryRoute: typeof RiderHistoryRoute
   RiderPayoutsRoute: typeof RiderPayoutsRoute
   RiderPerformanceRoute: typeof RiderPerformanceRoute
-  SellerSectionRoute: typeof SellerSectionRoute
   SellerEarningsRoute: typeof SellerEarningsRoute
   SellerInventoryRoute: typeof SellerInventoryRoute
   SellerOrdersRoute: typeof SellerOrdersRoute
@@ -1097,7 +1046,6 @@ export interface RootRouteChildren {
   SellerStoreRoute: typeof SellerStoreRoute
   SellerTransactionsRoute: typeof SellerTransactionsRoute
   StoreStoreSlugRoute: typeof StoreStoreSlugRoute
-  SuperAdminSectionRoute: typeof SuperAdminSectionRoute
   SuperAdminAdminsRoute: typeof SuperAdminAdminsRoute
   SuperAdminAuditRoute: typeof SuperAdminAuditRoute
   SuperAdminCategoriesRoute: typeof SuperAdminCategoriesRoute
@@ -1311,13 +1259,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/admin_/$section': {
-      id: '/admin_/$section'
-      path: '/admin/$section'
-      fullPath: '/admin/$section'
-      preLoaderRoute: typeof AdminSectionRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/admin_/deliveries': {
       id: '/admin_/deliveries'
       path: '/admin/deliveries'
@@ -1479,13 +1420,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProductProductIdRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/rider_/$section': {
-      id: '/rider_/$section'
-      path: '/rider/$section'
-      fullPath: '/rider/$section'
-      preLoaderRoute: typeof RiderSectionRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/rider_/active': {
       id: '/rider_/active'
       path: '/rider/active'
@@ -1526,13 +1460,6 @@ declare module '@tanstack/react-router' {
       path: '/rider/performance'
       fullPath: '/rider/performance'
       preLoaderRoute: typeof RiderPerformanceRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/seller_/$section': {
-      id: '/seller_/$section'
-      path: '/seller/$section'
-      fullPath: '/seller/$section'
-      preLoaderRoute: typeof SellerSectionRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/seller_/earnings': {
@@ -1603,13 +1530,6 @@ declare module '@tanstack/react-router' {
       path: '/store/$storeSlug'
       fullPath: '/store/$storeSlug'
       preLoaderRoute: typeof StoreStoreSlugRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/super-admin_/$section': {
-      id: '/super-admin_/$section'
-      path: '/super-admin/$section'
-      fullPath: '/super-admin/$section'
-      preLoaderRoute: typeof SuperAdminSectionRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/super-admin_/admins': {
@@ -1729,7 +1649,6 @@ const rootRouteChildren: RootRouteChildren = {
   Char91DotmcpChar93ListToolsRoute: Char91DotmcpChar93ListToolsRoute,
   Char91DotwellKnownChar93OauthProtectedResourceRoute:
     Char91DotwellKnownChar93OauthProtectedResourceRoute,
-  AdminSectionRoute: AdminSectionRoute,
   AdminDeliveriesRoute: AdminDeliveriesRoute,
   AdminDeliveryApprovalsRoute: AdminDeliveryApprovalsRoute,
   AdminLateDeliveriesRoute: AdminLateDeliveriesRoute,
@@ -1752,14 +1671,12 @@ const rootRouteChildren: RootRouteChildren = {
   LegalDocRoute: LegalDocRoute,
   OrdersOrderIdRoute: OrdersOrderIdRoute,
   ProductProductIdRoute: ProductProductIdRoute,
-  RiderSectionRoute: RiderSectionRoute,
   RiderActiveRoute: RiderActiveRoute,
   RiderAvailableRoute: RiderAvailableRoute,
   RiderEarningsRoute: RiderEarningsRoute,
   RiderHistoryRoute: RiderHistoryRoute,
   RiderPayoutsRoute: RiderPayoutsRoute,
   RiderPerformanceRoute: RiderPerformanceRoute,
-  SellerSectionRoute: SellerSectionRoute,
   SellerEarningsRoute: SellerEarningsRoute,
   SellerInventoryRoute: SellerInventoryRoute,
   SellerOrdersRoute: SellerOrdersRoute,
@@ -1770,7 +1687,6 @@ const rootRouteChildren: RootRouteChildren = {
   SellerStoreRoute: SellerStoreRoute,
   SellerTransactionsRoute: SellerTransactionsRoute,
   StoreStoreSlugRoute: StoreStoreSlugRoute,
-  SuperAdminSectionRoute: SuperAdminSectionRoute,
   SuperAdminAdminsRoute: SuperAdminAdminsRoute,
   SuperAdminAuditRoute: SuperAdminAuditRoute,
   SuperAdminCategoriesRoute: SuperAdminCategoriesRoute,
