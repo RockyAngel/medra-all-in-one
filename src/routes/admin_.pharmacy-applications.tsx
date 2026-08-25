@@ -12,6 +12,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { formatDate } from "@/lib/medra";
 import { workflowError } from "@/lib/workflow";
 import { applicationDocumentUrl, usePharmacyApplications } from "@/lib/health";
+import { useApplicationsRealtime } from "@/lib/ops";
 
 export const Route = createFileRoute("/admin_/pharmacy-applications")({
   head: () => ({
@@ -52,6 +53,7 @@ function PharmacyApplicationsPage() {
   const queryClient = useQueryClient();
   const [filter, setFilter] = useState<string>("submitted");
   const [notes, setNotes] = useState<Record<string, string>>({});
+  useApplicationsRealtime();
   const applications = usePharmacyApplications(filter);
 
   const review = useMutation({
