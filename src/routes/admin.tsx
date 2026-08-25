@@ -85,10 +85,10 @@ function AdminDashboard() {
                 <Link to="/admin/rider-approvals" className="font-semibold hover:text-primary">Rider applications</Link>
               </QueueRow>
               <QueueRow count={stats?.refunds ?? 0}>
-                <Link to="/admin/$section" params={{ section: "refunds" }} className="font-semibold hover:text-primary">Refund requests</Link>
+                <Link to="/admin/refunds" className="font-semibold hover:text-primary">Refund requests</Link>
               </QueueRow>
               <QueueRow count={stats?.payouts ?? 0}>
-                <Link to="/admin/$section" params={{ section: "payouts" }} className="font-semibold hover:text-primary">Payout requests</Link>
+                <Link to="/admin/payouts" className="font-semibold hover:text-primary">Payout requests</Link>
               </QueueRow>
             </ul>
           </Panel>
@@ -96,10 +96,10 @@ function AdminDashboard() {
           <Panel title="Safety & logistics">
             <ul className="space-y-2 text-sm">
               <QueueRow count={stats?.sos ?? 0}>
-                <Link to="/admin/$section" params={{ section: "sos" }} className="font-semibold hover:text-primary">SOS incidents</Link>
+                <Link to="/admin/sos" className="font-semibold hover:text-primary">SOS incidents</Link>
               </QueueRow>
               <QueueRow count={stats?.deliveries ?? 0}>
-                <Link to="/admin/$section" params={{ section: "deliveries" }} className="font-semibold hover:text-primary">Deliveries</Link>
+                <Link to="/admin/deliveries" className="font-semibold hover:text-primary">Deliveries</Link>
               </QueueRow>
             </ul>
 
@@ -115,7 +115,7 @@ function AdminDashboard() {
               Handle customer, seller and rider conversations from the shared support inbox.
             </p>
             <Button asChild size="sm" className="mt-4 rounded-full">
-              <Link to="/admin/$section" params={{ section: "support" }}>Open support inbox</Link>
+              <Link to="/admin/support">Open support inbox</Link>
             </Button>
           </Panel>
         </div>

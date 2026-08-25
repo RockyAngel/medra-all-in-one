@@ -2,7 +2,8 @@
  * Data hooks for the operational dashboards (seller, rider, admin, super admin).
  * Every read here goes straight to the database through RLS — no demo data.
  */
-import { useQuery } from "@tanstack/react-query";
+import { useEffect } from "react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
 import { useMyStore } from "@/lib/hooks";
@@ -609,4 +610,29 @@ export function useAdminOverview() {
       };
     },
   });
+}
+
+/**
+ * Keeps the vendor, rider and pharmacy approval queues live: new submissions and
+ * decisions land without a manual refresh.
+ */
+export function useApplicationsRealtime() {
+  const { user } = useAuth();
+  const queryClient = useQueryClient();
+  useEffect(() => {
+    if (!user) return;
+    const invalidate = () => {
+      void queryClient.invalidateQueries({ queryKey: ["seller-applications"] });
+      void queryClient.invalidateQueries({ queryKey: ["rider-applications"] });
+      void queryClient.invalidateQueries({ queryKey: ["pharmacy-applications"] });
+    };
+    const channel = supabase
+      .channel(`applications-live-${user.id}`)
+      .on("postgres_changes", { event: "*", schema: "public", table: "seller_applications" }, invalidate)
+      .on("postgres_changes", { event: "*", schema: "public", table: "rider_applications" }, invalidate)
+      .subscribe();
+    return () => {
+      void supabase.removeChannel(channel);
+    };
+  }, [user, queryClient]);
 }

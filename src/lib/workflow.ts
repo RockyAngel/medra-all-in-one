@@ -125,14 +125,34 @@ export function customerPriceFromSellerPrice(sellerPrice: number) {
   return Math.round(sellerPrice * (1 + PLATFORM_MARKUP_PERCENT / 100) * 100) / 100;
 }
 
+/** Private bucket for onboarding, licence and regulatory documents. */
+export const APPLICATION_DOCUMENTS_BUCKET = "application-documents";
+
 export async function uploadDocuments(files: File[], folder: string) {
   const paths: string[] = [];
   for (const file of files) {
     const ext = file.name.split(".").pop() ?? "bin";
     const path = `${folder}/${crypto.randomUUID()}.${ext}`;
-    const { error } = await supabase.storage.from("product-images").upload(path, file);
+    const { error } = await supabase.storage
+      .from(APPLICATION_DOCUMENTS_BUCKET)
+      .upload(path, file, file.type ? { contentType: file.type } : undefined);
     if (error) throw error;
     paths.push(path);
   }
   return paths;
 }
+
+/**
+ * Signed read for an application document. Documents uploaded before the private
+ * bucket existed still live in `product-images`, so fall back to that path.
+ */
+export async function applicationDocumentSignedUrl(path: string) {
+  const primary = await supabase.storage
+    .from(APPLICATION_DOCUMENTS_BUCKET)
+    .createSignedUrl(path, 60 * 10);
+  if (primary.data?.signedUrl) return primary.data.signedUrl;
+  const legacy = await supabase.storage.from("product-images").createSignedUrl(path, 60 * 10);
+  if (legacy.error) throw legacy.error;
+  return legacy.data.signedUrl;
+}
+

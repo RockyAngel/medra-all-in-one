@@ -11,7 +11,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { supabase } from "@/integrations/supabase/client";
 import { applicationDocumentUrl } from "@/lib/health";
 import { formatDate } from "@/lib/medra";
-import { useSellerApplications } from "@/lib/ops";
+import { useApplicationsRealtime, useSellerApplications } from "@/lib/ops";
 import { workflowError } from "@/lib/workflow";
 
 export const Route = createFileRoute("/admin_/seller-approvals")({
@@ -53,6 +53,7 @@ function SellerApprovalsPage() {
   const queryClient = useQueryClient();
   const [filter, setFilter] = useState("submitted");
   const [notes, setNotes] = useState<Record<string, string>>({});
+  useApplicationsRealtime();
   const applications = useSellerApplications(filter);
 
   const review = useMutation({

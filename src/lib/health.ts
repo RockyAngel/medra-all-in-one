@@ -452,9 +452,7 @@ export function usePharmacyApplications(status: string) {
 }
 
 export async function applicationDocumentUrl(path: string) {
-  const { data, error } = await supabase.storage
-    .from("product-images")
-    .createSignedUrl(path, 60 * 10);
-  if (error) throw error;
-  return data.signedUrl;
+  const { applicationDocumentSignedUrl } = await import("@/lib/workflow");
+  return applicationDocumentSignedUrl(path);
 }
+

@@ -65,3 +65,14 @@ export const DEMO_ACCOUNTS: Record<
 export function isDemoRole(value: string): value is DemoRole {
   return (DEMO_ROLES as readonly string[]).includes(value);
 }
+
+/**
+ * Demo accounts are shared and include admin access, so they are only allowed on
+ * local development and preview hosts — never on the live published site.
+ */
+export function isDemoHost(host: string) {
+  const name = host.split(":")[0]?.toLowerCase() ?? "";
+  if (name === "localhost" || name === "127.0.0.1" || name.endsWith(".local")) return true;
+  return name.includes("-preview--") || name.endsWith("-dev.lovable.app");
+}
+
