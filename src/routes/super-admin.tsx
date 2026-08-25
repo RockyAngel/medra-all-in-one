@@ -40,7 +40,7 @@ function SuperAdminDashboard() {
       subtitle="Global platform governance · live data"
       topRight={
         <Button asChild size="sm" className="rounded-full">
-          <Link to="/super-admin/$section" params={{ section: "admins" }}>Manage administrators</Link>
+          <Link to="/super-admin/admins">Manage administrators</Link>
         </Button>
       }
     >
@@ -116,7 +116,7 @@ function SuperAdminDashboard() {
                 body="Set the platform default and category overrides in the commission engine."
                 action={
                   <Button asChild size="sm" className="rounded-full">
-                    <Link to="/super-admin/$section" params={{ section: "commission" }}>Open commission engine</Link>
+                    <Link to="/super-admin/commission">Open commission engine</Link>
                   </Button>
                 }
               />
@@ -164,7 +164,7 @@ function SuperAdminDashboard() {
           </DataTable>
           <div className="mt-4">
             <Button asChild size="sm" variant="outline" className="rounded-full">
-              <Link to="/super-admin/$section" params={{ section: "audit" }}>Open full audit trail</Link>
+              <Link to="/super-admin/audit">Open full audit trail</Link>
             </Button>
           </div>
         </QueryBoundary>
