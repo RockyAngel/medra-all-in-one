@@ -1,5 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
-import { DEMO_ACCOUNTS, DEMO_PASSWORD, isDemoRole, type DemoRole } from "@/lib/demo";
+import { getRequestHeader } from "@tanstack/react-start/server";
+import { DEMO_ACCOUNTS, DEMO_PASSWORD, isDemoRole, isDemoHost, type DemoRole } from "@/lib/demo";
 
 /**
  * Creates (or repairs) the fixed demo account for a role and returns the
@@ -11,6 +12,13 @@ export const ensureDemoAccount = createServerFn({ method: "POST" })
     return { role: input.role };
   })
   .handler(async ({ data }) => {
+    // Shared demo accounts include admin access, so they are only ever handed out
+    // on localhost and preview hosts — never on the live published site.
+    const host = getRequestHeader("host") ?? "";
+    if (!isDemoHost(host)) {
+      throw new Error("Demo logins are disabled on the live site.");
+    }
+
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
 
     const { data: flag, error: flagError } = await supabaseAdmin
@@ -22,6 +30,7 @@ export const ensureDemoAccount = createServerFn({ method: "POST" })
     if (!flag?.enabled) {
       throw new Error("Demo logins are switched off for this platform.");
     }
+
 
     const account = DEMO_ACCOUNTS[data.role];
 
