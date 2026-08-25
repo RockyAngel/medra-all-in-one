@@ -1,12 +1,12 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Loader2, ShieldAlert } from "lucide-react";
 import { toast } from "sonner";
 import { CustomerFooter, CustomerHeader } from "@/components/medra/CustomerChrome";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
-import { DEMO_ACCOUNTS, DEMO_PASSWORD, DEMO_ROLES, type DemoRole } from "@/lib/demo";
+import { DEMO_ACCOUNTS, DEMO_PASSWORD, DEMO_ROLES, isDemoHost, type DemoRole } from "@/lib/demo";
 import { ensureDemoAccount } from "@/lib/demo.functions";
 
 export const Route = createFileRoute("/demo")({
@@ -35,6 +35,11 @@ function DemoPage() {
   const navigate = useNavigate();
   const prepare = useServerFn(ensureDemoAccount);
   const [busy, setBusy] = useState<DemoRole | null>(null);
+  const [liveSite, setLiveSite] = useState(false);
+
+  useEffect(() => {
+    setLiveSite(!isDemoHost(window.location.host));
+  }, []);
 
   async function signInAs(role: DemoRole) {
     setBusy(role);
@@ -83,7 +88,10 @@ function DemoPage() {
         <div className="mt-5 flex items-start gap-3 rounded-2xl border border-amber/40 bg-amber/10 p-4 text-sm">
           <ShieldAlert className="mt-0.5 size-5 shrink-0 text-amber" />
           <p>
-            These accounts are shared and include admin access. Switch{" "}
+            {liveSite
+              ? "Demo logins are blocked on the live site — these shared admin accounts only work on localhost and preview. "
+              : "These accounts are shared and include admin access. "}
+            Switch{" "}
             <span className="font-semibold">Demo role logins</span> off in{" "}
             <Link to="/super-admin/features" className="font-semibold text-primary hover:underline">
               the feature marketplace
@@ -102,7 +110,7 @@ function DemoPage() {
                 <p className="mt-3 break-all font-mono text-xs text-muted-foreground">{account.email}</p>
                 <Button
                   className="mt-4 rounded-xl py-5 font-bold"
-                  disabled={busy !== null}
+                  disabled={busy !== null || liveSite}
                   onClick={() => void signInAs(role)}
                 >
                   {busy === role ? <Loader2 className="size-4 animate-spin" /> : `Enter as ${account.label}`}
