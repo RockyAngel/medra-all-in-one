@@ -10,7 +10,7 @@ export type Database = {
   // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
-    PostgrestVersion: "14.15"
+    PostgrestVersion: "14.17"
   }
   public: {
     Tables: {
@@ -5158,6 +5158,59 @@ export type Database = {
         }
         Relationships: []
       }
+      transfer_payments: {
+        Row: {
+          amount: number
+          bank_reference: string
+          created_at: string
+          customer_id: string
+          id: string
+          order_id: string
+          proof_path: string | null
+          review_note: string | null
+          reviewed_at: string | null
+          reviewed_by: string | null
+          sender_name: string | null
+          status: string
+        }
+        Insert: {
+          amount: number
+          bank_reference: string
+          created_at?: string
+          customer_id: string
+          id?: string
+          order_id: string
+          proof_path?: string | null
+          review_note?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          sender_name?: string | null
+          status?: string
+        }
+        Update: {
+          amount?: number
+          bank_reference?: string
+          created_at?: string
+          customer_id?: string
+          id?: string
+          order_id?: string
+          proof_path?: string | null
+          review_note?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          sender_name?: string | null
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "transfer_payments_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       user_roles: {
         Row: {
           created_at: string
@@ -5378,6 +5431,10 @@ export type Database = {
         }
         Returns: undefined
       }
+      admin_review_transfer_payment: {
+        Args: { _approve: boolean; _note?: string; _transfer_id: string }
+        Returns: Json
+      }
       admin_set_store_verification: {
         Args: { _note?: string; _status: string; _store_id: string }
         Returns: undefined
@@ -5390,6 +5447,7 @@ export type Database = {
         Args: { _plan_id: string }
         Returns: undefined
       }
+      bank_transfer_account: { Args: never; Returns: Json }
       book_consultation: {
         Args: {
           _availability_id?: string
@@ -5937,6 +5995,15 @@ export type Database = {
         Returns: undefined
       }
       start_membership: { Args: { _plan_id: string }; Returns: Json }
+      submit_transfer_payment: {
+        Args: {
+          _bank_reference: string
+          _order_id: string
+          _proof_path?: string
+          _sender_name?: string
+        }
+        Returns: Json
+      }
       subscription_is_live: {
         Args: { _status: Database["public"]["Enums"]["subscription_status"] }
         Returns: boolean
