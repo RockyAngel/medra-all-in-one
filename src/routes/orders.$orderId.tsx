@@ -4,6 +4,7 @@ import { CheckCircle2, MapPin, Truck } from "lucide-react";
 import { CustomerFooter, CustomerHeader } from "@/components/medra/CustomerChrome";
 import { EmptyState, QueryBoundary } from "@/components/medra/States";
 import { TrackingMap } from "@/components/medra/TrackingMap";
+import { BankTransferPanel } from "@/components/medra/BankTransferPanel";
 
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
@@ -33,7 +34,7 @@ function OrderDetailPage() {
       const { data, error } = await supabase
         .from("orders")
         .select(
-          "id, order_number, status, is_emergency, subtotal, delivery_fee, points_discount, points_redeemed, total, created_at, order_items(id, product_name, quantity, unit_price), deliveries(status, rider_latitude, rider_longitude, picked_up_at, delivered_at), addresses(line1, city, state, recipient_name, latitude, longitude)",
+          "id, order_number, status, payment_status, is_emergency, subtotal, delivery_fee, points_discount, points_redeemed, total, created_at, order_items(id, product_name, quantity, unit_price), deliveries(status, rider_latitude, rider_longitude, picked_up_at, delivered_at), addresses(line1, city, state, recipient_name, latitude, longitude)",
         )
         .eq("id", orderId)
         .maybeSingle();
@@ -84,6 +85,12 @@ function OrderDetailPage() {
                   {ORDER_STATUS_LABEL[data.status] ?? data.status}
                 </span>
               </div>
+
+              {data.payment_status !== "paid" && data.status === "pending_payment" && (
+                <div className="mt-6">
+                  <BankTransferPanel orderId={data.id} amount={Number(data.total)} />
+                </div>
+              )}
 
               <section className="surface-card mt-6 p-5">
                 <h2 className="flex items-center gap-2 font-bold">
