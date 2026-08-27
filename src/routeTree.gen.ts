@@ -78,6 +78,7 @@ import { Route as SellerTransactionsRouteImport } from './routes/seller_.transac
 import { Route as StoreStoreSlugRouteImport } from './routes/store.$storeSlug'
 import { Route as SuperAdminAdminsRouteImport } from './routes/super-admin_.admins'
 import { Route as SuperAdminAuditRouteImport } from './routes/super-admin_.audit'
+import { Route as SuperAdminBankAccountRouteImport } from './routes/super-admin_.bank-account'
 import { Route as SuperAdminCategoriesRouteImport } from './routes/super-admin_.categories'
 import { Route as SuperAdminCommissionRouteImport } from './routes/super-admin_.commission'
 import { Route as SuperAdminDeliveryRouteImport } from './routes/super-admin_.delivery'
@@ -437,6 +438,11 @@ const SuperAdminAuditRoute = SuperAdminAuditRouteImport.update({
   path: '/super-admin/audit',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SuperAdminBankAccountRoute = SuperAdminBankAccountRouteImport.update({
+  id: '/super-admin_/bank-account',
+  path: '/super-admin/bank-account',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SuperAdminCategoriesRoute = SuperAdminCategoriesRouteImport.update({
   id: '/super-admin_/categories',
   path: '/super-admin/categories',
@@ -558,6 +564,7 @@ export interface FileRoutesByFullPath {
   '/store/$storeSlug': typeof StoreStoreSlugRoute
   '/super-admin/admins': typeof SuperAdminAdminsRoute
   '/super-admin/audit': typeof SuperAdminAuditRoute
+  '/super-admin/bank-account': typeof SuperAdminBankAccountRoute
   '/super-admin/categories': typeof SuperAdminCategoriesRoute
   '/super-admin/commission': typeof SuperAdminCommissionRoute
   '/super-admin/delivery': typeof SuperAdminDeliveryRoute
@@ -639,6 +646,7 @@ export interface FileRoutesByTo {
   '/store/$storeSlug': typeof StoreStoreSlugRoute
   '/super-admin/admins': typeof SuperAdminAdminsRoute
   '/super-admin/audit': typeof SuperAdminAuditRoute
+  '/super-admin/bank-account': typeof SuperAdminBankAccountRoute
   '/super-admin/categories': typeof SuperAdminCategoriesRoute
   '/super-admin/commission': typeof SuperAdminCommissionRoute
   '/super-admin/delivery': typeof SuperAdminDeliveryRoute
@@ -721,6 +729,7 @@ export interface FileRoutesById {
   '/store/$storeSlug': typeof StoreStoreSlugRoute
   '/super-admin_/admins': typeof SuperAdminAdminsRoute
   '/super-admin_/audit': typeof SuperAdminAuditRoute
+  '/super-admin_/bank-account': typeof SuperAdminBankAccountRoute
   '/super-admin_/categories': typeof SuperAdminCategoriesRoute
   '/super-admin_/commission': typeof SuperAdminCommissionRoute
   '/super-admin_/delivery': typeof SuperAdminDeliveryRoute
@@ -804,6 +813,7 @@ export interface FileRouteTypes {
     | '/store/$storeSlug'
     | '/super-admin/admins'
     | '/super-admin/audit'
+    | '/super-admin/bank-account'
     | '/super-admin/categories'
     | '/super-admin/commission'
     | '/super-admin/delivery'
@@ -885,6 +895,7 @@ export interface FileRouteTypes {
     | '/store/$storeSlug'
     | '/super-admin/admins'
     | '/super-admin/audit'
+    | '/super-admin/bank-account'
     | '/super-admin/categories'
     | '/super-admin/commission'
     | '/super-admin/delivery'
@@ -966,6 +977,7 @@ export interface FileRouteTypes {
     | '/store/$storeSlug'
     | '/super-admin_/admins'
     | '/super-admin_/audit'
+    | '/super-admin_/bank-account'
     | '/super-admin_/categories'
     | '/super-admin_/commission'
     | '/super-admin_/delivery'
@@ -1048,6 +1060,7 @@ export interface RootRouteChildren {
   StoreStoreSlugRoute: typeof StoreStoreSlugRoute
   SuperAdminAdminsRoute: typeof SuperAdminAdminsRoute
   SuperAdminAuditRoute: typeof SuperAdminAuditRoute
+  SuperAdminBankAccountRoute: typeof SuperAdminBankAccountRoute
   SuperAdminCategoriesRoute: typeof SuperAdminCategoriesRoute
   SuperAdminCommissionRoute: typeof SuperAdminCommissionRoute
   SuperAdminDeliveryRoute: typeof SuperAdminDeliveryRoute
@@ -1546,6 +1559,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SuperAdminAuditRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/super-admin_/bank-account': {
+      id: '/super-admin_/bank-account'
+      path: '/super-admin/bank-account'
+      fullPath: '/super-admin/bank-account'
+      preLoaderRoute: typeof SuperAdminBankAccountRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/super-admin_/categories': {
       id: '/super-admin_/categories'
       path: '/super-admin/categories'
@@ -1689,6 +1709,7 @@ const rootRouteChildren: RootRouteChildren = {
   StoreStoreSlugRoute: StoreStoreSlugRoute,
   SuperAdminAdminsRoute: SuperAdminAdminsRoute,
   SuperAdminAuditRoute: SuperAdminAuditRoute,
+  SuperAdminBankAccountRoute: SuperAdminBankAccountRoute,
   SuperAdminCategoriesRoute: SuperAdminCategoriesRoute,
   SuperAdminCommissionRoute: SuperAdminCommissionRoute,
   SuperAdminDeliveryRoute: SuperAdminDeliveryRoute,

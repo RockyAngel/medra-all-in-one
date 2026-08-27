@@ -116,6 +116,7 @@ export const SUPER_ADMIN_NAV: NavGroup[] = [
     title: "Platform",
     items: [
       { label: "Commission engine", to: "/super-admin/commission" },
+      { label: "Bank account", to: "/super-admin/bank-account" },
       { label: "Categories", to: "/super-admin/categories" },
       { label: "Feature marketplace", to: "/super-admin/features" },
       { label: "Staff time clock", to: "/super-admin/staff" },

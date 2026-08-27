@@ -11,7 +11,7 @@ import { Label } from "@/components/ui/label";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
 import { useWallet } from "@/lib/hooks";
-import { useFeatureEnabled } from "@/lib/permissions";
+import { bankAccountConfigured, useBankAccount } from "@/lib/transfers";
 
 import {
   
@@ -59,7 +59,8 @@ function CheckoutPage() {
   const [note, setNote] = useState("");
   const prescriptionStatus = useCartPrescriptionStatus();
   const emergencyFeature = useEmergencyFeature();
-  const paymentsEnabled = useFeatureEnabled("payments.provider.enabled").enabled;
+  const bankAccount = useBankAccount();
+  const transferReady = bankAccountConfigured(bankAccount.data);
 
 
   const savedAddress = useQuery({
@@ -123,9 +124,9 @@ function CheckoutPage() {
     mutationFn: async () => {
       if (!user) throw new Error("Log in to place an order");
       if (items.length === 0) throw new Error("Your cart is empty");
-      if (!paymentsEnabled) {
+      if (!transferReady) {
         throw new Error(
-          "Payments are not available yet — no payment provider is connected, so this order cannot be placed.",
+          "Bank transfer details are not published yet, so this order cannot be placed.",
         );
       }
 
@@ -158,18 +159,11 @@ function CheckoutPage() {
       const result = (placed.data ?? {}) as { order_id?: string; order_number?: string };
       if (!result.order_id) throw new Error("We could not create your order, please try again");
 
-      const paid = await supabase.rpc("confirm_order_payment", {
-        _order_id: result.order_id,
-        _provider: "card",
-        _reference: `MEDRA-${result.order_number ?? result.order_id}`,
-      });
-      if (paid.error) throw paid.error;
-
       return { id: result.order_id, order_number: result.order_number ?? "" };
     },
     onSuccess: (order) => {
       queryClient.clear();
-      toast.success(`Order ${order.order_number} placed`);
+      toast.success(`Order ${order.order_number} created — complete your bank transfer`);
       void navigate({ to: "/orders/$orderId", params: { orderId: order.id } });
     },
     onError: (e) => toast.error(workflowError(e)),
@@ -282,11 +276,21 @@ function CheckoutPage() {
                       <CreditCard className="size-4 text-sky" /> Payment
                     </h2>
                     <div className="mt-3 rounded-xl border border-primary bg-primary/5 p-3 text-sm">
-                      <p className="font-semibold">Card payment</p>
+                      <p className="font-semibold">Bank transfer</p>
                       <p className="text-muted-foreground">
-                        Medra collects payment up front and releases seller and rider earnings after
-                        delivery is verified. Cash on delivery is not supported.
+                        After you place this order we show Medra's account details. Transfer the total,
+                        log the reference, and your order goes to the store once we confirm the money
+                        landed. Cash on delivery is not supported.
                       </p>
+                      {transferReady && (
+                        <p className="mt-2 text-muted-foreground">
+                          Paying into{" "}
+                          <span className="font-semibold text-foreground">
+                            {bankAccount.data?.bank_name}
+                          </span>{" "}
+                          — {bankAccount.data?.account_name}.
+                        </p>
+                      )}
                     </div>
                     <div className="mt-3 space-y-1.5">
                       <Label htmlFor="order-note" className="text-sm font-semibold">
@@ -417,21 +421,21 @@ function CheckoutPage() {
                       Priority pharmacy dispatch is on — a surcharge applies.
                     </p>
                   )}
-                  {!paymentsEnabled && (
+                  {!bankAccount.isLoading && !transferReady && (
                     <p className="mt-4 rounded-2xl border border-destructive/30 bg-destructive/5 p-3 text-xs font-semibold text-destructive">
-                      Card payments are not available yet. No payment provider is connected to this
-                      environment, so orders cannot be paid for or placed. Nothing has been charged.
+                      Bank transfer details have not been published yet, so orders cannot be paid for
+                      or placed. Nothing has been charged.
                     </p>
                   )}
                   <Button
-                    disabled={placeOrder.isPending || rxBlocking.length > 0 || !paymentsEnabled}
+                    disabled={placeOrder.isPending || rxBlocking.length > 0 || !transferReady}
                     onClick={() => placeOrder.mutate()}
                     className="mt-4 w-full rounded-full py-6 font-bold"
                   >
                     {placeOrder.isPending ? (
                       <Loader2 className="size-4 animate-spin" />
-                    ) : paymentsEnabled ? (
-                      "Pay & place order"
+                    ) : transferReady ? (
+                      "Place order & get transfer details"
                     ) : (
                       "Payments unavailable"
                     )}
