@@ -6,7 +6,13 @@ import { EmptyState, QueryBoundary } from "@/components/medra/States";
 import { formatDate, formatNaira } from "@/lib/medra";
 import { statusLabel } from "@/lib/dashboard";
 import { useAdminPayments } from "@/lib/ops";
-import { useFeatureEnabled } from "@/lib/permissions";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { applicationDocumentSignedUrl, workflowError } from "@/lib/workflow";
+import { bankAccountConfigured, useBankAccount, useReviewTransfer, useTransferQueue } from "@/lib/transfers";
+import { useState } from "react";
+import { Link } from "@tanstack/react-router";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/admin_/payments")({
   head: () => ({
@@ -34,7 +40,8 @@ const TONE: Record<string, string> = {
 
 function AdminPaymentsPage() {
   const payments = useAdminPayments();
-  const provider = useFeatureEnabled("payments.provider.enabled");
+  const account = useBankAccount();
+  const configured = bankAccountConfigured(account.data);
 
   const total = (payments.data ?? [])
     .filter((p) => p.status === "succeeded" || p.status === "paid")
@@ -42,14 +49,18 @@ function AdminPaymentsPage() {
 
   return (
     <AdminPage title="Payments" subtitle="Every payment attempt recorded by the platform">
-      {!provider.isLoading && !provider.enabled && (
+      {!account.isLoading && !configured && (
         <div className="mb-4 rounded-xl border border-amber/40 bg-amber/10 p-4 text-sm">
-          <p className="font-bold">No payment provider is connected yet.</p>
+          <p className="font-bold">No settlement bank account is published yet.</p>
           <p className="text-muted-foreground">
-            Checkout is blocked until a verified provider is live, so this ledger stays empty by design.
+            Checkout is blocked until a super admin publishes the bank details, so this ledger stays
+            empty by design.
           </p>
         </div>
       )}
+
+      <TransferQueue />
+
 
       <Panel title="Settled value" className="mb-4">
         <p className="text-3xl font-extrabold">{formatNaira(total)}</p>
