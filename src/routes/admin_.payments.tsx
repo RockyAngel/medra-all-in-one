@@ -107,3 +107,138 @@ function AdminPaymentsPage() {
     </AdminPage>
   );
 }
+
+/** Bank transfers customers submitted, awaiting staff confirmation. */
+function TransferQueue() {
+  const [status, setStatus] = useState("submitted");
+  const queue = useTransferQueue(status);
+  const review = useReviewTransfer();
+  const [notes, setNotes] = useState<Record<string, string>>({});
+
+  const act = async (id: string, approve: boolean) => {
+    try {
+      await review.mutateAsync({ id, approve, ...(notes[id] ? { note: notes[id] } : {}) });
+      toast.success(approve ? "Transfer confirmed — order released" : "Transfer rejected");
+    } catch (error) {
+      toast.error(workflowError(error));
+    }
+  };
+
+  const openProof = async (path: string) => {
+    try {
+      const url = await applicationDocumentSignedUrl(path);
+      window.open(url, "_blank", "noopener,noreferrer");
+    } catch (error) {
+      toast.error(workflowError(error));
+    }
+  };
+
+  const rows = queue.data ?? [];
+
+  return (
+    <Panel
+      title="Bank transfers to confirm"
+      className="mb-4"
+      action={
+        <div className="flex gap-2">
+          {["submitted", "approved", "rejected", "all"].map((value) => (
+            <button
+              key={value}
+              type="button"
+              onClick={() => setStatus(value)}
+              className={`rounded-full px-3 py-1 text-xs font-bold capitalize ${
+                status === value ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"
+              }`}
+            >
+              {value}
+            </button>
+          ))}
+        </div>
+      }
+    >
+      <QueryBoundary
+        isLoading={queue.isLoading}
+        error={queue.error}
+        isEmpty={rows.length === 0}
+        onRetry={() => void queue.refetch()}
+        empty={
+          <EmptyState
+            icon={<CreditCard className="size-5" />}
+            title="Nothing to confirm"
+            body="Customer bank transfers appear here as soon as they are submitted."
+          />
+        }
+      >
+        <ul className="space-y-3">
+          {rows.map((row) => (
+            <li key={row.id} className="rounded-xl border border-border p-4">
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <div>
+                  <Link
+                    to="/orders/$orderId"
+                    params={{ orderId: row.order_id }}
+                    className="font-bold hover:underline"
+                  >
+                    {row.orders?.order_number ?? "Order"}
+                  </Link>
+                  <p className="text-sm text-muted-foreground">
+                    {formatNaira(row.amount)} · ref{" "}
+                    <span className="font-mono text-xs">{row.bank_reference}</span>
+                    {row.sender_name ? ` · from ${row.sender_name}` : ""}
+                  </p>
+                  <p className="text-xs text-muted-foreground">{formatDate(row.created_at)}</p>
+                </div>
+                <Pill tone={TONE[row.status === "submitted" ? "pending" : row.status]}>
+                  {statusLabel(row.status)}
+                </Pill>
+              </div>
+              {row.proof_path && (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => void openProof(row.proof_path!)}
+                  className="mt-3 rounded-full font-bold"
+                >
+                  View proof
+                </Button>
+              )}
+              {row.status === "submitted" ? (
+                <div className="mt-3 flex flex-wrap items-center gap-2">
+                  <Input
+                    value={notes[row.id] ?? ""}
+                    onChange={(event) =>
+                      setNotes((current) => ({ ...current, [row.id]: event.target.value }))
+                    }
+                    placeholder="Review note (optional)"
+                    className="h-10 max-w-xs rounded-xl"
+                  />
+                  <Button
+                    size="sm"
+                    disabled={review.isPending}
+                    onClick={() => void act(row.id, true)}
+                    className="rounded-full font-bold"
+                  >
+                    Confirm payment
+                  </Button>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    disabled={review.isPending}
+                    onClick={() => void act(row.id, false)}
+                    className="rounded-full font-bold"
+                  >
+                    Reject
+                  </Button>
+                </div>
+              ) : (
+                row.review_note && (
+                  <p className="mt-2 text-sm text-muted-foreground">{row.review_note}</p>
+                )
+              )}
+            </li>
+          ))}
+        </ul>
+      </QueryBoundary>
+    </Panel>
+  );
+}
